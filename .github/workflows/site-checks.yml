@@ -1,0 +1,11 @@
+name: site checks
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/check-site.py
+      - name: secret/PII scan
+        run: |
+          ! grep -rInE '(sk-[A-Za-z0-9]{20}|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{30}|BEGIN (RSA|OPENSSH) PRIVATE KEY|-----BEGIN PGP PRIVATE|xox[baprs]-)' site/

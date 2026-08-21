@@ -1,0 +1,10 @@
+# live state never enters the site repo
+*.db
+receipts/
+sessions/
+installation-reports/
+backups/
+runtime/
+.env*
+__pycache__/
+.DS_Store

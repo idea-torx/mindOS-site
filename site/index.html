@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MindOS — the durable local operating system for AI agents</title>
+<meta name="description" content="MindOS (Autopilot v2) is a durable local control plane for Hermes and cooperating AI agents: SQLite execution truth, leases, sealed receipts, temporal facts, Hindsight binding, migration, and recovery.">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%23101012%22/%3E%3Cg transform=%22translate%284 4%29 scale%280.75%29%22%3E%3Crect x=%225%22 y=%2221%22 width=%2222%22 height=%223%22 rx=%221.5%22 fill=%22%239a9aa2%22/%3E%3Crect x=%229%22 y=%2210%22 width=%2214%22 height=%223%22 rx=%221.5%22 fill=%22%237dd3a8%22/%3E%3Crect x=%2217%22 y=%224%22 width=%226%22 height=%226%22 rx=%221%22 fill=%22%237dd3a8%22/%3E%3C/g%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MindOS">
+<meta property="og:title" content="MindOS — the durable local operating system for AI agents">
+<meta property="og:description" content="SQLite execution truth, leases, sealed receipts, temporal facts, Hindsight binding, migration, and recovery — one local control plane for Hermes and cooperating AI agents.">
+<meta property="og:image" content="assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MindOS — the durable local operating system for AI agents">
+<meta name="twitter:description" content="SQLite execution truth, leases, sealed receipts, temporal facts, Hindsight binding, migration, and recovery — one local control plane for Hermes and cooperating AI agents.">
+<meta name="twitter:image" content="assets/og-card.png">
+</head>
+<body data-site-root="">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html">
+      <svg class="mark mark-static" width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="21" width="22" height="3" rx="1.5" fill="#9a9aa2"/><rect x="9" y="10" width="14" height="3" rx="1.5" fill="#7dd3a8"/><rect x="17" y="4" width="6" height="6" rx="1" fill="#7dd3a8"/></svg>
+      MindOS
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="#product">Product</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#workflow">Workflow</a>
+      <a href="#recovery">Recovery</a>
+      <a href="docs/index.html">Docs</a>
+      <button class="search-btn" type="button" data-search-open aria-label="Search documentation">Search <span class="label">docs</span> <kbd>⌘K</kbd></button>
+      <a class="btn btn-ghost" style="padding:7px 14px;font-size:13.5px" href="#get-started">Get started</a>
+    </nav>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">☰</button>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ================= hero ================= -->
+<section class="section" id="top">
+  <div class="wrap">
+    <svg class="mark mark-animated" width="28" height="28" viewBox="0 0 32 32" role="img" aria-label="MindOS">
+      <rect class="ms ms-1" x="5" y="21" width="22" height="3" rx="1.5" fill="#9a9aa2"/>
+      <rect class="ms ms-2" x="7" y="14.5" width="18" height="3" rx="1.5" fill="#e8e8ea"/>
+      <rect class="ms ms-3" x="9" y="8" width="14" height="3" rx="1.5" fill="#7dd3a8"/>
+      <rect class="seal" x="17" y="2" width="6" height="6" rx="1" fill="#7dd3a8"/>
+    </svg>
+    <p class="kicker">Autopilot v2 · source-available (FSL-1.1-MIT) · local-first</p>
+    <h1 class="hero">The durable local operating system for Hermes and cooperating AI agents.</h1>
+    <p class="lede">MindOS is a shared control plane for execution state, memory, temporal facts, handoffs, receipts, and recovery. It answers one question continuously: <strong style="color:var(--text)">what is true right now, and what evidence proves it?</strong></p>
+    <div class="btn-row" style="justify-content:flex-start">
+      <a class="btn btn-primary" href="docs/getting-started.html">Get started</a>
+      <a class="btn btn-ghost" href="docs/architecture.html">Read the architecture</a>
+    </div>
+    <div class="rel-card" aria-label="Relationship">
+      <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#16161a"/><path d="M9 22V10l7 7 7-7v12" fill="none" stroke="#e8e8ea" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>an IdeatorX project</span>
+      <span class="sep">·</span>
+      <svg class="mark mark-static" width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="21" width="22" height="3" rx="1.5" fill="#9a9aa2"/><rect x="9" y="10" width="14" height="3" rx="1.5" fill="#7dd3a8"/><rect x="17" y="4" width="6" height="6" rx="1" fill="#7dd3a8"/></svg>
+      <span style="color:var(--text)">MindOS</span>
+    </div>
+    <p class="meta">Python 3.9+ · standard library only · no server to deploy · state lives in a local SQLite home</p>
+  </div>
+</section>
+
+<!-- ================= problem ================= -->
+<section class="section" id="problem">
+  <div class="wrap">
+    <p class="kicker">The problem</p>
+    <h2 class="sec-title">Agent fleets drift without execution truth.</h2>
+    <p class="body">When several agents work in parallel, memory and intent live in chat transcripts, scratch files, and Git history. None of those answer the operational questions: who holds this task, is the lease still live, what evidence backs “done”, what changed while a session was dead, and how do you roll back a bad import?</p>
+    <div class="grid-3" style="margin-top:36px">
+      <div class="feature-card"><span class="glyph">01</span><h3>Claims without evidence</h3><p>“Tests pass” in a chat message is not proof. Completions in MindOS require hash-sealed receipts stored as 0600 evidence files with sha256 recorded in the audit trail.</p></div>
+      <div class="feature-card"><span class="glyph">02</span><h3>Stale ownership</h3><p>Dead sessions leave phantom owners. Live leases with monotonic fencing epochs reject stale processes even when the owner name still matches.</p></div>
+      <div class="feature-card"><span class="glyph">03</span><h3>Unrecoverable migrations</h3><p>Import scripts mutate sources and leave no way back. MindOS migration is dry-run-first, byte-immutability-proven, journaled, and one-command reversible.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= product model ================= -->
+<section class="section" id="product">
+  <div class="wrap">
+    <p class="kicker">Product model</p>
+    <h2 class="sec-title">A control tower, not another cloud brain.</h2>
+    <p class="body">MindOS combines five systems behind one CLI surface:</p>
+    <div class="grid-2" style="margin-top:32px">
+      <div class="feature-card"><span class="glyph">autopilot.py</span><h3>Execution truth</h3><p>Tasks, claims, live leases with fencing epochs, heartbeats, retry budgets and backoff, dependency edges, impact analysis, dispatch planning, and metrics — all in SQLite.</p></div>
+      <div class="feature-card"><span class="glyph">hindsight binding</span><h3>Shared semantic memory</h3><p>Hindsight remains the semantic brain through an explicit, provider-neutral binding. SQLite is the single execution authority — Hindsight is never copied into it as a second one.</p></div>
+      <div class="feature-card"><span class="glyph">temporal.db</span><h3>Temporal facts</h3><p>A provenance-linked fact graph of evolving ownership, priorities, validity windows, superseded decisions, and blockers, with BM25 retrieval and temporal hybrid rerank.</p></div>
+      <div class="feature-card"><span class="glyph">ops.py</span><h3>Recovery and portability</h3><p>Sealed inventories across nine source kinds, guarded stale-lease recovery, escalation, doctor health checks with FTS5 drift detection, quarantine, and cross-agent handoffs with recall digests.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= architecture ================= -->
+<section class="section" id="architecture">
+  <div class="wrap">
+    <p class="kicker">Architecture</p>
+    <h2 class="sec-title">Four layers, one authority.</h2>
+    <p class="body">Every layer exists to keep SQLite the single execution authority and to make every mutation auditable and reversible.</p>
+    <div class="pane" style="margin-top:32px">
+      <svg viewBox="0 0 760 330" role="img" aria-label="MindOS architecture: CLI surface, guarantees, SQLite home, migration and inventory layer">
+        <g font-family="ui-monospace, Menlo, monospace" font-size="12.5">
+          <!-- origin node: monochrome MindOS mark, once per diagram -->
+          <g transform="translate(700 24) scale(1.1)" aria-hidden="true">
+            <rect x="5" y="21" width="22" height="3" rx="1.5" fill="#9a9aa2"/>
+            <rect x="7" y="14.5" width="18" height="3" rx="1.5" fill="#e8e8ea"/>
+            <rect x="9" y="8" width="14" height="3" rx="1.5" fill="#e8e8ea"/>
+            <rect x="17" y="2" width="6" height="6" rx="1" fill="#e8e8ea"/>
+          </g>
+          <rect x="10" y="10" width="740" height="62" rx="8" fill="#101012" stroke="#232327"/>
+          <text x="28" y="36" fill="#e8e8ea">CLI surface</text>
+          <text x="28" y="56" fill="#9a9aa2">autopilot.py (tasks) · ops.py (fleet ops) · verify.py (end-to-end suite)</text>
+          <rect x="10" y="88" width="740" height="62" rx="8" fill="#101012" stroke="#232327"/>
+          <text x="28" y="114" fill="#e8e8ea">Guarantees</text>
+          <text x="28" y="134" fill="#9a9aa2">leases w/ fencing epochs · audit hash chain · receipt sealing · secret guard · FTS search</text>
+          <rect x="10" y="166" width="740" height="62" rx="8" fill="#16161a" stroke="#2c3a32"/>
+          <text x="28" y="192" fill="#7dd3a8">SQLite home ($MINDOS_HOME)</text>
+          <text x="28" y="212" fill="#9a9aa2">state.db — execution authority · temporal.db — optional fact-graph sidecar</text>
+          <rect x="10" y="244" width="740" height="62" rx="8" fill="#101012" stroke="#232327"/>
+          <text x="28" y="270" fill="#e8e8ea">Migration / inventory</text>
+          <text x="28" y="290" fill="#9a9aa2">dry-run-first manifests · rollback journal · orphan quarantine · sealed brain inventory</text>
+          <g stroke="#232327"><line x1="380" y1="72" x2="380" y2="88"/><line x1="380" y1="150" x2="380" y2="166"/><line x1="380" y1="228" x2="380" y2="244"/></g>
+        </g>
+      </svg>
+    </div>
+    <div class="grid-2" style="margin-top:24px">
+      <div class="feature-card"><h3>Fail closed</h3><p>Ambiguity and corruption refuse with exact blockers. Absent optional sources are recorded honestly without blocking the rest.</p></div>
+      <div class="feature-card"><h3>Tamper-evident audit</h3><p>A global hash-chained event stream; <code>verify-chain</code> recomputes the chain and reports tampering, with checkpoint-based truncation detection.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= workflow ================= -->
+<section class="section" id="workflow">
+  <div class="wrap">
+    <p class="kicker">Workflow</p>
+    <h2 class="sec-title">Claim, fence, prove, complete.</h2>
+    <p class="body">A real task moving through the control plane — every command below is a shipped MindOS command.</p>
+    <div class="term" style="margin-top:32px">
+      <div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="margin-left:8px">mindos — task lifecycle</span></div>
+      <div class="term-body"><span class="c-prompt">$</span> <span class="c-cmd">python3 autopilot.py create</span> <span class="c-flag">--project</span> Trove <span class="c-flag">--title</span> "Ship render fix" <span class="c-flag">--priority</span> P1
+<span class="c-ok">task created</span> <span class="c-dim">id=tsk_4f2a priority=P1 project=Trove</span>
+
+<span class="c-prompt">$</span> <span class="c-cmd">python3 autopilot.py claim</span> tsk_4f2a <span class="c-flag">--owner</span> hermes <span class="c-flag">--minutes</span> 30
+<span class="c-ok">lease acquired</span> <span class="c-dim">owner=hermes expires_in=30m lease_epoch=1</span>
+
+<span class="c-prompt">$</span> <span class="c-cmd">python3 autopilot.py heartbeat</span> tsk_4f2a <span class="c-flag">--owner</span> hermes <span class="c-flag">--epoch</span> 1 <span class="c-flag">--note</span> "Running verification"
+<span class="c-ok">heartbeat ok</span> <span class="c-dim">status=running window=15m</span>
+
+<span class="c-prompt">$</span> <span class="c-cmd">python3 autopilot.py receipt</span> tsk_4f2a <span class="c-flag">--kind</span> verification <span class="c-flag">--payload</span> '{"tests":"pass","health":200}'
+<span class="c-ok">receipt sealed</span> <span class="c-dim">kind=verification file=0600 sha256=9c1f…e7</span>
+
+<span class="c-prompt">$</span> <span class="c-cmd">python3 autopilot.py complete</span> tsk_4f2a <span class="c-flag">--owner</span> hermes <span class="c-flag">--epoch</span> 1 <span class="c-flag">--note</span> "tests pass"
+<span class="c-ok">task completed</span> <span class="c-dim">evidence=sealed receipt required ✓</span></div>
+    </div>
+    <p class="meta">Completions without a live, epoch-matched lease are rejected. Failures feed retry budgets and dispatch backoff instead of disappearing.</p>
+  </div>
+</section>
+
+<!-- ================= recovery ================= -->
+<section class="section" id="recovery">
+  <div class="wrap">
+    <p class="kicker">Recovery</p>
+    <h2 class="sec-title">Everything destructive plans first.</h2>
+    <div class="grid-2" style="margin-top:28px; align-items:start">
+      <div>
+        <p class="body"><strong>Dry-run first.</strong> Migration inventory and import plan against a disposable target, apply only on an explicit flag, and journal every step for rollback. Re-runs are idempotent.</p>
+        <p class="body"><strong>Sources stay immutable.</strong> Migration reads never mutate their sources — full-fixture hash comparisons in the end-to-end suite prove it.</p>
+        <p class="body"><strong>Orphans are quarantined, not dropped.</strong> Foreign receipts are quarantined with full provenance instead of breaking foreign-key integrity or losing evidence.</p>
+        <p class="body"><strong>Killed sessions resume.</strong> <code>resume</code> gives idempotent killed-session recovery; <code>recover</code> sweeps stale leases with guarded, reported skips so mid-sweep claims are never wiped.</p>
+        <pre class="block"><span class="c-cmd">python3 ops.py migrate-rollback</span> …   <span class="c-dim"># one-command recovery</span>
+<span class="c-cmd">python3 ops.py doctor</span>               <span class="c-dim"># health, incl. FTS drift</span>
+<span class="c-cmd">python3 autopilot.py verify-chain</span>   <span class="c-dim"># audit integrity</span></pre>
+      </div>
+      <div class="term">
+        <div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="margin-left:8px">mindos — recovery rail</span></div>
+        <div class="term-body"><span class="c-prompt">$</span> <span class="c-cmd">python3 ops.py brain-inventory</span> <span class="c-flag">--out</span> inventory.json
+<span class="c-ok">manifest sealed</span> <span class="c-dim">9 source kinds · read-only · redacted</span>
+
+<span class="c-prompt">$</span> <span class="c-cmd">python3 ops.py brain-inventory-check</span> inventory.json
+<span class="c-ok">seal verified</span> <span class="c-dim">hash match ✓</span>
+
+<span class="c-prompt">$</span> <span class="c-cmd">python3 ops.py migrate-import</span> … <span class="c-flag">--dry-run</span>
+<span class="c-dim">plan: 214 tasks · 1,880 receipts · 0 conflicts</span>
+<span class="c-warn">3 orphan receipts → quarantine (provenance kept)</span>
+
+<span class="c-prompt">$</span> <span class="c-cmd">python3 ops.py migrate-import</span> …
+<span class="c-ok">import applied</span> <span class="c-dim">journal=rollback.json ready</span>
+
+<span class="c-prompt">$</span> <span class="c-cmd">python3 ops.py migrate-rollback</span> …
+<span class="c-ok">target restored to pre-import state</span> <span class="c-dim">✓</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= vs git ================= -->
+<section class="section" id="vs-git">
+  <div class="wrap">
+    <p class="kicker">Honest comparison</p>
+    <h2 class="sec-title">MindOS vs files + Git.</h2>
+    <p class="body">Git remains the right tool for code. MindOS is not a Git replacement — it is the operational layer Git was never designed to be, and it complements rather than replaces your repos.</p>
+    <div class="card table-wrap" style="margin-top:28px">
+      <table>
+        <thead><tr><th>Question</th><th>Files + Git</th><th>MindOS</th></tr></thead>
+        <tbody>
+          <tr><td>Who is working on this right now?</td><td>Nothing authoritative</td><td>Live leases with fencing epochs, fleet-wide <code>leases</code> view</td></tr>
+          <tr><td>What proves “done”?</td><td>Commit messages, at best</td><td>Hash-sealed receipts (0600 files + sha256) required by policy</td></tr>
+          <tr><td>What happened while a session was dead?</td><td>Reconstruct by reading logs</td><td>Idempotent <code>resume</code>, recall digests, audited event stream</td></tr>
+          <tr><td>Can a bad import be undone?</td><td>Depends on the script</td><td>Dry-run-first, journaled, one-command rollback to pre-import state</td></tr>
+          <tr><td>Was the record tampered with?</td><td>Not detectable</td><td><code>verify-chain</code> recomputes the audit hash chain</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= security ================= -->
+<section class="section" id="security">
+  <div class="wrap">
+    <p class="kicker">Security boundary</p>
+    <h2 class="sec-title">A registry and evidence layer — nothing more.</h2>
+    <p class="body">MindOS does not deploy, merge, or push code; send external messages or write to external APIs; submit applications; run arbitrary agent commands; or touch Keychain or credential stores. All state lives in a local SQLite home. Every user-supplied text field passes a built-in secret guard that blocks, redacts, or — only under an explicit, itself-audited override — allows credential-shaped values, so fleet sweeps can still locate them.</p>
+    <p class="meta">Live databases, receipts, session archives, Hindsight exports, and agent memory contents are never committed to the repository.</p>
+  </div>
+</section>
+
+<!-- ================= license + cta ================= -->
+<section class="section" id="get-started">
+  <div class="wrap">
+    <p class="kicker">Get started</p>
+    <h2 class="sec-title">Clone, init, doctor. That’s the install.</h2>
+    <p class="body">No server, no third-party packages — Python 3.9+ standard library on macOS or Linux.</p>
+    <pre class="block"><span class="c-cmd">git clone</span> &lt;repo-url&gt; mindos
+<span class="c-cmd">cd</span> mindos
+<span class="c-cmd">export</span> <span class="c-flag">MINDOS_HOME</span>="$HOME/.hermes/mindos"   <span class="c-dim"># any writable path works</span>
+<span class="c-cmd">python3</span> autopilot.py init
+<span class="c-cmd">python3</span> ops.py doctor                        <span class="c-ok"># health-check the new home</span></pre>
+    <div class="cta-box" style="padding:56px 0 0; text-align:left">
+      <h2 class="sec-title">Join the early-access list.</h2>
+      <p class="body">MindOS is in private early access. This page does not collect data or submit forms — email the team and we’ll follow up.</p>
+      <div class="btn-row" style="justify-content:flex-start">
+        <a class="btn btn-primary" href="mailto:leo@ideatorx.com?subject=MindOS%20early%20access">Request early access</a>
+        <a class="btn btn-ghost" href="docs/index.html">Browse the docs</a>
+      </div>
+      <p class="meta">Source-available under FSL-1.1-MIT — MIT-licensed after the applicable two-year change date. Not OSI open source during the FSL restriction period.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <span class="footer-brand"><svg class="mark mark-static" width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="21" width="22" height="3" rx="1.5" fill="#5f5f66"/><rect x="9" y="10" width="14" height="3" rx="1.5" fill="#5f5f66"/><rect x="17" y="4" width="6" height="6" rx="1" fill="#5f5f66"/></svg>MindOS — Autopilot v2 · an IdeatorX project</span>
+    <span><a href="docs/index.html">Docs</a> · <a href="docs/roadmap.html">Roadmap</a> · <a href="docs/security.html">Security</a> · FSL-1.1-MIT · local-first</span>
+  </div>
+</footer>
+
+<!-- search modal -->
+<div class="search-overlay" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-panel">
+    <input type="search" placeholder="Search the docs…" aria-label="Search the docs">
+    <div class="search-results"></div>
+    <div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span><span><kbd>esc</kbd> close</span></div>
+  </div>
+</div>
+
+<script src="assets/site.js"></script>
+</body>
+</html>

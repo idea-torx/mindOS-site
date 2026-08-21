@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQ — MindOS docs</title>
+<meta name="description" content="Common questions, honest limitations.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MindOS">
+<meta property="og:title" content="FAQ — MindOS docs">
+<meta property="og:description" content="Common questions, honest limitations.">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%23101012%22/%3E%3Cg transform=%22translate%284 4%29 scale%280.75%29%22%3E%3Crect x=%225%22 y=%2221%22 width=%2222%22 height=%223%22 rx=%221.5%22 fill=%22%239a9aa2%22/%3E%3Crect x=%229%22 y=%2210%22 width=%2214%22 height=%223%22 rx=%221.5%22 fill=%22%237dd3a8%22/%3E%3Crect x=%2217%22 y=%224%22 width=%226%22 height=%226%22 rx=%221%22 fill=%22%237dd3a8%22/%3E%3C/g%3E%3C/svg%3E">
+</head>
+<body data-site-root="../">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">
+      <svg class="mark mark-static" width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="21" width="22" height="3" rx="1.5" fill="#9a9aa2"/><rect x="9" y="10" width="14" height="3" rx="1.5" fill="#7dd3a8"/><rect x="17" y="4" width="6" height="6" rx="1" fill="#7dd3a8"/></svg>
+      MindOS
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="../index.html#product">Product</a>
+      <a href="../index.html#architecture">Architecture</a>
+      <a href="../index.html#get-started">Get started</a>
+      <a href="index.html" aria-current="page">Docs</a>
+      <button class="search-btn" type="button" data-search-open aria-label="Search documentation">Search <span class="label">docs</span> <kbd>&#8984;K</kbd></button>
+    </nav>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">&#9776;</button>
+  </div>
+</header>
+<main id="main" class="docs-layout">
+  <aside class="docs-side">
+    <nav aria-label="Docs sections">
+      <span class="side-h">Documentation</span>
+      <a href="getting-started.html">Getting started</a>
+      <a href="concepts.html">Concepts</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="installation.html">Installation</a>
+      <a href="migration.html">Migration</a>
+      <a href="memory.html">Memory</a>
+      <a href="tasks-and-receipts.html">Tasks and receipts</a>
+      <a href="agents-and-handoffs.html">Agents and handoffs</a>
+      <a href="recovery-and-rollback.html">Recovery and rollback</a>
+      <a href="security.html">Security</a>
+      <a href="cli-reference.html">CLI reference</a>
+      <a href="faq.html">FAQ</a>
+      <a href="roadmap.html">Roadmap</a>
+    </nav>
+  </aside>
+  <article class="doc-page">
+    <p class="kicker">MindOS — Autopilot v2</p>
+    <h1>FAQ</h1>
+    <p class="meta-line">Source: <a href="https://github.com/idea-torx/mindOS/blob/main/README.md">README.md</a> in the runtime repository · <a href="index.html">All docs</a></p>
+
+<h2 id="is-it-open-source">Is MindOS open source?</h2>
+<p>It is source-available under FSL-1.1-MIT — MIT-licensed after the applicable two-year change date. It is not OSI open source during the FSL restriction period.</p>
+<h2 id="cloud">Is it a cloud service?</h2>
+<p>No. There is no server to deploy. All state lives in a local SQLite home; MindOS never sends external messages or writes to external APIs.</p>
+<h2 id="git">Does it replace Git?</h2>
+<p>No. Git remains the right tool for code. MindOS is the operational layer Git was never designed to be — leases, receipts, recovery — and it complements rather than replaces your repos.</p>
+<h2 id="hindsight">What if Hindsight is down?</h2>
+<p>The system degrades honestly: the binding is probed, absence is recorded as <code>absent</code>, and execution truth in SQLite continues uninterrupted. Hindsight is semantic memory, never a second authority.</p>
+<h2 id="limits">Honest limitations</h2>
+<p>Leases prevent task collisions but seams (shared worktrees/branches) are refused at claim time, not merged safely. The secret guard is shape-based, not a general credential scanner. Packaging and single-command bootstrap are on the roadmap, not shipped.</p>
+
+    <div class="prev-next"><a href="cli-reference.html">&#8592; CLI reference</a><a href="roadmap.html">Roadmap &#8594;</a></div>
+  </article>
+</main>
+<footer class="site-footer">
+  <div class="inner">
+    <span class="footer-brand"><svg class="mark mark-static" width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="21" width="22" height="3" rx="1.5" fill="#5f5f66"/><rect x="9" y="10" width="14" height="3" rx="1.5" fill="#5f5f66"/><rect x="17" y="4" width="6" height="6" rx="1" fill="#5f5f66"/></svg>MindOS — Autopilot v2 · an IdeatorX project</span>
+    <span>FSL-1.1-MIT · MIT after two years · local-first</span>
+  </div>
+</footer>
+<div class="search-overlay" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-panel">
+    <input type="search" placeholder="Search the docs…" aria-label="Search the docs">
+    <div class="search-results"></div>
+    <div class="search-foot"><span><kbd>&#8593;</kbd><kbd>&#8595;</kbd> navigate</span><span><kbd>&#8629;</kbd> open</span><span><kbd>esc</kbd> close</span></div>
+  </div>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>
