@@ -1,4 +1,4 @@
-// MindOS site — client-side search (⌘K / /), mobile menu, docs nav highlight
+// MindOS site — client-side search (⌘K / /), mobile menu, docs nav highlight, reveals, parallax, scroll-spy, copy buttons
 (function () {
   'use strict';
 
@@ -64,8 +64,6 @@
   }
 
   // ---------- mark animation (seal-settle, >22px renders only) ----------
-  // .mark-animated elements are 28px hero marks; ≤22px marks use .mark-static and never animate.
-  // `reduced` was computed above for reveals/parallax.
   var animatedMarks = document.querySelectorAll('.mark-animated');
   if (!animatedMarks.length) { /* skip */ }
   else if (reduced || typeof IntersectionObserver === 'undefined') {
@@ -81,6 +79,95 @@
     }, { threshold: 0.5 });
     animatedMarks.forEach(function (m) { mo.observe(m); });
   }
+
+  // ---------- scroll-spy: highlight active section in header nav ----------
+  var navLinks = document.querySelectorAll('.site-nav a[data-nav]');
+  var sectionIds = Array.prototype.map.call(navLinks, function (a) { return a.getAttribute('data-nav'); });
+  var sections = sectionIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+  if (navLinks.length && sections.length && typeof IntersectionObserver !== 'undefined' && !reduced) {
+    var activeId = null;
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) activeId = en.target.id;
+      });
+      navLinks.forEach(function (a) {
+        var on = a.getAttribute('data-nav') === activeId;
+        a.classList.toggle('is-active', on);
+        if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+      });
+    }, { threshold: 0.35, rootMargin: '-80px 0px -55% 0px' });
+    sections.forEach(function (s) { spy.observe(s); });
+  } else if (navLinks.length && 'onscroll' in window) {
+    // fallback: simple scroll handler without IntersectionObserver (e.g. reduced-motion)
+    var sectionsTop = sections.map(function (s) { return { id: s.id, el: s }; });
+    var onScroll = function () {
+      var y = window.scrollY + 100;
+      var cur = sectionsTop[0] ? sectionsTop[0].id : null;
+      sectionsTop.forEach(function (s) {
+        if (s.el.offsetTop <= y) cur = s.id;
+      });
+      navLinks.forEach(function (a) {
+        var on = a.getAttribute('data-nav') === cur;
+        a.classList.toggle('is-active', on);
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // ---------- copy buttons for terminal / code blocks ----------
+  function setCopied(btn) {
+    var prev = btn.textContent;
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(function () { btn.textContent = prev; btn.classList.remove('copied'); }, 1600);
+  }
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'absolute';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) { /* ignore */ }
+    document.body.removeChild(ta);
+  }
+  document.querySelectorAll('[data-copyable], pre.block[data-copyable]').forEach(function (wrap) {
+    var btn = wrap.querySelector('.copy-btn');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var body = wrap.querySelector('.term-body');
+      var text;
+      if (body) {
+        // terminal: extract visible textContent, strip the Copy button label if present
+        text = body.textContent.trim();
+      } else if (wrap.tagName === 'PRE') {
+        // pre.block: clone, remove button, get text
+        var clone = wrap.cloneNode(true);
+        var b = clone.querySelector('.copy-btn');
+        if (b) b.remove();
+        text = clone.textContent.trim();
+      } else {
+        text = wrap.textContent.trim();
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { setCopied(btn); }, function () { fallbackCopy(text); setCopied(btn); });
+      } else {
+        fallbackCopy(text);
+        setCopied(btn);
+      }
+    });
+  });
+
+  // ---------- diagram keyboard focus ring helper (adds subtle hint on first Tab) ----------
+  var firstTab = false;
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Tab' && !firstTab) {
+      firstTab = true;
+      document.body.classList.add('user-tabbing');
+    }
+  });
 
   // ---------- search ----------
   var overlay = document.querySelector('.search-overlay');
