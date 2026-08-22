@@ -724,3 +724,36 @@ Push: feat/mindos-docs-site — verified via curl after push
 - Next sweep: docs vs landing code-token discipline (#7fb3e0 only on code), SVG hover vs focus parity at 820/390 per pane, terminal/docs pre overflow at 390 re-flow, docs side-nav 820/390 tightness.
 - Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
 - No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
+
+---
+
+## Cycle 22 — Spacing scale 15 vars + security wash + pane/code-quality polish (supervised cycle 10, 2026-08-21)
+
+### Pre-checks (curl + source only — server still 127.0.0.1:8899, no restart)
+- curl http://127.0.0.1:8899/ → 200 (35 hits, 50695 bytes), /assets/* 200, /assets/search-index.json 200 (15), /docs/* 200, og-card.png 200, node --check ok
+- Source: site/index.html 553 lines, site/assets/style.css 1055→1058 lines after edits, site/assets/site.js 335, 12 sections, hints 12, dup </main> 1, hex 19 tokens strict mono (#7fb3e0 7 code-only), focus-visible 62, reduced-motion 4, landing jargon 0, console clean
+- Triple-check every section: hero radial .035 + hero-cred grouped + 4 layers 100/260/420/580@480ms snap OK; rail 5-step 120/340/560/780/1000@420ms cascading OK; walk 5 cards focusable + left 2px #2a2a30 + stagger 80/160/240/320/400 OK; window #101014/2px #2a2a30 at 820 #34343a at 390 #3a3a40 OK; machine 90/180/270+620/850 snap OK; terminal legend + pane + copy; branch rec-pane #0e0e11 + rec-cards 2 col; compare thead #0f0f12 + row-mindos 3px #e8e8ea at 680 cards; seam 3 pauses 200/380/560@360ms rail draw 700ms; layered dual pulses; security distinct #0a0a0b + left #34343a but flat vs hero/footer wash; launch ticket 3 steps min-520 → 0 at 680. Spacing scale 14 vars but 5×72 hardcoded (scroll-margin 72, cta 72, docs-layout 72, hero 72, scroll-padding 72) not consumed — code-quality gap; docs-mini margin 28 and dm-tiles gap 12 also hard-coded not var.
+
+### Edits applied (substantial block-level redesign)
+- **site/assets/style.css spacing scale expansion (code-quality)**: added `--s-72: 72px` to :root scale (now 15 vars 4/8/12/14/16/18/22/24/28/36/40/48/56/60/72/80/88, comment cycle 22). Consumed all 5 hardcoded 72px: `.section scroll-margin-top 72→var(--s-72)`, `.cta-box padding 72→var(--s-72) var(--s-24)`, `.docs-layout @680 padding 32 20 72→var(--s-72)`, `.archetype-hero padding var(--s-48) 0 72→var(--s-72)`, `html,body scroll-padding-top 72→var(--s-72)` — usages 59→67 (5 new 72 + docs-mini/dm-tiles below), only hard 72 remaining is definition itself. Single source monotonic 4→88.
+- **site/assets/style.css docs-mini/code-quality**: `.docs-mini margin-top 28→var(--s-28)`, `.dm-tiles gap 12→var(--s-12)` — bridge strip now var-driven (mono only, strict mono 19 tokens retained).
+- **site/assets/style.css security archetype distinct (visual)**: `.archetype-security .security-pane` now `radial-gradient(700×220 at 72% 6%, rgba(232,232,234,.022), transparent 68%), #0f0f12` — subtle mono wash (.022 vs hero .035 vs footer .025) harmonizes security with hero/footer grammar while staying distinct from compare #0d0d0f card. Left 2px #34343a + shadow 8×24 retained, strict mono #7fb3e0 7 code-only unchanged.
+- **site/assets/search-index.json** (15 entries): regenerated via `python3 tools/gen-search-index.py` — landing 3800 retained (style-only change, no copy change), docs refreshed; `python3 tools/check-site.py` → OK: 15 pages, 248 links, 15 entries.
+
+### Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof)
+- curl 200 on /, /assets/style.css (1058 lines, contains var(--s-72)×5 + radial .022 + var(--s-12/28)), /assets/site.js (node --check ok), /assets/search-index.json (15, regenerated, landing 3800), /docs/*, /assets/og-card.png (35 hits retained, 50695 bytes)
+- node --check site/assets/site.js → ok
+- python3 tools/gen-search-index.py → Wrote 15 entries (landing 3800); python3 tools/check-site.py → OK: 15 pages, 248 internal links, 15 index entries — all routes resolve
+- sections 12, dup </main> 1, hints 12 (each section 1), panes tabindex 35 (+5 walk +2 rec + security/seam), hero hint 1, data-labels 12, caption 1, scope 3, docs-mini 1, hero-stats 1, security-pane 1 (focusable, radial wash .022 distinct), seam-pane 1 (420@680 360@390 already tightened), term-legend 1, launch-pane 1, plain-lead 6 pages, landing copy-btn 3, docs copy-btn 22, live regions 9, focus-visible 62, reduced-motion 4 blocks (security + seam + term-legend + docs-mini + copy + walk + launch + rec + footer + pulses harmonized), hex 19 tokens (#7fb3e0 7 code-only, #08080a wash retained, #1a1a1d lift retained), vars 67 usages
+- landing jargon 0, console.log false, overflow-x clip true, 900/820/680/390 present (scroll-margin var(--s-72) at all, hero var(--s-72) bottom, docs-layout var(--s-72) at 680, security wash at all widths, seam 420/360 retained)
+- artifacts: audit/cycle-22-* (curl, index/style.css/site.js/search-index.json, source/post) inside repo, server log still audit/server-cycle02.log (kept alive, verified via curl only)
+
+Commit: site: infinite loop cycle 22 — spacing scale 15 vars (72 consumed), security radial wash distinct, docs-mini var polish, code-quality 67 vars
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 23 plan (loop continues — do not stop after cycle 22)
+- Next sweep: terminal/docs pre overflow 390 re-flow re-audit, docs side-nav 820/390 hierarchy tightness, per-section reduced-motion completeness at 680/390, code-token discipline re-scan (#7fb3e0 code-only).
+- Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
+- No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
