@@ -56,11 +56,11 @@
 
 <p>Migration moves non-execution brain surfaces (memory archives, sessions, profiles, skills, cron definitions) across without turning Hindsight into a second authority, and imports execution truth into a fresh home.</p>
 <h2 id="inventory">Sealed brain inventory</h2>
-<pre class="block"><span class="c-cmd">python3</span> ops.py brain-inventory <span class="c-flag">--out</span> inventory.json
+<pre class="block" data-copyable><button class="copy-btn copy-btn-block" type="button" aria-label="Copy commands">Copy</button><span class="c-cmd">python3</span> ops.py brain-inventory <span class="c-flag">--out</span> inventory.json
 <span class="c-cmd">python3</span> ops.py brain-inventory-check inventory.json   <span class="c-ok"># verify the seal</span></pre>
 <p>Nine source kinds are covered — Autopilot, Hindsight binding, temporal sidecar, Claude memory sync, memory archives, sessions, profiles/skills, cron definitions — read-only, redacted, with sealed manifests. Hindsight is probed with GETs only; the shared bank is never written.</p>
 <h2 id="import">Dry-run-first import</h2>
-<pre class="block"><span class="c-cmd">python3</span> ops.py migrate-import … <span class="c-flag">--dry-run</span>   <span class="c-dim"># plan against a disposable target</span>
+<pre class="block" data-copyable><button class="copy-btn copy-btn-block" type="button" aria-label="Copy commands">Copy</button><span class="c-cmd">python3</span> ops.py migrate-import … <span class="c-flag">--dry-run</span>   <span class="c-dim"># plan against a disposable target</span>
 <span class="c-cmd">python3</span> ops.py migrate-import …              <span class="c-dim"># apply; journal written for rollback</span>
 <span class="c-cmd">python3</span> ops.py migrate-rollback …           <span class="c-dim"># one-command recovery</span></pre>
 <p>Foreign receipts are quarantined with full provenance instead of breaking foreign-key integrity. Re-runs are idempotent; source immutability is proven by full-fixture hash comparisons in the end-to-end suite.</p>

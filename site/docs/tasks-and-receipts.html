@@ -58,7 +58,7 @@
 <h2 id="lifecycle">Lifecycle</h2>
 <p>Tasks move through <em>claim → heartbeat → receipt → complete</em> (or <em>fail</em>). Every transition is audited. <code>next --claim</code> dispatches by priority, deadline class, aging fairness, and optional critical-path tie-breaking (<code>--prefer-unblocking</code>).</p>
 <h2 id="leases">Leases in practice</h2>
-<pre class="block"><span class="c-cmd">python3</span> autopilot.py claim tsk_4f2a <span class="c-flag">--owner</span> hermes <span class="c-flag">--minutes</span> 30   <span class="c-dim"># → lease_epoch: 1</span>
+<pre class="block" data-copyable><button class="copy-btn copy-btn-block" type="button" aria-label="Copy commands">Copy</button><span class="c-cmd">python3</span> autopilot.py claim tsk_4f2a <span class="c-flag">--owner</span> hermes <span class="c-flag">--minutes</span> 30   <span class="c-dim"># → lease_epoch: 1</span>
 <span class="c-cmd">python3</span> autopilot.py heartbeat tsk_4f2a <span class="c-flag">--owner</span> hermes <span class="c-flag">--epoch</span> 1
 <span class="c-cmd">python3</span> autopilot.py renew tsk_4f2a <span class="c-flag">--owner</span> hermes <span class="c-flag">--minutes</span> 45
 <span class="c-cmd">python3</span> autopilot.py complete tsk_4f2a <span class="c-flag">--owner</span> hermes <span class="c-flag">--epoch</span> 1 <span class="c-flag">--note</span> "tests pass"</pre>

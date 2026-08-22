@@ -59,7 +59,7 @@
 <h2 id="binding">Hindsight binding</h2>
 <p><strong>Hindsight</strong> is the shared semantic memory — the place where meaning is looked up — accessed through an explicit, provider-neutral binding. SQLite stays the <strong>single execution authority</strong> (the local file that decides what counts as done); Hindsight is never copied into it as a second one. When Hindsight is unreachable, the system degrades honestly: affected sources are recorded as <code>absent</code> rather than guessed at.</p>
 <h2 id="facts">Temporal facts</h2>
-<pre class="block"><span class="c-cmd">python3</span> autopilot.py fact-assert <span class="c-flag">--subject</span> service-auth <span class="c-flag">--predicate</span> uses <span class="c-flag">--object</span> postgres-14 <span class="c-flag">--source</span> codex
+<pre class="block" data-copyable><button class="copy-btn copy-btn-block" type="button" aria-label="Copy commands">Copy</button><span class="c-cmd">python3</span> autopilot.py fact-assert <span class="c-flag">--subject</span> service-auth <span class="c-flag">--predicate</span> uses <span class="c-flag">--object</span> postgres-14 <span class="c-flag">--source</span> codex
 <span class="c-cmd">python3</span> autopilot.py facts <span class="c-flag">--subject</span> service-auth
 <span class="c-cmd">python3</span> autopilot.py search-facts postgres <span class="c-flag">--rank</span></pre>
 <p><strong>Temporal facts</strong> are evolving statements — subject / predicate / object — each with a <em>validity window</em>, <em>provenance</em> (where it came from and why), and <em>supersession</em> (what it replaced). Ownership, priorities, and decisions stay queryable over time, with BM25 retrieval and temporal hybrid rerank.</p>

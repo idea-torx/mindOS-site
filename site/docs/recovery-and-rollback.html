@@ -59,7 +59,7 @@
 <h2 id="resume">Killed sessions</h2>
 <p><code>resume</code> gives idempotent killed-session recovery with the full recall bundle — no double execution, no lost evidence.</p>
 <h2 id="rollback">Migration rollback</h2>
-<pre class="block"><span class="c-cmd">python3</span> ops.py migrate-import … <span class="c-flag">--dry-run</span>   <span class="c-dim"># plan first</span>
+<pre class="block" data-copyable><button class="copy-btn copy-btn-block" type="button" aria-label="Copy commands">Copy</button><span class="c-cmd">python3</span> ops.py migrate-import … <span class="c-flag">--dry-run</span>   <span class="c-dim"># plan first</span>
 <span class="c-cmd">python3</span> ops.py migrate-import …              <span class="c-dim"># journal written</span>
 <span class="c-cmd">python3</span> ops.py migrate-rollback …           <span class="c-ok"># target restored to pre-import state</span></pre>
 <p>Everything destructive plans first: dry-run manifests, explicit apply flag, rollback journal, idempotent re-runs. Orphans are quarantined with provenance, never dropped.</p>
