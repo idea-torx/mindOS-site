@@ -261,3 +261,38 @@ Push: feat/mindos-docs-site — verified via curl after push
 - Next sweep: per-section SVG motion timing micro-audit (rail vs window vs machine vs branch), table mobile card contrast at 390, landing hero measure vs docs plain-lead measure alignment, focus-visible ring audit on docs side nav.
 - Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
 - No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
+
+---
+
+## Cycle 8 — Motion distinct cadence + table 390 contrast + docs nav focus + measure alignment (2026-08-21)
+
+### Pre-checks (curl + source only — server still 127.0.0.1:8899, no restart)
+- curl http://127.0.0.1:8899/ → 200 (35 hits, 47455 bytes), /assets/* 200, /assets/search-index.json 200 (15), /docs/* 200, og-card.png 200, node --check ok
+- Source: site/index.html 535 lines, site/assets/style.css 819, site/assets/site.js 314, 12 sections, dup </main> 1, hex strict mono, landing jargon 0, console clean
+- Issues found (queued weakness): SVG motion overlapping — hero 100/260/420/580 vs security 120/260/420/580 dup, machine 120/260/400 vs security same cadence, arch 100/300/500/700 vs hero too close, no per-section easing distinction; vs-git mobile cards #232327 on #101012 low contrast at 680, MindOS row #34343a faint, data-label #5f5f66 faint at 390, no 390-specific table refine; docs side nav no focus-visible ring (28 selectors, none for docs-side); h1.hero 16em vs sec-title 18em mismatch vs shared lede/plain-lead 42em.
+
+### Edits applied (substantial block-level redesign)
+
+- **site/assets/style.css motion micro-audit**: per-section distinct clocks — fail rail 120/340/560/780/1000 @420ms ease-out cascading descent; state machine 90/180/270 + 620/850 @320ms tight mechanical snap (was 120/260/400, recovery 900/1150); security Shield-first 80/240/400/560 @360ms deliberate lock (was dup 120/260/420/580); arch weighty 120/320/520/720 @460ms cubic-bezier(.22,.61,.36,1) (was 100/300/500/700); seam gates 200/380/560 @360ms (was 260/420/580); hero retained 100/260/420/580 @480ms snappy layered — each grammar now isolated with distinct delay set + duration + easing.
+- **Table mobile contrast at 680 + 390**: at 680 cards border #232327→#34343a + inset shadow, MindOS card #34343a→#45454b + bg #16161a + td border #2a2a30, data-label #5f5f66→var(--text-dim) #9a9aa2 for skimming; at 390 extra lift card #3a3a40 + MindOS #5f5f66, td 13px + label 10.5px #9a9aa2, padding 10×12.
+- **Docs side-nav focus-visible**: added .docs-side a:focus-visible (surface-1 + text + 2px #e8e8ea ring offset 1), .doc-tile/.dm-tile:focus-visible (border #9a9aa2), .on-this-page a:focus-visible — count 28→32.
+- **Hero vs plain-lead measure**: h1.hero 16em→17em to converge toward sec-title 18em + lede/plain-lead shared 42em; at 680 all three (h1.hero, sec-title, lede/plain-lead) go max-width:none together for consistent narrow rhythm (was only sec-title/lede).
+- **site/assets/search-index.json**: regenerated via `python3 tools/gen-search-index.py` — landing 3796 retained, docs entries refreshed; `python3 tools/check-site.py` → OK: 15 pages, 248 links, 15 entries.
+
+### Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof)
+- curl 200 on /, /assets/style.css (854 lines, contains 90/180/270 + 80/240/400/560 + #34343a cards), /assets/site.js (node --check ok), /assets/search-index.json (15, 29109 bytes), /docs/*, /assets/og-card.png (35 hits retained, 47455 bytes)
+- node --check site/assets/site.js → ok
+- python3 tools/gen-search-index.py → Wrote 15 entries (landing 3796); python3 tools/check-site.py → OK: 15 pages, 248 internal links, 15 index entries — all routes resolve
+- sections 12, dup </main> 1, panes tabindex 6, data-labels 12, caption 1, scope 3, hint 8, docs-mini 1, hero-stats 1, security-pane 1 (focusable), seam-pane 1, term-legend 1, plain-lead 6 pages, focus-visible 32, reduced-motion 4 blocks, hex strict mono 17 tokens (#7fb3e0 code-only)
+- landing jargon 0, console.log false, overflow-x clip true, 820 + 390 breakpoints present (680 cards + 390 lift), table 390 contrast lifted (label #9a9aa2 at 390)
+- artifacts: audit/cycle-08-source-check.md, audit/cycle-08-post-edit.md, audit/cycle-08-curl.html, audit/cycle-08-index.html/style.css/site.js/search-index.json (inside repo), server log still audit/server-cycle02.log (kept alive, verified via curl only)
+
+Commit: site: infinite loop cycle 8 — motion distinct cadence per SVG system, table mobile 390 contrast, docs side-nav focus-visible, hero vs plain-lead measure alignment
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 9 plan (loop continues — do not stop after cycle 8)
+- Next sweep: docs vs landing code-token discipline (verify #7fb3e0 only in code spans), SVG hover vs focus parity audit (each hover lift has focus-visible match), terminal copy-button contrast at 390, seam pause rail reduced-motion completeness.
+- Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
+- No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
