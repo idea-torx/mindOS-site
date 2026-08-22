@@ -161,13 +161,16 @@
       var body = wrap.querySelector('.term-body');
       var text;
       if (body) {
-        // terminal: body holds the code, button is in term-bar outside body — safe to read directly
+        // terminal: extract visible textContent, strip the Copy button label if present
         text = body.textContent.trim();
-      } else {
-        // generic: clone wrapper, strip any copy button(s) so “Copy” isn’t copied, then read text
+      } else if (wrap.tagName === 'PRE') {
+        // pre.block: clone, remove button, get text
         var clone = wrap.cloneNode(true);
-        clone.querySelectorAll('.copy-btn').forEach(function (b) { b.remove(); });
+        var b = clone.querySelector('.copy-btn');
+        if (b) b.remove();
         text = clone.textContent.trim();
+      } else {
+        text = wrap.textContent.trim();
       }
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(function () { setCopied(btn); }, function () { fallbackCopy(text); setCopied(btn); });

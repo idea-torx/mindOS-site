@@ -544,3 +544,42 @@ Push: feat/mindos-docs-site — verified via curl after push
 - Next sweep: terminal/docs pre overflow 390 re-flow re-audit, docs side-nav 820/390 hierarchy tightness, per-section reduced-motion completeness at 680/390, code-token discipline re-scan.
 - Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
 - No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
+
+---
+
+## Cycle 17 — Launch archetype distinct + spacing scale code-quality + workflow/ seam a11y + seam overflow tighten (supervised cycle 5, 2026-08-21)
+
+### Pre-checks (curl + source only — server still 127.0.0.1:8899, no restart)
+- curl http://127.0.0.1:8899/ → 200 (35 hits, 48546 bytes), /assets/* 200, /assets/search-index.json 200 (15), /docs/* 200, og-card.png 200, node --check ok
+- Source: site/index.html 538 lines, site/assets/style.css 976, site/assets/site.js 325, 12 sections, hints 9, dup </main> 1, hex 18 tokens strict mono (#7fb3e0 7 code-only), focus-visible 58, reduced-motion 4, landing jargon 0, console clean
+- Triple-check every section: hero cred grouped but workflow + get-started both `archetype-terminal` (duplicate archetype violates distinct layout per section); workflow `.term` not keyboard-scrollable (no tabindex, no hint) while 6 panes are; human-seam pane has no visible hint (only figcaption); get-started plain `pre.block` flat (no pane elevation, no step labels, no hint) vs workflow terminal — visual duplication; CSS spacing scale `--s-*` declared but 0 usages (code-quality gap — 28/14/18 hard-coded, gap-top ad-hoc); hero-grid gap non-monotonic 56→64→36→40 (cycle 16 introduced 64 vs 56); seam-pane 560 min-width at 680 overkill for 72px tall rail (wasteful horizontal scroll at narrow vs 760-width diagrams).
+
+### Edits applied (substantial block-level redesign)
+
+- **site/index.html workflow a11y**: `.term` now `tabindex="0" role="img" aria-label="Terminal showing a task moving through its five states. Scroll to see full commands on narrow screens."` (keyboard scroll at 390) + added visible hint `The terminal is focusable — Tab to scroll it on narrow screens, then Copy …` (+1 hint, now 10).
+- **site/index.html get-started → archetype-launch**: changed `archetype-terminal` → `archetype-launch` (distinct archetype, resolves duplicate-terminal violation). Rebuilt flat `pre.block` into `launch-pane` ticket: `launch-head` (kicker 11px mono + meta + FSL badge pill, surface-1/border-bottom), `launch-body` with `launch-steps` ordered list (3 `ls-row` ticket rows: left mono pill 01/02/03, `ls-code` with `code` 12.5px + `ls-dim` faint note, `surface-1/border/radius hover #34343a lift -1px`, min-width 520 → 0 at 680), `copy-btn-launch` absolute 18/18 → full-width at 680. Added `tabindex="0"` on figure + hint `Three numbered steps, one copy — the pane and the list are both focusable …` (+1 hint). Total hints 9→12 (each of 12 sections now has 1 visible hint), panes tabindex 26→28, launch-pane 1.
+- **site/index.html human-seam hint**: added `Three pause gates on one rail — hover or Tab each gate. Each ⏸ lifts like the walk cards.` (+1 hint, completes per-section hint parity).
+- **site/assets/style.css launch archetype**: added `.archetype-launch` (bg #0a0a0b, pane #101014 border #2a2a30 left 2px #34343a, shadow 8×24, ::before hairline), `.launch-head/.lh-*`, `.launch-body`, `.launch-steps/.ls-*` (mono pills, code + dim, hover lift, focus-within ring), `.copy-btn-launch` + 680 responsive (head 12×14, steps gap 10, code 11.5, copy full-width). Distinct from `.archetype-terminal` (.term surface-2, 3 dots) — now 12 archetype classes all distinct (hero/rail/walk/window/machine/terminal/branch/compare/seam/layered/launch).
+- **site/assets/style.css spacing scale code-quality**: vertical rhythm now uses `var(--s-28)/--s-14/--s-18/--s-22` instead of hard-coded 28/14/18/22 (6 sites, 16 var usages) — scale declared at :root now consumed, code-quality single source. Hero archetype padding `56→var(--s-48)` and gap `64→56` to restore monotonic progression.
+- **site/assets/style.css hero-grid + seam overflow hardening**: added explicit `@media 900 gap 48px` so progression monotonic 56→48→36→28, 820/680 gaps use `var(--s-36)/--s-28`, pane padding `var(--s-22)/--s-18`; seam-pane svg min-width tightened `560→420@680, 520→360@390` (72px tall rail no longer forces 560 scroll like 760-width diagrams), launch-steps min-width likewise. Prevents body horizontal scroll at 390, respects overflow-x:clip.
+- **site/assets/site.js code-quality**: copy handler generalized — `body` case unchanged, generic case now clones wrapper, strips all `.copy-btn` then reads text (handles `launch-body` where button inside wrapper and future containers; previously only PRE cloned). `node --check` ok, scroll-spy/copy-live/parallax/reveals retained.
+- **site/assets/search-index.json** (15 entries): regenerated via `python3 tools/gen-search-index.py` — landing 3800 chars (launch ticket + hints humanized), docs refreshed; `python3 tools/check-site.py` → OK: 15 pages, 248 links, 15 entries.
+
+### Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof)
+
+- curl 200 on /, /assets/style.css (1050+ lines, contains launch-pane + var(--s-)), /assets/site.js (node --check ok, clone strip), /assets/search-index.json (15, regenerated), /docs/*, /assets/og-card.png (35 hits retained)
+- node --check site/assets/site.js → ok
+- python3 tools/gen-search-index.py → Wrote 15 entries (landing 3800); python3 tools/check-site.py → OK: 15 pages, 248 internal links, 15 index entries — all routes resolve
+- sections 12, dup </main> 1, hints 12 (each section 1), panes tabindex 28 (6 SVG + workflow term + launch pane + security/seam retained), hero hint 1, data-labels 12, caption 1, scope 3, docs-mini 1, hero-stats 1, security-pane 1 (focusable), seam-pane 1, term-legend 1, plain-lead 6 pages, landing copy-btn 4 (+1 launch), docs copy-btn 22, live regions 9, focus-visible 59 (+1 launch), reduced-motion 4 blocks, hex 18 tokens (#7fb3e0 7 code-only), vars 16 usages
+- landing jargon 0, console.log false, overflow-x clip true, 900/820/680/390 present (hero gap 48@900 36@820 28@680, seam 420@680 360@390, launch responsive full-width copy at 680)
+- artifacts: audit/cycle-17-source-check.md, audit/cycle-17-post-edit.md, audit/cycle-17-curl.html, audit/cycle-17-index.html/style.css/site.js/search-index.json (inside repo), server log still audit/server-cycle02.log (kept alive, verified via curl only)
+
+Commit: site: infinite loop cycle 17 — launch ticket archetype distinct from terminal, spacing scale consumed, workflow+launch+seam a11y hints, hero gap monotonic, seam overflow tighten
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 18 plan (loop continues — do not stop after cycle 17)
+- Next sweep: docs plain-lead vs landing lede harmony re-check, per-section SVG hover/focus contrast at 820/390, table mobile 390 contrast re-audit, reduced-motion completeness for launch ticket.
+- Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
+- No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.

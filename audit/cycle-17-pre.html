@@ -304,7 +304,7 @@
       <span class="tl-item"><em>proven</em> → <code>receipt</code></span>
       <span class="tl-item"><em>done</em> → <code>complete</code></span>
     </div>
-    <div class="term reveal-late" tabindex="0" role="img" aria-label="Terminal showing a task moving through its five states. Scroll to see full commands on narrow screens." data-copyable>
+    <div class="term reveal-late" data-copyable>
       <div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="margin-left:8px">mindos — one task, start to finish</span><button class="copy-btn" type="button" aria-label="Copy commands">Copy</button></div>
       <div class="term-body"><span class="c-prompt">$</span> <span class="c-cmd">python3 autopilot.py create</span> <span class="c-flag">--project</span> Trove <span class="c-flag">--title</span> "Ship render fix" <span class="c-flag">--priority</span> P1
 <span class="c-ok">task created</span> <span class="c-dim">id=tsk_4f2a priority=P1 project=Trove</span>
@@ -321,7 +321,6 @@
 <span class="c-prompt">$</span> <span class="c-cmd">python3 autopilot.py complete</span> tsk_4f2a <span class="c-flag">--owner</span> hermes <span class="c-flag">--epoch</span> 1 <span class="c-flag">--note</span> "tests pass"
 <span class="c-ok">task completed</span> <span class="c-dim">evidence=sealed receipt required ✓</span></div>
     </div>
-    <p class="hint">The terminal is focusable — Tab to scroll it on narrow screens, then Copy to paste the five commands.</p>
     <p class="meta gap-top">In plain words: create says what needs doing, claim says who owns it and until when, heartbeat proves the owner is alive, receipt stores the proof, complete closes it. A completion attempt without a live claim and stored proof is refused.</p>
   </div>
 </section>
@@ -402,7 +401,6 @@
       </svg>
       <figcaption class="visually-hidden">A rail with three pause gates: destructive steps, ambiguous choices, and secrets — each holds for human approval.</figcaption>
     </figure>
-    <p class="hint">Three pause gates on one rail — hover or Tab each gate. Each ⏸ lifts like the walk cards.</p>
     <ul class="seam-list">
       <li class="reveal"><span class="dw-n">⏸</span><div><strong>Holds before irreversible steps.</strong> Anything destructive rehearses against a disposable copy first, and applying it for real waits on an explicit go from you.</div></li>
       <li class="reveal"><span class="dw-n">⏸</span><div><strong>Escalation instead of guessing.</strong> When an agent hits ambiguity it cannot resolve from the record, the task parks with a note naming exactly what is unclear.</div></li>
@@ -482,30 +480,17 @@
   </div>
 </section>
 
-<!-- ================= try it / launch — launch archetype (distinct from terminal) ================= -->
-<section class="section archetype-launch" id="get-started">
+<!-- ================= try it / launch — terminal archetype ================= -->
+<section class="section archetype-terminal" id="get-started">
   <div class="wrap">
     <div class="reveal"><p class="kicker">Try it today</p>
     <h2 class="sec-title">Three commands and it exists.</h2>
     <p class="body">No account, no service, nothing to deploy. If your machine has Python 3.9 or newer, you already have everything else.</p></div>
-    <figure class="pane launch-pane reveal-late" tabindex="0" role="img" aria-label="Setup in three steps — clone, set a folder, init. Scroll to see full commands on narrow screens.">
-      <div class="launch-head">
-        <div class="lh-left">
-          <span class="lh-kicker">3 steps · one local file</span>
-          <span class="lh-meta">Python 3.9+ · no deps · no server</span>
-        </div>
-        <span class="lh-badge" aria-hidden="true">FSL-1.1-MIT</span>
-      </div>
-      <div class="launch-body" data-copyable>
-        <ol class="launch-steps">
-          <li class="ls-row"><span class="ls-n" aria-hidden="true">01</span><div class="ls-code"><code><span class="c-cmd">git clone</span> &lt;repo-url&gt; mindos && <span class="c-cmd">cd</span> mindos</code><span class="ls-dim">pick any folder</span></div></li>
-          <li class="ls-row"><span class="ls-n" aria-hidden="true">02</span><div class="ls-code"><code><span class="c-cmd">export</span> <span class="c-flag">MINDOS_HOME</span>="$HOME/mindos-home"</code><span class="ls-dim">any writable folder works</span></div></li>
-          <li class="ls-row"><span class="ls-n" aria-hidden="true">03</span><div class="ls-code"><code><span class="c-cmd">python3</span> autopilot.py init && <span class="c-cmd">python3</span> ops.py doctor</code><span class="ls-dim">confirms the new home is healthy</span></div></li>
-        </ol>
-        <button class="copy-btn copy-btn-launch" type="button" aria-label="Copy setup commands">Copy</button>
-      </div>
-    </figure>
-    <p class="hint">Three numbered steps, one copy — the pane and the list are both focusable on narrow screens.</p>
+    <pre class="block reveal-late" data-copyable><button class="copy-btn copy-btn-block" type="button" aria-label="Copy setup commands">Copy</button><span class="c-cmd">git clone</span> &lt;repo-url&gt; mindos
+<span class="c-cmd">cd</span> mindos
+<span class="c-cmd">export</span> <span class="c-flag">MINDOS_HOME</span>="$HOME/mindos-home"   <span class="c-dim"># any writable folder works</span>
+<span class="c-cmd">python3</span> autopilot.py init
+<span class="c-cmd">python3</span> ops.py doctor                        <span class="c-ok"># confirms the new home is healthy</span></pre>
     <div class="grid-2 gap-top">
       <div class="reveal"><h3 style="font-size:16px;margin-bottom:8px">Works today</h3><p class="body">Task claims with expiry, work notes, proof attached to finished work, decision history with reasons, crash recovery, rehearsed migration, tamper-checked history, and full-text search over all of it.</p></div>
       <div class="reveal"><h3 style="font-size:16px;margin-bottom:8px">Still being built</h3><p class="body">See the honest <a href="docs/roadmap.html">roadmap</a>. Notable gaps: richer scheduling, multi-machine coordination, and deeper bindings to specific agent platforms.</p></div>
