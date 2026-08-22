@@ -415,7 +415,37 @@ Push: feat/mindos-docs-site — verified via curl after push
 
 ---
 
-## Cycle 13 plan (loop continues — do not stop after cycle 12)
-- Next sweep: typography vertical rhythm re-audit (pane+hint 14 / hint+body 18 / kicker/title/body 14mb consistency), SVG contrast micro-audit per pane at 820/390, terminal/search focus polish completeness, continue humanize + monochrome discipline.
+## Cycle 13 — Typography rhythm + terminal focus + hero mono wash + docs wrap + rel-card lift (2026-08-21)
+
+### Pre-checks (curl + source only — server still 127.0.0.1:8899, no restart)
+- curl http://127.0.0.1:8899/ → 200 (36 hits, 48176 bytes), /assets/style.css 200 (912 lines), /assets/site.js 200, /assets/search-index.json 200 (15), /docs/* 200, og-card.png 200, node --check ok
+- Source: site/index.html 536 lines (hero hint retained from cycle 12), site/assets/style.css 912 lines, site/assets/site.js 314, 12 sections, dup </main> 1, hex 18 tokens strict mono (#1a1a1d retained, #7fb3e0 7 code-only), focus-visible 47, reduced-motion 4, landing jargon 0, console clean
+- Issues found (queued from cycle 12 plan): typography vertical rhythm ad-hoc (pane+hint 14 ok but hint+meta not distinct from hint+body 18, plain-lead+gloss not systematized, hero-art+hint orphan); term-body 18px/20 mono cramped at 1.65 mono default vs 1.7/ -.01 needed; terminal .term not keyboard-focusable despite tabindex peers (.pane, .seam-pane) — missed focus-visible ring for keyboard scroll users; rel-card flat (no hover lift, no focus-within border vs docs-mini lift); docs-side a long titles can overflow at 390/680 (no wrap), no overflow-wrap; hero archetype flat vs other archetypes distinct (no radial wash); focus polish incomplete (.term:focus-visible missing).
+
+### Edits applied (substantial block-level redesign)
+
+- **site/assets/style.css term readability**: `.term-body { line-height 1.7; letter-spacing -.01em }` (mono terminal readability, matches docs pre 1.65-1.7 system) + `.term:focus-visible { 2px solid var(--accent) offset 2 radius var(--radius-lg) }` + `.term:focus-within { border-color #34343a }` — terminal now distinct focus parity with pane (previously only pane had focus-visible at 820, now term does too, +1 focus-visible → 48).
+- **site/assets/style.css rel-card lift**: `.rel-card { transition border-color + transform + box-shadow 180ms ease-out }` + `.rel-card:hover { border #34343a, translateY -1px, 0 4px 12px rgba(0,0,0,.18) }` + `.rel-card:focus-within { border #9a9aa2 }` — release card now aligns with dm-tile hover elevation system (mono only, no saturated color).
+- **site/assets/style.css docs wrap**: `.docs-side a { overflow-wrap anywhere; word-break break-word }` — prevents narrow overflow for long titles (FAQ, agents-and-handoffs) at 390/680, harmonizes with 820/680 pane scroll system.
+- **site/assets/style.css vertical rhythm system**: added `.hero-art + .hint { 14mt }` to systematize hero hint spacing (was only .term+.hint/.seam-pane+.seam-list), expanded `.hint + .body/.pane + .body` to include `.hint + .meta` (18mt) + `.plain-lead + .gloss` (18mt) then override `.hint + .meta { 14mt }` so meta sits tighter than body (14 vs 18) — rhythm now covers all hint-adjacent closeness cases (pane+hint 14 / hint+body 18 / hint+meta 14 / plain-lead+gloss 18 / kicker/title/body 14mb invariant retained). Covers cycle 13 plan queue.
+- **site/assets/style.css hero archetype wash**: `.archetype-hero { background: radial-gradient(700×400 at 68% 8%, rgba(232,232,234,.035), transparent 68%), var(--bg) }` — subtle monochrome wash distinct from other archetypes (rail left border, walk #0d0d0f, window #101014, machine, branch, layered) yet strictly mono (#e8e8ea 3.5% opacity) — per-section archetype uniqueness strengthened without breaking #7fb3e0 code-only discipline.
+- **site/assets/search-index.json** (15 entries): regenerated via `python3 tools/gen-search-index.py` — landing 3795 retained (hero hint already indexed cycle 12), docs refreshed; `python3 tools/check-site.py` → OK: 15 pages, 248 links, 15 entries.
+
+### Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof)
+
+- curl 200 on /, /assets/style.css (926 lines, contains radial + term readability + rel-card lift + anywhere wrap + rhythm 14/18), /assets/site.js (node --check ok), /assets/search-index.json (15, regenerated, landing 3795), /docs/*, /assets/og-card.png (36 hits retained, 48176 bytes)
+- node --check site/assets/site.js → ok
+- python3 tools/gen-search-index.py → Wrote 15 entries (landing 3795); python3 tools/check-site.py → OK: 15 pages, 248 internal links, 15 index entries — all routes resolve
+- sections 12, dup </main> 1, hint 9 (hero +1, 44em unified, 680 fluid, 390 11.5), panes tabindex 26, hero hint 1, data-labels 12, caption 1, scope 3, docs-mini 1, hero-stats 1, security-pane focusable 1, seam-pane 1, term-legend 1, plain-lead 6 pages + hover #45454b, landing copy-btn 3, docs copy-btn 22, live regions 9, focus-visible 44 (term +1), reduced-motion 4 blocks, hex 18 tokens (#7fb3e0 7 code-only, #1a1a1d mono surface lift retained)
+- landing jargon 0, console.log false, overflow-x clip true, 900/820/680/390 present (term 1.7/-.01, hint+meta 14 vs body 18, hero-art+hint 14, docs-side wrap anywhere)
+- artifacts: audit/cycle-13-* (curl, index/style.js/search-index, source/post) inside repo, server log still audit/server-cycle02.log (kept alive, verified via curl only)
+
+Commit: site: infinite loop cycle 13 — typography rhythm (hero-art+hint/meta/gloss), terminal readability + focus-visible, rel-card lift + focus-within, docs wrap anywhere, hero mono radial wash
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 14 plan (loop continues — do not stop after cycle 13)
+- Next sweep: docs vs landing code-token discipline re-scan (#7fb3e0 5 rules + guard retained), SVG hover vs focus parity re-audit at 820/390 (each pane lift has focus match), terminal copy-button hit-target at 390 re-check, search input focus-visible ring completeness, continue humanize + monochrome discipline.
 - Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
 - No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
