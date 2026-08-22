@@ -361,7 +361,61 @@ Push: feat/mindos-docs-site — verified via curl after push
 
 ---
 
-## Cycle 11 plan (loop continues — do not stop after cycle 10)
-- Next sweep: docs vs landing code-token discipline re-audit (#7fb3e0 guard), SVG hover vs focus parity micro-audit on arch/hero layers, kicker vs sec-title measure at 680 re-check, footer mono rhythm + docs side-nav 390 overflow.
+## Cycle 11 — Incremental 390 rhythm (2026-08-21)
+
+### Pre-checks (curl + source only — server still 127.0.0.1:8899, no restart)
+- curl http://127.0.0.1:8899/ → 200 (36 hits, 48015 bytes), /assets/* 200, /assets/search-index.json 200 (15), /docs/* 200, og-card.png 200, node --check ok
+- Source: site/index.html 535 lines, site/assets/style.css 898 lines, site/assets/site.js 314, 12 sections, dup </main> 1, hex strict mono 17 tokens, focus-visible 44, reduced-motion 4, landing jargon 0, console clean
+- Issues found (queued from cycle 10): kicker vs sec-title at 680, footer mono rhythm, docs side-nav 390 overflow — 390 refinements needed (kicker 11px not harmonized, docs-side 13px cramped, footer 11px missing).
+
+### Edits applied (incremental 390 polish)
+- **site/assets/style.css**: at 390 — kicker 11px/.08/12mb, docs-side a 13px/6×10 harmonized with lede 17px/hint 11.5, footer mono 11px/1.5. Small rhythm converge, no archetype change. Log entry deferred to cycle 12 full audit.
+
+### Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof)
+- curl 200 on /, /assets/style.css (898→901 lines, contains 390 kicker/docs-side/footer), /assets/site.js (node --check ok), /assets/search-index.json (15), /docs/*, /assets/og-card.png (36 hits)
+- node --check site/assets/site.js → ok
+- sections 12, dup </main> 1, hint 8, focus-visible 44, reduced-motion 4, hex strict mono 17 tokens (#7fb3e0 7 code-only)
+- artifacts: audit/cycle-11-* (curl, style.css, source/post) inside repo, server log still audit/server-cycle02.log (kept alive, verified via curl only)
+
+Commit: site: cycle 11 incremental — 390 kicker/footer/docs-side rhythm, continues infinite loop (cycle 10 verified)
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 12 — Hero/arch focus parity + kicker rhythm + footer/docs-nav 390 polish + plain-lead elevation (2026-08-21)
+
+### Pre-checks (curl + source only — server still 127.0.0.1:8899, no restart)
+- curl http://127.0.0.1:8899/ → 200 (36 hits, 48015 bytes), /assets/* 200, /assets/search-index.json 200 (15), /docs/* 200, og-card.png 200, node --check ok
+- Source: site/index.html 535 lines, site/assets/style.css 898→901 lines, site/assets/site.js 314, 12 sections, dup </main> 1, hex strict mono 17 tokens, focus-visible 44, reduced-motion 4, landing jargon 0, console clean
+- Issues found (queued from cycle 11 plan): hero/arch hover has lift but focus-visible only stroke (no transform parity), plain-lead flat (no hover affordance), kicker at 680 still 11.5/14 vs sec-title 32 balance, footer stacked at 680 no distinct border, docs-side at 390 13px/6×10 still cramped vs tight 390 measure, dm-tile hover only border (no surface lift), search input placeholder faint, hero-art no visible keyboard hint vs other panes.
+
+### Edits applied (substantial block-level redesign)
+
+- **site/index.html** (1 line): hero-art figure now has visible `<p class="hint">Tab through the four layers — each one lifts on hover or focus…</p>` below pane (parity with 7 other diagram hints, now 9 total) — keyboard users know layers are focusable.
+- **site/assets/style.css** hero/arch focus parity: `.ah-layer:focus-visible { transform: translateY(-3px); box-shadow ring }` + `.ar-layer:focus-visible { transform: translateY(-3px); box-shadow }` (both now lift -3px parity with hover, stroke #9a9aa2/#e8e8ea + ring).
+- **site/assets/style.css** kicker rhythm at 680: `h1.hero + kicker` refined — `@media 680: .kicker 12px/.08/12mb, .sec-title 12mb` so kicker/title spacing matches lede/hint fluid measure (was 11.5/14).
+- **site/assets/style.css** footer mono rhythm: brand `font-weight 500 -.01 #9a9aa2`, meta `line-height 1.5`, at 680 stacked meta now `border-top #232327 + 10px pt + 100% width` for distinct close (mono only).
+- **site/assets/style.css** docs-side 390 hardening: at 390 `a 12.5px/5×8/1.4`, `.side-h 11px/14×6`, `nav gap 4` — tighter measure, no horizontal overflow, harmonizes with docs 11px pre.
+- **site/assets/style.css** plain-lead elevation: `.plain-lead transition + :hover #45454b + shadow + :focus-within #9a9aa2` (subtle lift, mono only).
+- **site/assets/style.css** docs-mini polish: `.dm-tile transition + background #1a1a1d on hover` (surface lift within mono 18 tokens, #7fb3e0 still 7 code-only).
+- **site/assets/style.css** search polish: `.search-panel input::placeholder #5f5f66 .85 + transition border-bottom`.
+- **site/assets/search-index.json** (15 entries): regenerated via `python3 tools/gen-search-index.py` — landing 3795 (hero hint added), docs refreshed; `python3 tools/check-site.py` → OK: 15 pages, 248 links, 15 entries.
+
+### Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof)
+
+- curl 200 on /, /assets/style.css (912 lines, contains plain-lead:hover + ah-layer:focus-visible transform + 680 kicker + footer stacked border), /assets/site.js (node --check ok), /assets/search-index.json (15, regenerated, landing 3795), /docs/*, /assets/og-card.png (36 hits retained, 48176 bytes)
+- node --check site/assets/site.js → ok
+- python3 tools/gen-search-index.py → Wrote 15 entries (landing 3795); python3 tools/check-site.py → OK: 15 pages, 248 internal links, 15 index entries — all routes resolve
+- sections 12, dup </main> 1, hint 9 (hero +1, 44em unified, 680 fluid, 390 11.5), panes tabindex 26, hero hint 1, data-labels 12, caption 1, scope 3, docs-mini 1, hero-stats 1, security-pane focusable 1, seam-pane 1, term-legend 1, plain-lead 6 pages + hover #45454b, landing copy-btn 3, docs copy-btn 22, live regions 9, focus-visible 47, reduced-motion 4 blocks, hex 18 tokens (#7fb3e0 7 code-only, #1a1a1d mono surface lift)
+- landing jargon 0, console.log false, overflow-x clip true, 900/820/680/390 present (kicker 12px at 680, 11px at 390; docs-side 12.5px at 390; footer stacked border at 680; hero/arch focus lift parity)
+- artifacts: audit/cycle-12-* (curl, index/style.js/search-index, source/post) inside repo, server log still audit/server-cycle02.log (kept alive, verified via curl only)
+
+Commit: site: infinite loop cycle 12 — hero/arch focus parity (lift on focus), kicker 680 rhythm, footer stacked border, 390 docs-side hardening, plain-lead elevation, dm-tile surface lift
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 13 plan (loop continues — do not stop after cycle 12)
+- Next sweep: typography vertical rhythm re-audit (pane+hint 14 / hint+body 18 / kicker/title/body 14mb consistency), SVG contrast micro-audit per pane at 820/390, terminal/search focus polish completeness, continue humanize + monochrome discipline.
 - Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
 - No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
