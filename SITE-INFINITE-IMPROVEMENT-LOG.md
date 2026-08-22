@@ -583,3 +583,39 @@ Push: feat/mindos-docs-site — verified via curl after push
 - Next sweep: docs plain-lead vs landing lede harmony re-check, per-section SVG hover/focus contrast at 820/390, table mobile 390 contrast re-audit, reduced-motion completeness for launch ticket.
 - Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
 - No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
+
+---
+
+## Cycle 18 — Typography harmony + spacing scale consumption + security distinct + 820 polish (supervised cycle 6, 2026-08-21)
+
+### Pre-checks (curl + source only — server still 127.0.0.1:8899, no restart)
+- curl http://127.0.0.1:8899/ → 200 (36 hits, 50217 bytes), /assets/* 200, /assets/search-index.json 200 (15), /docs/* 200, og-card.png 200, node --check ok
+- Source: site/index.html 553 lines, site/assets/style.css 1033, site/assets/site.js 322, 12 sections, dup </main> 1, hex 18 tokens strict mono (#1a1a1d lift, #7fb3e0 7 code-only), focus-visible 59, reduced-motion 4, landing jargon 0, console clean
+- Triple-check every section: hero radial wash + hero-cred grouped OK, rail 5-step 120/340/560/780/1000 420ms, walk cards 5 lifted, window supersede focusable, machine snap 90/180/270+620/850, terminal legend+pane, branch growth from 300 stop, vs-git table scoped/caption/data-label 680 cards, seam 3 pauses 200/380/560, layered dual pulse, launch ticket 3 steps min-520. Issues found: p.body 46em outlier vs hint/meta 44em vs lede 42em (measure break), seam-list li also 46em, spacing scale only 18 usages while hero-grid 56/48, section 88, grid gaps 20, docs-layout 48 hard-coded remain, #security duplicate archetype-compare with vs-git (11 distinct archetypes not 12), launch 820 not stepped (hero gap 36 but launch unchanged).
+
+### Edits applied (substantial block-level redesign)
+
+- **site/index.html security archetype distinct**: changed `#security` from `archetype-compare` → `archetype-security` (resolves duplicate-compare, now 12 distinct archetypes: hero/rail/walk/window/machine/terminal/branch/compare/seam/layered/security/launch — per-section distinct layouts invariant restored).
+- **site/assets/style.css typography measure harmony**: `p.body` 46em→44em + `.seam-list li` 46em→44em (now p.body/hint/meta/seam all 44em vs lede/plain-lead 42em, sec-title 18em/hero 17em balance — measure system harmonized, 46em max-width removed, comment updated cycle 18).
+- **site/assets/style.css spacing scale consumption (code-quality)**: hero-grid gap 56→var(--s-48), section padding 88 0→var(--s-48) 0 88 + first-type var, grid-2/3 gap 20→var(--s-22), docs-layout gap 48→var(--s-48) + padding var, docs-grid 16/36→var(--s-16)/var(--s-36), prev-next 16→var(--s-16), @media 900 hero gap 40→var(--s-36) docs gap 24→var(--s-22), @media 900 archetype-hero gap 48→var(--s-36), @media 820 launch-head/body/steps + security pane all var (14/18/12→var). Var usages 18→36 (single source, monotonic 56→48→36→28 progression restored at 900/820/680).
+- **site/assets/style.css archetype-security distinct**: `.archetype-security { #0a0a0b }` + `.security-pane { #0f0f12, left 2px #34343a, 8×24 shadow, ::before hairline }` + even tint `#08080a` (19th mono token, retains strict mono #7fb3e0 7 code-only). Visually distinct from compare card (#0d0d0f vs #0a0a0b), left accent matches rail/launch grammar.
+- **site/assets/search-index.json** (15 entries): regenerated via `python3 tools/gen-search-index.py` — landing 3800 retained (security archetype class change does not affect copy), docs refreshed; `python3 tools/check-site.py` → OK: 15 pages, 248 links, 15 entries.
+
+### Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof)
+
+- curl 200 on /, /assets/style.css (1033 lines, var 36 + archetype-security + 44em), /assets/site.js (node --check ok), /assets/search-index.json (15, regenerated), /docs/*, /assets/og-card.png (36 hits retained)
+- node --check site/assets/site.js → ok
+- python3 tools/gen-search-index.py → Wrote 15 entries (landing 3800); python3 tools/check-site.py → OK: 15 pages, 248 internal links, 15 index entries — all routes resolve
+- sections 12, dup </main> 1, hints 12 (each section 1), panes tabindex 28, hero hint 1, data-labels 12, caption 1, scope 3, docs-mini 1, hero-stats 1, security-pane 1 (focusable, now security archetype), seam-pane 1, term-legend 1, plain-lead 6 pages + hover #45454b, landing copy-btn 3, docs copy-btn 22, live regions 9, focus-visible 59, reduced-motion 4 blocks, hex 19 tokens (#7fb3e0 7 code-only, #08080a mono wash added)
+- landing jargon 0, console.log false, overflow-x clip true, 900/820/680/390 present (p.body 44em at 680 fluid, section var gaps, security distinct at all widths)
+- artifacts: audit/cycle-18-source-check.md, audit/cycle-18-post-edit.md, audit/cycle-18-curl.html, audit/cycle-18-index.html/style.css/site.js/search-index.json (inside repo), server log still audit/server-cycle02.log (kept alive, verified via curl only)
+
+Commit: site: infinite loop cycle 18 — typography 44em harmony, spacing scale 36 vars, security distinct archetype (12 distinct), 820 launch polish
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 19 plan (loop continues — do not stop after cycle 18)
+- Next sweep: per-section SVG motion contrast at 390, docs vs landing code-token discipline (#7fb3e0 only on code), hero credibility rail micro-alignment, table vs-git vs security visual contrast re-audit.
+- Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
+- No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
