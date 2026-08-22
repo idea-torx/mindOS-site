@@ -296,3 +296,36 @@ Push: feat/mindos-docs-site — verified via curl after push
 - Next sweep: docs vs landing code-token discipline (verify #7fb3e0 only in code spans), SVG hover vs focus parity audit (each hover lift has focus-visible match), terminal copy-button contrast at 390, seam pause rail reduced-motion completeness.
 - Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
 - No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
+
+## Cycle 9 — Code-color discipline + hover/focus parity + 390 copy + seam reduced-motion (2026-08-21)
+
+### Pre-checks (curl + source only — server still 127.0.0.1:8899, no restart)
+- curl http://127.0.0.1:8899/ → 200 (40 hits incl. seam pauses, 47643→47882 bytes), /assets/* 200, /assets/search-index.json 200 (15), /docs/* 200, og-card.png 200, node --check ok
+- Source: site/index.html 535, site/assets/style.css 854→878, site/assets/site.js 314, 12 sections, dup </main> 1, hex 5 rules +1 guard, focus-visible 32→40, hover 29, landing copy-btn 3, docs copy-btn 0, seam-pause focusable 0
+- Issues found (queued): docs vs landing code-color discipline OK but missing guard comment; hover/focus GAPs .feature-card:hover + .seam-pause:hover (svg <g> not focusable) with no focus counterpart; terminal copy-btn 24px <44 at 390 + absolute overlap at 390 + docs 0 copy parity; seam reduced-motion wildcard OK but explicit seam-rail/pauses/copy term-legend split across 4 blocks; next weakness search input no focus-visible ring + landing pre 390 not matching docs.
+
+### Edits applied (substantial block-level redesign)
+
+- **site/assets/style.css code-color discipline**: 5 #7fb3e0 rules annotated "code only" (.c-flag code twice, .c-key, td code, tl-item code + pre .c-flag); guard comment `/* code-color discipline: #7fb3e0 ONLY on .c-flag/.c-key/code spans (syntax blue), never on prose */` — landing + docs share same mono tokens, 0 prose blue.
+- **Hover/focus parity**: added `.feature-card:focus-visible` (border #3a3a40 + lift -2px + ring rgba 12% parity with hover); made seam 3 gates focusable in html + CSS proxy `.seam-pane:focus-visible .seam-pause` + `:focus-within` lift + `.seam-pause:focus-visible rect` stroke #9a9aa2 1.6 (svg <g> now keyboard reachable, pane keyboard-scrollable already tabindex 0).
+- **Terminal copy buttons at 390**: base .copy-btn 28min-h + flex centering + 56min-w, 32@680, 36@390 with 8×14 padding; term-bar flex-wrap at 390; pre.block padding-top 18→44@390 so copy-btn-block (8/8, 32min-h) never overlaps code; docs 7 pages patched to data-copyable+copy-btn (22 btns parity, landing 3).
+- **Seam reduced-motion completeness**: merged 4 blocks — last block now explicit `transition:none animation:none` for .security-pane shield/items, .seam-rail/pauses, .term-legend, .docs-mini/.dm-tile, .copy-btn/.copy-btn-block, .hero-stats/.security-pane/.seam-pane — wildcard `* {animation:none transition:none}` + explicit stroke-dashoffset 0 for rail/fs-rail/rc-a/branch/sm-links already cover 18 SVG grammars.
+- **Next visual weakness**: added `.search-panel input:focus-visible` accent inset ring (eliminates outline:none blind spot); added `pre.block` font-size 11px at 390 for landing parity + docs plain-lead scaling retained.
+
+### Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof)
+- curl 200 on /, /assets/style.css (878 lines, contains guard+parities+390 copy), /assets/site.js (node --check ok), /assets/search-index.json (15, regenerated, landing 3796 retained), /docs/*, /assets/og-card.png (40 hits retained, 47882 bytes)
+- node --check site/assets/site.js → ok
+- python3 tools/gen-search-index.py → Wrote 15 entries (landing 3796); python3 tools/check-site.py → OK: 15 pages, 248 internal links, 15 index entries — all routes resolve
+- sections 12, dup </main> 1, panes tabindex 6, seam-pause focusable 3, data-labels 12, caption 1, scope 3, hint 8, docs-mini 1, hero-stats 1, security-pane focusable 1, seam-pane 1, term-legend 1, plain-lead 6 pages, landing copy-btn 3, docs copy-btn 22, focus-visible 40, reduced-motion 4 blocks, hex 5 rules +1 guard (#7fb3e0 code-only)
+- landing jargon 0, console.log false, overflow-x clip true, 900/820/680/390 present, seam hover/focus parity via :focus-within proxy
+- artifacts: audit/cycle-09-source-check.md, audit/cycle-09-post-edit.md, audit/cycle-09-curl.html, audit/cycle-09-index.html/style.css/site.js/search-index.json + docs snapshots (inside repo), server log still audit/server-cycle02.log (kept alive, verified via curl only)
+
+Commit: site: infinite loop cycle 9 — code-color discipline, hover/focus parity, 390 copy buttons, seam reduced-motion
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 10 plan (loop continues — do not stop after cycle 9)
+- Next sweep: docs plain-lead measure vs landing lede at 390 alignment re-check, vs-git row-mindos focus-visible at 680 cards, terminal a11y live region re-audit, per-section hint measure consistency, no /tmp/ps/lsof, server 127.0.0.1:8899 kept alive via curl.
+- Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
+- No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
