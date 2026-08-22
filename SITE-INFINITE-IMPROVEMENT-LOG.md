@@ -686,3 +686,41 @@ Push: feat/mindos-docs-site — verified via curl after push
 - Next sweep: docs plain-lead vs landing lede measure harmony re-check, per-section SVG stroke contrast at 820/390, table mobile card focus ring completeness, launch ticket hover vs focus parity at 390.
 - Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
 - No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
+
+---
+
+## Cycle 21 — Walk cards focusable + rec-cards distinct + spacing vars + 820 hero-cred (supervised cycle 9, 2026-08-21)
+
+### Pre-checks (curl + source only — server still 127.0.0.1:8899, no restart)
+- curl http://127.0.0.1:8899/ → 200 (35 hits, 50236→50695 bytes), /assets/* 200, /assets/search-index.json 200 (15), /docs/* 200, og-card.png 200, node --check ok
+- Source: site/index.html 553 lines, site/assets/style.css 1036→1055 lines after edits, site/assets/site.js 335, 12 sections, hints 12, dup </main> 1, hex 19 tokens strict mono (#7fb3e0 7 code-only), focus-visible 58, reduced-motion 4, landing jargon 0, console clean
+- Triple-check every section: hero-cred grouped but 820 hero-stats no step (gap 12 vs 10 at 680, padding 14×18 identical at all widths); walk 5-step plain cards lack keyboard focus (div not tabbable) + no left accent vs rail pane 2px #34343a grammar + no editorial stagger vs rail cascading 120/340/…; recovery grid-2 plain bodies lack card elevation vs walk/launch card system — branch archetype visually weak below pane; spacing scale 55 usages but sm-notes gap 24 + rec-cards gap + seam 26 not var; hover 38 vs focus-visible 58 parity gap (walk/rec not covered); reduced-motion missing rec-cards.
+
+### Edits applied (substantial block-level redesign)
+
+- **site/index.html walk editorial (5 cards)**: each `.dw-card` now `tabindex="0" role="article" aria-label="Step N — …"` (keyboard focusable parity with diagram panes, 5 focusable cards) — editorial walk now distinct from failure rail (rail SVG vs walk card list) with per-card accessibility, retains narrow-day 860 + 22→12 gap at 680.
+- **site/index.html recovery → rec-cards**: replaced plain `.grid-2` two bodies with `.rec-cards` editorial pair (2 `rec-card` cards `tabindex="0" role="article"` — rehearse-first + hash-chained, mono kicker 10.5px uppercase, h3 15.5, left 2px #2a2a30 accent, hover #34343a lift -2px shadow 4×16, focus-visible #9a9aa2 ring + lift, 2→1 col at 680, gap var(--s-22)→var(--s-16)). Branch archetype now has distinct pane + card pair (mono only, no saturated color).
+- **site/assets/style.css walk cards distinct**: `.dw-card` now `border-left 2px #2a2a30` + `:focus-visible` lift -2px + ring + `:focus-within` accent + `@media hover` left #34343a parity; added walk stagger `nth-child 80/160/240/320/400ms` cascading editorial rhythm (mono, reduced-motion safe).
+- **site/assets/style.css rec-cards system**: added `.rec-cards/.rec-card` block (surface-1/border/left 2px #2a2a30, kicker mono, 18×20 pad, hover/focus parity, 680 1col). Distinct from walk (walk has badge 01-05 + spine 2px, rec has kicker + 2-col grid).
+- **site/assets/style.css spacing scale consumption (code-quality)**: `.sm-notes gap 24→var(--s-24)`, `.rec-cards gap var(--s-22)→var(--s-16) at 680`, `.seam-list 26→26 retained but gap 18→var(--s)`, `hero-cred 820` added `hero-stats gap 10 + padding 14×16` (harmonizes 680 12×16 vs 820 14×16 stepped), vars 55→59.
+- **site/assets/style.css focus-visible hardening**: extended hardening list to include `.dw-card/.rec-card:focus-visible` (58→62), reduced-motion last block now includes `.rec-card` + `.walk-cards .dw-card` explicitly (already wildcard but now explicit).
+- **site/assets/search-index.json** (15 entries): regenerated via `python3 tools/gen-search-index.py` — landing 3800 retained (walk/rec humanized, step labels already indexed), docs refreshed; `python3 tools/check-site.py` → OK: 15 pages, 248 links, 15 entries.
+
+### Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof)
+
+- curl 200 on /, /assets/style.css (1055 lines, contains dw-card:focus-visible + rec-card + 820 hero-stats), /assets/site.js (node --check ok), /assets/search-index.json (15, regenerated, landing 3800), /docs/*, /assets/og-card.png (35 hits retained, 50695 bytes)
+- node --check site/assets/site.js → ok
+- python3 tools/gen-search-index.py → Wrote 15 entries (landing 3800); python3 tools/check-site.py → OK: 15 pages, 248 internal links, 15 index entries — all routes resolve
+- sections 12, dup </main> 1, hints 12 (each section 1), panes tabindex 35 (+5 walk +2 rec), dw-card focusable 5, rec-card 2, data-labels 12, caption 1, scope 3, docs-mini 1, hero-stats 1, security-pane 1 (focusable, security archetype), seam-pane 1, term-legend 1, launch-pane 1, plain-lead 6 pages, landing copy-btn 4, docs copy-btn 22, live regions 9, focus-visible 62 (+4 walk/rec), reduced-motion 4 blocks (rec-cards harmonized), hex 19 tokens (#7fb3e0 7 code-only), vars 59
+- landing jargon 0, console.log false, overflow-x clip true, 900/820/680/390 present (rec-cards 1col at 680, dw left 2px at 820/390, walk stagger 80/160/240/320/400)
+- artifacts: audit/cycle-21-* (curl, index/style.js/search-index, source/post) inside repo, server log still audit/server-cycle02.log (kept alive, verified via curl only)
+
+Commit: site: infinite loop cycle 21 — walk cards focusable + left accent + stagger, recovery editorial rec-cards distinct, spacing vars 59 + 820 hero-cred, focus-visible 62
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 22 plan (loop continues — do not stop after cycle 21)
+- Next sweep: docs vs landing code-token discipline (#7fb3e0 only on code), SVG hover vs focus parity at 820/390 per pane, terminal/docs pre overflow at 390 re-flow, docs side-nav 820/390 tightness.
+- Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
+- No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
