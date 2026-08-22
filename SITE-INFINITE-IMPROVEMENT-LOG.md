@@ -477,3 +477,37 @@ Push: feat/mindos-docs-site — verified via curl after push
 - Next sweep: code-token discipline re-scan, SVG hover vs focus parity at 820/390 per pane (each lift transparent box-shadow + stroke), terminal/docs pre overflow at 390 re-flow, docs side-nav 820/390 hierarchy tightness, continue humanize + monochrome discipline.
 - Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
 - No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
+
+---
+
+## Cycle 15 — SVG geometry consolidation + sticky scroll + hover/focus parity + hero/arch alignment (supervised cycle 1, 2026-08-21)
+
+### Pre-checks (curl + source only — server still 127.0.0.1:8899, no restart)
+- curl http://127.0.0.1:8899/ → 200 (36 hits, 48384 bytes), /assets/* 200, /assets/search-index.json 200 (15), /docs/* 200, og-card.png 200, node --check ok
+- Source: site/index.html 536 lines, site/assets/style.css 951 lines, site/assets/site.js 314, 12 sections, dup </main> 1, hex 18 tokens strict mono (#1a1a1d retained, #7fb3e0 3 code-only), focus-visible 58, reduced-motion 4, landing jargon 0, console clean
+- Issues found (triple-check every section): hero L3 at 24×412 misaligned vs L1/L2/L4 at 40×380; arch L1-4 at 40×680 vs new 60×640 grid; sm proven/done 548×164 → 560×140 asymmetry + stroke missing 1.5; seam pauses 98/338/578 uneven gutters + 16/10.5 fonts vs 14/11 system + stroke missing; security shield 20→26 off-center; rec X 1.6 + rel icon 2.4 outliers vs 1.5/2/3 system; stroke-widths 5 values (1.5/1.6/2/2.4/3) need 3-value consolidation; no scroll-margin/padding for sticky 60px header (anchor clipped); fail-pane + sm-pane hover without focus parity; hero-art no 820 max-460 centering; CSS vars --ease-out/--dur declared but not documented as geometry audit.
+
+### Edits applied (substantial block-level redesign)
+
+- **site/index.html SVG geometry audit (5 diagrams, mono grid)**: hero L3 24×412→40×380 (aligns with L1/L2/L4, all 40×380, node r 5→4, check 392→399, seal 1.2→1.5); arch L1-4 40×680→60×640 (all 60×640, gap consistent); state machine proven/done 548×164→560×140 + line 542→554 + path 630→630 v40 H248 v44 (symmetric 60-gap rail, stroke 1.5 on all rects); seam pauses 98→111/565 + rect stroke 1.5 + font 16→14 / 10.5→11 + centered gutters 143; security shield 20→26 + 1.6→1.5 + item cx 140→130/152→142 (centered); memory rect/circle 1.5 + pulse 168 v20→184 v14 + B 300→280 width; branch X 1.6→1.5 + handoff 112→120 + rect 1.5 + rail 2→1.5 + loop 1.2→1.5; rel icon 2.4→2. All stroke-width now only 1.5/2/3 (removed 1.6/2.4), fonts 11/12/13.5 system.
+- **site/assets/style.css sticky + parity + rhythm**: added --ease-out/--dur-sm/--dur-md vars with geometry audit comment; .section scroll-margin-top 72 + html/body scroll-padding-top 72 for sticky header anchor correctness; fail-pane .fs-step:hover circle #e8e8ea + sm-pane hover/focus parity (rect stroke #9a9aa2, lift -2px, focus ring); hero-art @820 max-460 centering; pane focus-visible extended to fail/mem/sm/rec/arch; archive strict mono (#7fb3e0 7 code-only).
+- **site/assets/search-index.json** (15 entries): regenerated via `python3 tools/gen-search-index.py` — landing 3795 retained, docs refreshed; `python3 tools/check-site.py` → OK: 15 pages, 248 links, 15 entries.
+
+### Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof)
+
+- curl 200 on /, /assets/style.css (951 lines, contains scroll-margin + vars + hover parity), /assets/site.js (node --check ok), /assets/search-index.json (15, regenerated, landing 3795), /docs/*, /assets/og-card.png (36 hits retained, 48384 bytes)
+- node --check site/assets/site.js → ok
+- python3 tools/gen-search-index.py → Wrote 15 entries (landing 3795); python3 tools/check-site.py → OK: 15 pages, 248 internal links, 15 index entries — all routes resolve
+- sections 12, dup </main> 1, hint 9 (hero +1, 44em unified, 680 fluid, 390 11.5), panes tabindex 26, hero hint 1, data-labels 12, caption 1, scope 3, docs-mini 1, hero-stats 1, security-pane focusable 1, seam-pane 1, term-legend 1, plain-lead 6 pages + hover #45454b, landing copy-btn 3, docs copy-btn 22, live regions 9, focus-visible 58, reduced-motion 4 blocks, hex 18 tokens (#7fb3e0 7 code-only, #1a1a1d mono surface lift retained)
+- SVG stroke-widths 1.5/2/3 only, jargon 0, console.log false, overflow-x clip true, 900/820/680/390 present (scroll-margin 72 at all, stroke consolidation verified)
+- artifacts: audit/cycle-15-* (curl, index/style.js/search-index, source/post) inside repo, server log still audit/server-cycle02.log (kept alive, verified via curl only)
+
+Commit: site: infinite loop cycle 15 — SVG geometry consolidation (hero/arch/sm/seam/security/branch alignment, stroke 1.5/2/3), sticky scroll-margin 72, hover/focus parity, 820 hero centering
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 16 plan (loop continues — do not stop after cycle 15)
+- Next sweep: terminal/docs pre overflow 390 re-flow re-audit, docs side-nav 820/390 hierarchy tightness, per-section reduced-motion completeness at 680/390, code-token discipline re-scan.
+- Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
+- No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
