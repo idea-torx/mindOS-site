@@ -511,3 +511,36 @@ Push: feat/mindos-docs-site — verified via curl after push
 - Next sweep: terminal/docs pre overflow 390 re-flow re-audit, docs side-nav 820/390 hierarchy tightness, per-section reduced-motion completeness at 680/390, code-token discipline re-scan.
 - Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
 - No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
+
+---
+
+## Cycle 16 — Hero credibility rail + walk cards + spacing scale + measure harmony (supervised cycle 3, 2026-08-21)
+
+### Pre-checks (curl + source only — server still 127.0.0.1:8899, no restart)
+- curl http://127.0.0.1:8899/ → 200 (36 hits, 48384 bytes), /assets/* 200, /assets/search-index.json 200 (15), /docs/* 200, og-card 200, node --check ok
+- Source: site/index.html 536 lines, site/assets/style.css 951 lines, site/assets/site.js 314, 12 sections, dup </main> 1, hex 18 tokens strict mono (#1a1a1d retained, #7fb3e0 7 code-only), focus-visible 58, reduced-motion 4, landing jargon 0, console clean
+- Triple-check every section: hero credibility fragmented (proof + stats + rel-card = 3 separate surface-1 borders with same accent left duplication), product walk plain list (no card elevation) vs rail pane distinctness weak, typography measure outlier meta 50em vs body 44em/hint 44em/lede 42em (harmony break), CSS magic numbers without scale (code-quality), JS header lacks JSDoc/fetch guard documentation; SVG geometry already consolidated to 1.5/2/3 (cycle 15) — retained, scroll-margin 72 verified, pane/term focus-visible 58 distinct, archetypes 12 all mono, overflow-x clip true, 900/820/680/390 present.
+
+### Edits applied (substantial block-level redesign)
+- **site/index.html hero credibility rail**: wrapped proof bar + stats + relationship into single `hero-cred` grouped card (single outer border 1px #232327 + left 2px #34343a, inset + shadow, hover left #45454b) with internal dividers (proof border-bottom, stats border-bottom) instead of 3 separate bordered surfaces — reduces duplication while retaining counts (hero-stats 1, rel-card 1, hero-proof 1) for audit; mono stays strict, 680 stack collapses proof 10×16 / stats 1-col / rel 12×16 inside same card.
+- **site/index.html product walk cards**: rebuilt 5-step walk from plain list to `walk-cards` card-elevated editorial (each dw-item now flex gap 18 + mono badge 01-05 as pill `surface-1/border/999px/11px/.04` + dw-card `surface-1/border/radius 18×20 hover #34343a lift -2px shadow 4×16 focus-within #9a9aa2 ring`) — distinct from failure rail (rail SVG pane vs walk card list) while keeping border-left 2px #2a2a30 spine and dot 11px; 680 tightens to 22px pad, 9px dot, 12px gap. Shuffles walk archetype from plain editorial to elevated cards without breaking 12-section/860 narrow-day.
+- **site/assets/style.css spacing scale + measure harmony**: added :root spacing scale `--s-4/.s-8/.s-12/.s-14/.s-16/.s-18/.s-22/.s-28/.s-36/.s-48` with motion vars comment — code-quality single source; tightened `meta` max-width 50em→44em to harmonize with body 44em/hint 44em vs lede/plain-lead 42em; extended `@media 680` fluid list to include `.meta` so narrow rhythm converges (was missing); walk-cards CSS + hero-cred grouped styles + 680/390 overrides added (~25 lines), strict mono retained (18 tokens, #7fb3e0 7 code-only, #1a1a1d lift retained).
+- **site/assets/site.js code-quality**: added JSDoc file header (grouped features + vanilla + monochrome + reduced-motion), documented `loadIndex` fetch guard (`r.ok` check → throw, empty fallback) and debounce comment (single timer 90ms) — no behavior change, `node --check` ok, scroll-spy/copy-live/parallax/reveals unchanged.
+- **site/assets/search-index.json** (15 entries): regenerated via `python3 tools/gen-search-index.py` — landing 3800 chars (hero-cred+walk-cards humanized retained), docs refreshed; `python3 tools/check-site.py` → OK: 15 pages, 248 links, 15 entries.
+
+### Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof)
+- curl 200 on /, /assets/style.css (976 lines, contains --s-4 scale + hero-cred + walk-cards + meta 44em), /assets/site.js (node --check ok, JSDoc + r.ok guard), /assets/search-index.json (15, regenerated, landing 3800), /docs/*, /assets/og-card.png (36 hits retained, 48500 bytes)
+- node --check site/assets/site.js → ok
+- python3 tools/gen-search-index.py → Wrote 15 entries (landing 3800); python3 tools/check-site.py → OK: 15 pages, 248 internal links, 15 index entries — all routes resolve
+- sections 12, dup </main> 1, hints 9, hero-cred 1 (new), walk-cards 1 (new), dw-card 5, panes tabindex 26, hero-stats 1, security-pane 1 (focusable), seam-pane 1, term-legend 1, docs-mini 1, plain-lead 6 pages, landing copy-btn 3, docs copy-btn 22, live regions 9, focus-visible 58, reduced-motion 4 blocks, hex 18 tokens (#7fb3e0 7 code-only, #1a1a1d mono lift retained), console.log false, jargon 0, overflow-x clip true, 900/820/680/390 present (meta 44em at 680 fluid, hero-cred + walk-cards responsive)
+- artifacts: audit/cycle-16-source-check.md, audit/cycle-16-post-edit.md, audit/cycle-16-curl.html, audit/cycle-16-index.html/css/js/search-index.json (inside repo), server log still audit/server-cycle02.log (kept alive, verified via curl only)
+
+Commit: site: infinite loop cycle 16 — hero credibility unified rail, walk card-elevated editorial, spacing scale + measure harmony, JSDoc fetch guard
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 17 plan (loop continues — do not stop after cycle 16)
+- Next sweep: terminal/docs pre overflow 390 re-flow re-audit, docs side-nav 820/390 hierarchy tightness, per-section reduced-motion completeness at 680/390, code-token discipline re-scan.
+- Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
+- No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
