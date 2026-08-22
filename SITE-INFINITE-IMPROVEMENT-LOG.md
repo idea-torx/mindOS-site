@@ -153,3 +153,34 @@ Push: feat/mindos-docs-site — verified via curl after push
 - SVG contrast re-audit per section (faint #5f5f66 vs bg, muted #34343a vs accent) + focus-visible ring audit
 - Typography vertical rhythm + pane spacing consistency pass
 - Do not stop after one plan — each cycle commits and pushes verified increment
+
+---
+
+## Cycle 5 — Audit sweep + rhythm + focus + 390/820 overflow hardening (2026-08-21)
+
+### Pre-checks (curl + source only — server still 127.0.0.1:8899, no restart)
+- curl http://127.0.0.1:8899/ → 200 (35 hits), /assets/* 200, /assets/search-index.json 200 (15), /assets/og-card.png 200, /docs/* 200, node --check ok
+- Source: site/index.html 524 lines, site/assets/style.css 704, site/assets/site.js 314, 12 sections, dup </main> 1, hex strict mono, jargon 0, console clean
+- Audit findings: panes not keyboard-scrollable at 390 (overflow-x auto but figure not focusable); no 820 intermediate breakpoint (jump 900→680); body could horizontally scroll when pane svg 560 overflows at 390; focus-visible missing for copy-btn/menu-toggle/search-btn; pane borders inconsistently faint (#34343a on #101014 washed out); vertical gaps ad-hoc (gap-top 36 only, pane+hint not systematized); footer not stacking rhythmically at narrow.
+
+### Edits applied (substantial block-level redesign)
+- **site/index.html**: 6 diagram panes (fail/mem/sm/rec/arch + seam) now `tabindex="0"` with extended aria-label "Scroll to see full diagram on narrow screens." — keyboard scroll at 390 + SR hint; security pane already focusable. Total panes focusable 6.
+- **site/assets/style.css**: vertical rhythm system (8px base — reveal+pane/term/card 28→22 mobile, pane+hint 14, hint+body 18, kicker/title/body 14mb); 820 breakpoint (hero gap 36, term 12px, pane 22×18, hero 48/64, sm-notes 18, seam-list 14); 390 breakpoint (wrap 16, header 16, hero 28px, hero-proof 11.5, hero-stats 12×14, term 11px, pane svg 520, security 16×14); overflow hardening (`html,body overflow-x: clip`, thin scrollbar + thumb #34343a, focus-visible ring on scroll containers at 820); footer 36/48→28/36 mobile + column stack at 680; focus-visible hardening (copy-btn/menu-toggle/search-btn/btn/site-nav — 2px solid #e8e8ea offset 2, border #9a9aa2 + shadow); SVG contrast lift (rail #34343a→#45454b, window #2a2a30→#34343a, machine/branch #2a2a30 retained — all mono tokens).
+- **site/assets/site.js**: unchanged (314) — scroll-spy/copy-live/parallax/reveals retained, node --check ok.
+
+### Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof)
+- curl 200 on /, /assets/style.css (overflow-x/820/390/focus-visible present), /assets/site.js (node --check ok), /assets/search-index.json (15), /docs/*, /assets/og-card.png (35 hits retained)
+- node --check site/assets/site.js → ok
+- sections 12, dup </main> 1, panes tabindex 6, data-labels 12, hint 8, focus-visible 25, reduced-motion 4 blocks, hex strict mono (#45454b rail bump within mono, #7fb3e0 code-only)
+- jargon 0, console.log false, overflow-x clip true, 820 + 390 breakpoints present, pane 560/520 scroll inside wrapper no body scroll
+- artifacts: audit/cycle-05-source-check.md, audit/cycle-05-post-edit.md, audit/cycle-05-curl.html, audit/cycle-05-index.html/css/js (inside repo), server log still audit/server-cycle02.log
+
+Commit: site: infinite loop cycle 5 — audit sweep, vertical rhythm, focus-visible hardening, 390/820 overflow + keyboard-scrollable panes, SVG contrast lift
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 6 plan (loop continues — do not stop after cycle 5)
+- Continue infinite loop: next block-level archetype refinement (e.g., richer docs entry affordance or per-section motion timing re-audit), humanize any remaining dense prose, monochrome discipline re-scan.
+- Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
+- No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
