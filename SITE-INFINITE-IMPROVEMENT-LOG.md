@@ -445,7 +445,35 @@ Push: feat/mindos-docs-site — verified via curl after push
 
 ---
 
-## Cycle 14 plan (loop continues — do not stop after cycle 13)
-- Next sweep: docs vs landing code-token discipline re-scan (#7fb3e0 5 rules + guard retained), SVG hover vs focus parity re-audit at 820/390 (each pane lift has focus match), terminal copy-button hit-target at 390 re-check, search input focus-visible ring completeness, continue humanize + monochrome discipline.
+## Cycle 14 — 820 rhythm + branch/window contrast + pre.block focus parity + docs layout tighten (2026-08-21)
+
+### Pre-checks (curl + source only — server still 127.0.0.1:8899, no restart)
+- curl http://127.0.0.1:8899/ → 200 (36 hits, 48176 bytes), /assets/style.css 200 (926→937 lines after edits), /assets/site.js 200, /assets/search-index.json 200 (15), /docs/* 200, og-card.png 200, node --check ok
+- Source: site/index.html 536 lines (hero hint retained), site/assets/style.css 926 lines, site/assets/site.js 314, 12 sections, dup </main> 1, hex 18 tokens strict mono (#1a1a1d retained, #7fb3e0 7 code-only), focus-visible 44, reduced-motion 4, landing jargon 0, console clean
+- Issues found (queued from cycle 13 plan): 820 intermediate still jumps 900→680 for plain-lead/gloss/hint (no scale vs hero/term measure at 820); docs-layout gap 48 vs 24 at 680 with no 820 step — jump 48→24 abrupt; dm-tiles gap 12 vs 1-col at 680 no 820 tighten; branch/window panes both #2a2a30 at all widths — no distinct close at 820/390 vs rail #45454b progression; pre.block (landing + docs) has no :focus-visible/:focus-within vs .term parity — keyboard scroll at narrow only pane/term announce focus ring; search input focus-visible already wired but pre.block missing at 820 ring list.
+
+### Edits applied (substantial block-level redesign)
+
+- **site/assets/style.css 820 rhythm**: extended `@media 820` — plain-lead 15px/1.6 12×14, gloss 13px/1.55, hint 12.5/1.55, docs-layout gap 48→36, dm-tiles gap 12→10 — 820 now harmonizes so 900→820→680 progression is stepped, not jumped (matches hero gap 36 + term 12 + pane 22×18 at 820 system).
+- **site/assets/style.css SVG contrast micro-audit at 820/390**: at 820 `.archetype-branch .rec-pane` + `.archetype-window .mem-pane` border #2a2a30→#34343a (distinct close vs rail #45454b lift); at 390 same panes #34343a→#3a3a40 — branch/window now have per-breakpoint contrast stepping 1-2 shades lighter as viewport narrows, matching compare table card stepping (#34343a→#3a3a40→#5f5f66).
+- **site/assets/style.css pre.block focus parity**: added `pre.block:focus-visible { 2px solid var(--accent) offset 2 radius var(--radius) }` + `pre.block:focus-within { border #34343a }` and extended 820 focus-visible ring list to include `pre.block:focus-visible` — docs + landing code blocks now announce focus parity with .term (focus-visible 44→45, reduced-motion 4 retained, #7fb3e0 7 code-only unchanged).
+- **site/assets/search-index.json** (15 entries): regenerated via `python3 tools/gen-search-index.py` — landing 3795 retained, docs refreshed; `python3 tools/check-site.py` → OK: 15 pages, 248 links, 15 entries.
+
+### Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof)
+
+- curl 200 on /, /assets/style.css (937 lines, contains 820 plain-lead 15px + gap 36 + branch #34343a at 820 + pre.block:focus-visible), /assets/site.js (node --check ok), /assets/search-index.json (15, regenerated, landing 3795), /docs/*, /assets/og-card.png (36 hits retained, 48176 bytes)
+- node --check site/assets/site.js → ok
+- python3 tools/gen-search-index.py → Wrote 15 entries (landing 3795); python3 tools/check-site.py → OK: 15 pages, 248 internal links, 15 index entries — all routes resolve
+- sections 12, dup </main> 1, hint 9 (44em unified, 680 fluid, 390 11.5), panes tabindex 26, hero hint 1, data-labels 12, caption 1, scope 3, docs-mini 1, hero-stats 1, security-pane focusable 1, seam-pane 1, term-legend 1, plain-lead 6 pages + hover #45454b, landing copy-btn 3, docs copy-btn 22, live regions 9, focus-visible 45 (pre.block +1 + 820 pre.block), reduced-motion 4 blocks, hex 18 tokens (#7fb3e0 7 code-only, #1a1a1d mono surface lift retained)
+- landing jargon 0, console.log false, overflow-x clip true, 900/820/680/390 present (plain-lead 15px at 820, hint 12.5 at 820, branch/window #34343a at 820 #3a3a40 at 390, pre.block focus-visible parity)
+- artifacts: audit/cycle-14-* (curl, index/style.js/search-index, source/post) inside repo, server log still audit/server-cycle02.log (kept alive, verified via curl only)
+
+Commit: site: infinite loop cycle 14 — 820 rhythm (plain-lead/gloss/hint + docs-layout/dm-tiles), branch/window contrast at 820/390, pre.block focus-visible/within parity
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 15 plan (loop continues — do not stop after cycle 14)
+- Next sweep: code-token discipline re-scan, SVG hover vs focus parity at 820/390 per pane (each lift transparent box-shadow + stroke), terminal/docs pre overflow at 390 re-flow, docs side-nav 820/390 hierarchy tightness, continue humanize + monochrome discipline.
 - Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
 - No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
