@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MindOS: a memory and proof-of-work layer for AI agents</title>
+<meta name="description" content="MindOS gives your AI agents a shared memory that survives crashes, keeps the current decision next to the old one, and requires evidence before anything counts as finished. It runs entirely on your machine.">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%23101012%22/%3E%3Cg transform=%22translate%284 4%29 scale%280.75%29%22%3E%3Crect x=%225%22 y=%2221%22 width=%2222%22 height=%223%22 rx=%221.5%22 fill=%22%239a9aa2%22/%3E%3Crect x=%229%22 y=%2210%22 width=%2214%22 height=%223%22 rx=%221.5%22 fill=%22%23e8e8ea%22/%3E%3Crect x=%2217%22 y=%224%22 width=%226%22 height=%226%22 rx=%221%22 fill=%22%23e8e8ea%22/%3E%3C/g%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MindOS">
+<meta property="og:title" content="MindOS: a memory and proof-of-work layer for AI agents">
+<meta property="og:description" content="MindOS remembers what changed while your agents were away, asks what proves a job is done, and lets another agent pick up mid-task without guessing. Local, private, source-available.">
+<meta property="og:image" content="assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MindOS: a memory and proof-of-work layer for AI agents">
+<meta name="twitter:description" content="MindOS remembers what changed while your agents were away, asks what proves a job is done, and lets another agent pick up mid-task without guessing. Local, private, source-available.">
+<meta name="twitter:image" content="assets/og-card.png">
+</head>
+<body data-site-root="">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html">
+      <svg class="mark mark-static" width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="21" width="22" height="3" rx="1.5" fill="#9a9aa2"/><rect x="9" y="10" width="14" height="3" rx="1.5" fill="#e8e8ea"/><rect x="17" y="4" width="6" height="6" rx="1" fill="#e8e8ea"/></svg>
+      MindOS
+    </a>
+    <nav class="site-nav" id="site-nav" aria-label="Site">
+      <a href="#problem" data-nav="problem">Problem</a>
+      <a href="#product" data-nav="product">A day with MindOS</a>
+      <a href="#memory" data-nav="memory">Memory</a>
+      <a href="#architecture" data-nav="architecture">Architecture</a>
+      <a href="#get-started" data-nav="get-started">Try it</a>
+      <a href="docs/index.html">Docs</a>
+      <button class="search-btn" type="button" data-search-open aria-label="Search documentation">Search <span class="label">docs</span> <kbd>⌘K</kbd></button>
+      <a class="btn btn-ghost btn-sm" href="#get-started">Get started</a>
+    </nav>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">☰</button>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ================= hero — editorial stacked vs layered diagram ================= -->
+<section class="section archetype-hero" id="top">
+  <div class="wrap hero-grid">
+    <div class="hero-copy reveal">
+      <svg class="mark mark-animated" width="28" height="28" viewBox="0 0 32 32" role="img" aria-label="MindOS">
+        <rect class="ms ms-1" x="5" y="21" width="22" height="3" rx="1.5" fill="#9a9aa2"/>
+        <rect class="ms ms-2" x="7" y="14.5" width="18" height="3" rx="1.5" fill="#e8e8ea"/>
+        <rect class="ms ms-3" x="9" y="8" width="14" height="3" rx="1.5" fill="#e8e8ea"/>
+        <rect class="seal" x="17" y="2" width="6" height="6" rx="1" fill="#e8e8ea"/>
+      </svg>
+      <p class="kicker"><span class="k-dot" aria-hidden="true"></span> Autopilot v2 · source-available (FSL-1.1-MIT) · runs on your machine</p>
+      <h1 class="hero">AI agents lose track of their work.<br>MindOS is the memory they share.</h1>
+      <p class="lede">When you run several AI agents, each one only sees its own conversation. MindOS keeps one local record they all read and write: what was decided, what changed since, who is working on what, and what actually proves a job is finished. Everything stays in a single database file on your machine.</p>
+      <div class="btn-row row-start">
+        <a class="btn btn-primary" href="docs/getting-started.html">Get started — 3 commands</a>
+        <a class="btn btn-ghost" href="docs/architecture.html">Read the architecture</a>
+      </div>
+      <div class="hero-proof">
+        <span class="proof-item">Python 3.9+ · no deps</span>
+        <span class="proof-sep" aria-hidden="true">·</span>
+        <span class="proof-item">SQLite home you own</span>
+        <span class="proof-sep" aria-hidden="true">·</span>
+        <span class="proof-item">no server to run</span>
+      </div>
+      <div class="hero-stats reveal" aria-label="At a glance">
+        <div class="hs-item"><span class="hs-val">1 file</span><span class="hs-label">you own and can read</span></div>
+        <div class="hs-item"><span class="hs-val">5 states</span><span class="hs-label">proof before done</span></div>
+        <div class="hs-item"><span class="hs-val">rehearse → undo</span><span class="hs-label">one command</span></div>
+      </div>
+      <div class="rel-card" aria-label="Relationship">
+        <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#16161a"/><path d="M9 22V10l7 7 7-7v12" fill="none" stroke="#e8e8ea" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>an IdeatorX project</span>
+        <span class="sep">·</span>
+        <svg class="mark mark-static" width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="21" width="22" height="3" rx="1.5" fill="#9a9aa2"/><rect x="9" y="10" width="14" height="3" rx="1.5" fill="#e8e8ea"/><rect x="17" y="4" width="6" height="6" rx="1" fill="#e8e8ea"/></svg>
+        <span class="rel-strong">MindOS</span>
+      </div>
+    </div>
+
+    <!-- animated layered architecture hero (monochrome, reduced-motion safe) -->
+    <figure class="hero-art reveal-late" id="heroArt" role="img"
+      aria-label="Animated diagram: what an agent asks for travels down into the shared record, and verified answers travel back up. Layers: agents, the rulebook, the local record, and safe import tools.">
+      <svg class="arch-hero" viewBox="0 0 460 520" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="spineGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#e8e8ea"/><stop offset="1" stop-color="#5f5f66"/>
+          </linearGradient>
+        </defs>
+        <!-- spine -->
+        <line class="ah-spine" x1="230" y1="86" x2="230" y2="434" stroke="url(#spineGrad)" stroke-width="1.5"/>
+        <!-- request pulse travels down the spine; loops slowly -->
+        <circle class="ah-pulse" r="3.5" cx="230" cy="86" fill="#e8e8ea"/>
+
+        <!-- layer 1: CLI surface -->
+        <g class="ah-layer ah-l1" tabindex="0" role="button" aria-label="Agents, any brand — focus to inspect">
+          <rect x="40" y="40" width="380" height="46" rx="8" fill="#101012" stroke="#232327"/>
+          <text x="58" y="60" font-size="13" fill="#e8e8ea">Agents, any brand</text>
+          <text x="58" y="76" font-size="11" fill="#5f5f66">anything that can run a command</text>
+          <circle class="ah-node" cx="230" cy="63" r="4" fill="#16161a" stroke="#9a9aa2" stroke-width="1.5"/>
+        </g>
+
+        <!-- layer 2: guarantees -->
+        <g class="ah-layer ah-l2" tabindex="0" role="button" aria-label="The rulebook — focus to inspect">
+          <rect x="40" y="132" width="380" height="46" rx="8" fill="#101012" stroke="#232327"/>
+          <text x="58" y="152" font-size="13" fill="#e8e8ea">The rulebook</text>
+          <text x="58" y="168" font-size="11" fill="#5f5f66">one owner · proof before done · nothing silent</text>
+          <circle class="ah-node" cx="230" cy="155" r="4" fill="#16161a" stroke="#9a9aa2" stroke-width="1.5"/>
+          <g class="ah-check" transform="translate(392 148)">
+            <circle r="9" fill="none" stroke="#e8e8ea" stroke-width="1.5"/>
+            <path d="M-4 0l3 3 5-6" fill="none" stroke="#e8e8ea" stroke-width="1.5" stroke-linecap="round"/>
+          </g>
+        </g>
+
+        <!-- layer 3: SQLite authority (the seat) -->
+        <g class="ah-layer ah-l3" tabindex="0" role="button" aria-label="Your local record — focus to inspect">
+          <rect x="24" y="224" width="412" height="72" rx="10" fill="#16161a" stroke="#34343a" stroke-width="1.5"/>
+          <text x="44" y="252" font-size="14" fill="#e8e8ea">Your local record</text>
+          <text x="44" y="270" font-size="11" fill="#9a9aa2">one database file you own and can read</text>
+          <text x="44" y="284" font-size="11" fill="#5f5f66">every decision keeps its reason and replacement</text>
+          <circle class="ah-node" cx="230" cy="260" r="5" fill="#0a0a0b" stroke="#e8e8ea" stroke-width="1.5"/>
+        </g>
+
+        <!-- layer 4: migration / inventory -->
+        <g class="ah-layer ah-l4" tabindex="0" role="button" aria-label="Move records in or out safely — focus to inspect">
+          <rect x="40" y="342" width="380" height="46" rx="8" fill="#101012" stroke="#232327"/>
+          <text x="58" y="362" font-size="13" fill="#e8e8ea">Move records in or out safely</text>
+          <text x="58" y="378" font-size="11" fill="#5f5f66">rehearses on a copy first · undoes with one command</text>
+          <circle class="ah-node" cx="230" cy="365" r="4" fill="#16161a" stroke="#9a9aa2" stroke-width="1.5"/>
+        </g>
+
+        <!-- proof receipt settles onto the base plate -->
+        <g class="ah-seal">
+          <rect x="150" y="452" width="160" height="34" rx="6" fill="#101012" stroke="#e8e8ea" stroke-width="1.2"/>
+          <text x="230" y="473" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#e8e8ea">receipt sealed ✓</text>
+        </g>
+        <text x="230" y="512" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="10" fill="#5f5f66">every claim ends with evidence</text>
+      </svg>
+      <figcaption class="visually-hidden">A request moves from the CLI surface down through the guarantee checks into the SQLite authority and comes back sealed as a receipt.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ================= problem: failure sequence — rail archetype ================= -->
+<section class="section archetype-rail" id="problem">
+  <div class="wrap">
+    <div class="reveal"><p class="kicker">The problem</p>
+    <h2 class="sec-title">How agent work falls apart, step by step.</h2>
+    <p class="body">Nothing dramatic has to go wrong. A normal Tuesday is enough. Follow one task through an afternoon <em>without</em> a shared memory — then see how the same afternoon looks with one.</p></div>
+    <figure class="pane reveal-late fail-pane" tabindex="0" role="img"
+      aria-label="Animated failure sequence in five steps: an agent starts a task; its context disappears when the session ends; two workers repeat the same work; a decision goes stale; completion is claimed without any proof. Scroll to see full diagram on narrow screens.">
+      <svg viewBox="0 0 760 300" class="fail-svg" aria-hidden="true" focusable="false">
+        <!-- vertical rail -->
+        <line class="fs-rail" x1="60" y1="20" x2="60" y2="270" stroke="#34343a" stroke-width="2"/>
+        <!-- five steps down the rail -->
+        <g class="fs-step fs-1"><circle cx="60" cy="40" r="7" fill="#0a0a0b" stroke="#9a9aa2" stroke-width="1.5"/>
+          <text x="90" y="38" font-size="14" fill="#e8e8ea">An agent picks up the task</text>
+          <text x="90" y="56" font-size="12" fill="#5f5f66">It reads the goal into its own short-term context</text></g>
+        <g class="fs-step fs-2"><circle cx="60" cy="92" r="7" fill="#0a0a0b" stroke="#9a9aa2" stroke-width="1.5"/>
+          <text x="90" y="90" font-size="14" fill="#e8e8ea">The session ends</text>
+          <text x="90" y="108" font-size="12" fill="#5f5f66">Everything it held in mind leaves with it</text></g>
+        <g class="fs-step fs-3"><circle cx="60" cy="144" r="7" fill="#0a0a0b" stroke="#9a9aa2" stroke-width="1.5"/>
+          <text x="90" y="142" font-size="14" fill="#e8e8ea">A second agent takes over</text>
+          <text x="90" y="160" font-size="12" fill="#5f5f66">With no record of progress, it redoes the same work</text>
+          <path class="fs-loop" d="M84 150 h120 a10 10 0 0 1 10 10 v18" fill="none" stroke="#5f5f66" stroke-width="1.2" stroke-dasharray="4 4"/></g>
+        <g class="fs-step fs-4"><circle cx="60" cy="196" r="7" fill="#0a0a0b" stroke="#9a9aa2" stroke-width="1.5"/>
+          <text x="90" y="194" font-size="14" fill="#e8e8ea">A decision changes upstream</text>
+          <text x="90" y="212" font-size="12" fill="#5f5f66">The old choice still looks current to everyone else</text></g>
+        <g class="fs-step fs-5"><circle cx="60" cy="248" r="7" fill="#0a0a0b" stroke="#e8e8ea" stroke-width="1.5"/>
+          <text x="90" y="246" font-size="14" fill="#e8e8ea">&ldquo;Done&rdquo; gets claimed anyway</text>
+          <text x="90" y="264" font-size="12" fill="#5f5f66">Nobody can ask what proves it, because nothing does</text></g>
+      </svg>
+      <figcaption class="visually-hidden">Five steps: task picked up, session ends, work repeated, decision goes stale, completion claimed without proof.</figcaption>
+    </figure>
+    <p class="hint">Hover not needed — this rail reads top to bottom. Each dot is a moment where a shared record would have changed the outcome.</p>
+    <p class="body gap-top">None of this is a model problem. It is a memory problem. Chat transcripts, scratch files, and Git history each hold a fragment, but none of them can answer the simple questions: who is working on this right now, what changed while we were away, and what proves it is done?</p>
+  </div>
+</section>
+
+<!-- ================= a day with MindOS: editorial walkthrough — walk archetype ================= -->
+<section class="section archetype-walk" id="product">
+  <div class="wrap narrow-day">
+    <div class="reveal"><p class="kicker">A day with MindOS</p>
+    <h2 class="sec-title">One request, from words to finished work.</h2>
+    <p class="body">Here is the same afternoon with MindOS present. It is not another chat window. It is the shared record every agent checks before acting and updates after acting.</p></div>
+    <ol class="day-walk">
+      <li class="dw-item reveal"><span class="dw-n">1</span>
+        <div><h3>You ask in plain words</h3>
+        <p>&ldquo;Fix the render bug on the invoice page.&rdquo; MindOS records the request as a task anyone can see, with a priority you set or that your lead agent sets.</p></div></li>
+      <li class="dw-item reveal"><span class="dw-n">2</span>
+        <div><h3>An agent claims it, out loud</h3>
+        <p>Before starting, an agent registers that it owns this task and for how long. If it stops responding, everyone can see the claim expired instead of guessing.</p></div></li>
+      <li class="dw-item reveal"><span class="dw-n">3</span>
+        <div><h3>Work leaves a trail as it happens</h3>
+        <p>The agent posts short notes while it works. If its session dies halfway through, the next agent reads those notes and continues instead of starting over.</p></div></li>
+      <li class="dw-item reveal"><span class="dw-n">4</span>
+        <div><h3>Finished means proven</h3>
+        <p>When an agent says it is done, MindOS asks what proves it: test output, a health check, a file hash. The proof is stored as a receipt, and only then does the task close.</p></div></li>
+      <li class="dw-item reveal"><span class="dw-n">5</span>
+        <div><h3>You get an honest answer</h3>
+        <p>Ask &ldquo;what happened today?&rdquo; and MindOS answers from the record: what was decided, what changed, what was completed and what stalled. Not from anyone&rsquo;s recollection.</p></div></li>
+    </ol>
+    <p class="hint">Five moments, one line. The spine on the left is the same task — read top to bottom.</p>
+  </div>
+</section>
+
+<!-- ================= what MindOS remembers: temporal diagram — window archetype ================= -->
+<section class="section archetype-window" id="memory">
+  <div class="wrap">
+    <div class="reveal"><p class="kicker">What MindOS remembers</p>
+    <h2 class="sec-title">The current decision, the old one, and why it changed.</h2>
+    <p class="body">Notes in a file only hold the latest version. Git holds history but no meaning. MindOS keeps each decision with its validity window, so an agent can ask what was true last Tuesday and get a real answer.</p></div>
+    <figure class="pane reveal-late mem-pane" tabindex="0" role="img"
+      aria-label="Animated temporal diagram: decision A is active, then decision B supersedes it at a visible change point; both remain readable with their validity windows. Scroll to see full diagram on narrow screens.">
+      <svg viewBox="0 0 760 260" class="mem-svg" aria-hidden="true" focusable="false">
+        <!-- timeline axis -->
+        <line x1="40" y1="200" x2="720" y2="200" stroke="#34343a" stroke-width="2"/>
+        <!-- decision A bar: valid early -->
+        <g class="mm-a"><rect x="60" y="90" width="280" height="34" rx="6" fill="#101012" stroke="#45454b"/>
+          <text x="76" y="112" font-size="13" fill="#e8e8ea">&ldquo;Use cache A for renders&rdquo;</text>
+          <line x1="60" y1="196" x2="340" y2="196" stroke="#9a9aa2" stroke-width="3"/></g>
+        <!-- supersede point -->
+        <g class="mm-change" tabindex="0" role="button" aria-label="change point — cache B shipped faster, focus to inspect"><circle cx="340" cy="200" r="8" fill="#0a0a0b" stroke="#e8e8ea" stroke-width="2"/>
+          <path class="mm-pulse" d="M340 168 v20" fill="none" stroke="#e8e8ea" stroke-width="1.5"/>
+          <text x="352" y="176" font-size="11" fill="#5f5f66">changed: cache B shipped faster</text></g>
+        <!-- decision B bar -->
+        <g class="mm-b"><rect x="380" y="130" width="300" height="34" rx="6" fill="#16161a" stroke="#9a9aa2" stroke-width="1.5"/>
+          <text x="396" y="152" font-size="13" fill="#e8e8ea">&ldquo;Use cache B for renders&rdquo;</text>
+          <line x1="380" y1="196" x2="680" y2="196" stroke="#e8e8ea" stroke-width="3"/></g>
+        <text x="40" y="238" font-size="12" fill="#5f5f66">past</text>
+        <text x="686" y="238" font-size="12" fill="#5f5f66">now</text>
+      </svg>
+      <figcaption class="visually-hidden">Decision A held until cache B replaced it; the reason for the change sits next to both decisions.</figcaption>
+    </figure>
+    <p class="hint">Hover or Tab to the change point — the circle grows to show where one decision replaced the other.</p>
+    <p class="meta">The old decision is never deleted. It is marked superseded, with the reason recorded beside it. That is what lets any agent answer &ldquo;why are we doing it this way?&rdquo; without asking you again.</p>
+  </div>
+</section>
+
+<!-- ================= how work stays safe: state machine — machine archetype ================= -->
+<section class="section archetype-machine" id="safety">
+  <div class="wrap">
+    <div class="reveal"><p class="kicker">How work stays safe</p>
+    <h2 class="sec-title">Every task moves through five states, and only real ones.</h2>
+    <p class="body">Hover or focus each state to see what it protects. The point of the machinery is simple: two agents can never silently work on the same thing, and nothing counts as finished without evidence.</p></div>
+    <figure class="pane reveal-late sm-pane" tabindex="0" role="img"
+      aria-label="Animated state machine: open, claimed, running, proven, done, with a recovery branch back from a dead claim. Each state has a hover explanation. Scroll to see full diagram on narrow screens.">
+      <svg viewBox="0 0 760 300" class="sm-svg" aria-hidden="true" focusable="false">
+        <defs><marker id="smArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0L10 5L0 10z" fill="#9a9aa2"/></marker></defs>
+        <g class="sm-links" fill="none" stroke="#45454b" stroke-width="1.5">
+          <line x1="128" y1="70" x2="182" y2="70" marker-end="url(#smArrow)"/>
+          <line x1="308" y1="70" x2="362" y2="70" marker-end="url(#smArrow)"/>
+          <line x1="488" y1="70" x2="542" y2="70" marker-end="url(#smArrow)"/>
+          <path d="M630 96 v60 h-360 v-56" marker-end="url(#smArrow)"/>
+        </g>
+        <!-- states -->
+        <g class="sm-state" tabindex="0" role="button" aria-label="open — focus to inspect"><rect x="40" y="44" width="88" height="52" rx="8" fill="#101012" stroke="#34343a"/>
+          <text x="84" y="75" text-anchor="middle" font-size="13.5" fill="#e8e8ea">open</text></g>
+        <g class="sm-state" tabindex="0" role="button" aria-label="claimed — one owner, timed"><rect x="188" y="44" width="120" height="52" rx="8" fill="#101012" stroke="#34343a"/>
+          <text x="248" y="68" text-anchor="middle" font-size="13.5" fill="#e8e8ea">claimed</text>
+          <text x="248" y="86" text-anchor="middle" font-size="10.5" fill="#5f5f66">one owner, timed</text></g>
+        <g class="sm-state" tabindex="0" role="button" aria-label="running — notes while working"><rect x="368" y="44" width="120" height="52" rx="8" fill="#101012" stroke="#34343a"/>
+          <text x="428" y="68" text-anchor="middle" font-size="13.5" fill="#e8e8ea">running</text>
+          <text x="428" y="86" text-anchor="middle" font-size="10.5" fill="#5f5f66">notes while working</text></g>
+        <g class="sm-state" tabindex="0" role="button" aria-label="proven — receipt attached"><rect x="548" y="44" width="164" height="52" rx="8" fill="#16161a" stroke="#9a9aa2"/>
+          <text x="630" y="68" text-anchor="middle" font-size="13.5" fill="#e8e8ea">proven</text>
+          <text x="630" y="86" text-anchor="middle" font-size="10.5" fill="#9a9aa2">receipt attached</text></g>
+        <g class="sm-state" tabindex="0" role="button" aria-label="done — closed with proof"><rect x="548" y="180" width="164" height="52" rx="8" fill="#101012" stroke="#34343a"/>
+          <text x="630" y="204" text-anchor="middle" font-size="13.5" fill="#e8e8ea">done</text>
+          <text x="630" y="222" text-anchor="middle" font-size="10.5" fill="#5f5f66">closed with proof</text></g>
+        <g class="sm-state sm-recover" tabindex="0" role="button" aria-label="claim died — another agent continues"><rect x="188" y="180" width="120" height="52" rx="8" fill="#0a0a0b" stroke="#5f5f66" stroke-dasharray="5 4"/>
+          <text x="248" y="204" text-anchor="middle" font-size="13.5" fill="#9a9aa2">claim died</text>
+          <text x="248" y="222" text-anchor="middle" font-size="10.5" fill="#5f5f66">another agent continues</text></g>
+      </svg>
+      <figcaption class="visually-hidden">A task flows from open to claimed to running to proven to done; an expired claim routes into recovery where another agent picks up from the last note.</figcaption>
+    </figure>
+    <p class="hint">Tab through the states — each one is focusable. The dashed “claim died” node pulses to show recovery is expected, not exceptional.</p>
+    <ul class="sm-notes gap-top">
+      <li class="reveal"><strong>One owner at a time.</strong> A claim carries an expiry. If the owner stops responding, the claim lapses instead of blocking everyone.</li>
+      <li class="reveal"><strong>Old owners lose.</strong> When a task is re-claimed after a lapse, the new owner gets a higher generation number. Commands from the expired owner are refused automatically.</li>
+      <li class="reveal"><strong>Evidence before closure.</strong> The done state is unreachable until a receipt exists. &ldquo;Tests pass&rdquo; typed in chat does not count.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= workflow: real commands, plain framing — terminal archetype ================= -->
+<section class="section archetype-terminal" id="workflow">
+  <div class="wrap">
+    <div class="reveal"><p class="kicker">The same moment, for real</p>
+    <h2 class="sec-title">What the five states look like as actual commands.</h2>
+    <p class="body">No dashboard to babysit. The record is updated by the agents themselves, from the command line. This is a real task moving through its whole life:</p></div>
+    <div class="term-legend gap-top reveal" aria-label="Each state maps to one command">
+      <span class="tl-item"><em>open</em> → <code>create</code></span>
+      <span class="tl-item"><em>claimed</em> → <code>claim</code></span>
+      <span class="tl-item"><em>running</em> → <code>heartbeat</code></span>
+      <span class="tl-item"><em>proven</em> → <code>receipt</code></span>
+      <span class="tl-item"><em>done</em> → <code>complete</code></span>
+    </div>
+    <div class="term reveal-late" data-copyable>
+      <div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="margin-left:8px">mindos — one task, start to finish</span><button class="copy-btn" type="button" aria-label="Copy commands">Copy</button></div>
+      <div class="term-body"><span class="c-prompt">$</span> <span class="c-cmd">python3 autopilot.py create</span> <span class="c-flag">--project</span> Trove <span class="c-flag">--title</span> "Ship render fix" <span class="c-flag">--priority</span> P1
+<span class="c-ok">task created</span> <span class="c-dim">id=tsk_4f2a priority=P1 project=Trove</span>
+
+<span class="c-prompt">$</span> <span class="c-cmd">python3 autopilot.py claim</span> tsk_4f2a <span class="c-flag">--owner</span> hermes <span class="c-flag">--minutes</span> 30
+<span class="c-ok">lease acquired</span> <span class="c-dim">owner=hermes expires_in=30m lease_epoch=1</span>
+
+<span class="c-prompt">$</span> <span class="c-cmd">python3 autopilot.py heartbeat</span> tsk_4f2a <span class="c-flag">--owner</span> hermes <span class="c-flag">--epoch</span> 1 <span class="c-flag">--note</span> "Running verification"
+<span class="c-ok">heartbeat ok</span> <span class="c-dim">status=running window=15m</span>
+
+<span class="c-prompt">$</span> <span class="c-cmd">python3 autopilot.py receipt</span> tsk_4f2a <span class="c-flag">--kind</span> verification <span class="c-flag">--payload</span> '{"tests":"pass","health":200}'
+<span class="c-ok">receipt sealed</span> <span class="c-dim">kind=verification file=0600 sha256=9c1f…e7</span>
+
+<span class="c-prompt">$</span> <span class="c-cmd">python3 autopilot.py complete</span> tsk_4f2a <span class="c-flag">--owner</span> hermes <span class="c-flag">--epoch</span> 1 <span class="c-flag">--note</span> "tests pass"
+<span class="c-ok">task completed</span> <span class="c-dim">evidence=sealed receipt required ✓</span></div>
+    </div>
+    <p class="meta gap-top">In plain words: create says what needs doing, claim says who owns it and until when, heartbeat proves the owner is alive, receipt stores the proof, complete closes it. A completion attempt without a live claim and stored proof is refused.</p>
+  </div>
+</section>
+
+<!-- ================= recovery: branching rail — branch archetype ================= -->
+<section class="section archetype-branch" id="recovery">
+  <div class="wrap">
+    <div class="reveal"><p class="kicker">When things break</p>
+    <h2 class="sec-title">A worker disappears. Work continues anyway.</h2>
+    <p class="body">Sessions get killed. Laptops sleep. Networks drop. MindOS assumes this is normal and plans for it rather than treating it as an exception.</p></div>
+    <figure class="pane reveal-late rec-pane" tabindex="0" role="img"
+      aria-label="Animated recovery rail: worker A's line stops mid-task at its last note; worker B branches off that point and continues to done. Scroll to see full diagram on narrow screens.">
+      <svg viewBox="0 0 760 240" class="rec-svg" aria-hidden="true" focusable="false">
+        <!-- main line -->
+        <path class="rc-a" d="M40 60 H300" fill="none" stroke="#9a9aa2" stroke-width="2"/>
+        <text x="40" y="42" font-size="12" fill="#5f5f66">worker A claims the task and starts</text>
+        <!-- stop point -->
+        <g class="rc-stop"><circle cx="300" cy="60" r="9" fill="#0a0a0b" stroke="#e8e8ea" stroke-width="2"/>
+          <line x1="294" y1="54" x2="306" y2="66" stroke="#e8e8ea" stroke-width="1.6"/>
+          <line x1="306" y1="54" x2="294" y2="66" stroke="#e8e8ea" stroke-width="1.6"/>
+          <text x="318" y="52" font-size="11.5" fill="#9a9aa2">session killed — last note kept</text></g>
+        <!-- branch -->
+        <g class="rc-branch">
+          <path d="M300 60 C340 60 340 140 380 140 H700" fill="none" stroke="#e8e8ea" stroke-width="2"/>
+          <circle class="rc-handoff" cx="340" cy="112" r="4" fill="#e8e8ea"/>
+          <text x="392" y="128" font-size="12" fill="#e8e8ea">worker B reads A&rsquo;s notes and continues</text>
+          <rect x="620" y="118" width="80" height="44" rx="8" fill="#16161a" stroke="#9a9aa2"/>
+          <text x="660" y="145" text-anchor="middle" font-size="13.5" fill="#e8e8ea">done ✓</text></g>
+        <!-- abandoned guess branch (dimmed) -->
+        <g class="rc-guess" opacity="0.45">
+          <path d="M300 60 C330 60 330 210 360 210 H540" fill="none" stroke="#34343a" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <text x="352" y="198" font-size="11.5" fill="#5f5f66">without MindOS: restart from zero and hope</text></g>
+      </svg>
+      <figcaption class="visually-hidden">Worker A stops mid-task; worker B continues from A's last verified note instead of restarting.</figcaption>
+    </figure>
+    <p class="hint">The solid branch is MindOS — a new worker continues from the last note. The dashed branch is the guesswork you avoid.</p>
+    <div class="grid-2 gap-top">
+      <div class="reveal"><p class="body"><strong>Destructive work rehearses first.</strong> Moving records between homes runs against a disposable copy before touching anything real, journals every step, and reverses with one command if the result looks wrong.</p></div>
+      <div class="reveal"><p class="body"><strong>The record resists tampering.</strong> Every event is chained by hash. If someone edits or deletes history, a verification pass names exactly where the chain breaks.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= why it feels different: comparison — compare archetype ================= -->
+<section class="section archetype-compare" id="vs-git">
+  <div class="wrap">
+    <div class="reveal"><p class="kicker">Why not just…</p>
+    <h2 class="sec-title">The tools you already use, honestly compared.</h2>
+    <p class="body">Each of these is good at its job. None of them was built to be the shared operational memory of a fleet of agents. Git stays in charge of your code either way.</p></div>
+    <div class="card table-wrap gap-top reveal-late">
+      <table aria-label="Comparison of where work lives — Markdown, Git, chat, and MindOS">
+        <caption class="visually-hidden">Four ways to keep work — only MindOS answers who owns the live task and what proves it is done.</caption>
+        <thead><tr><th scope="col">If you keep work in…</th><th scope="col">What it knows</th><th scope="col">What it cannot tell you</th></tr></thead>
+        <tbody>
+          <tr><td data-label="If you keep work in…">A shared Markdown file</td><td data-label="What it knows">The latest notes someone remembered to write</td><td data-label="What it cannot tell you">Who is working right now, or whether a note is still true</td></tr>
+          <tr><td data-label="If you keep work in…">Git history</td><td data-label="What it knows">Exactly how files changed, commit by commit</td><td data-label="What it cannot tell you">Which decisions those changes carry out, or who owns the live task</td></tr>
+          <tr><td data-label="If you keep work in…">A chatbot conversation</td><td data-label="What it knows">What one agent discussed in one window</td><td data-label="What it cannot tell you">Anything once that window closes; nothing another agent can read</td></tr>
+          <tr class="row-mindos" tabindex="0" aria-label="MindOS — the shared record: who owns each task, every decision with reason, proof attached"><td data-label="If you keep work in…"><strong>MindOS</strong></td><td data-label="What it knows">Who owns each task until when, every decision with its reason and replacement, and proof attached to each finished job</td><td data-label="What it cannot tell you" style="color:var(--text-faint)">It does not replace Git or your notes; it sits above them as the record of what they mean</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="hint">Four rows, one honest difference: only the last row can answer “who owns this right now and what proves it is done?”</p>
+  </div>
+</section>
+
+<!-- ================= human seam — pause rail, distinct from walk ================= -->
+<section class="section archetype-seam" id="human-seam">
+  <div class="wrap narrow-day">
+    <div class="reveal"><p class="kicker">The human seam</p>
+    <h2 class="sec-title">Where MindOS stops and you decide.</h2></div>
+    <p class="body reveal">MindOS records and enforces; it does not decide what your agents should want. Certain actions are designed to pause and hold for a person:</p>
+    <figure class="pane seam-pane reveal-late" tabindex="0" role="img" aria-label="Three pauses where MindOS holds for a person: before anything destructive, when choices are ambiguous, and when secrets appear. Scroll to see full diagram on narrow screens.">
+      <svg viewBox="0 0 760 72" class="seam-svg" aria-hidden="true" focusable="false">
+        <line class="seam-rail" x1="40" y1="36" x2="720" y2="36" stroke="#34343a" stroke-width="1.5"/>
+        <g class="seam-pause seam-p1" tabindex="0" role="button" aria-label="destructive? — holds for human approval"><rect x="98" y="14" width="84" height="44" rx="8" fill="#101012" stroke="#34343a"/><text x="140" y="42" text-anchor="middle" font-size="16" fill="#9a9aa2">⏸</text><text x="140" y="62" text-anchor="middle" font-size="10.5" fill="#5f5f66">destructive?</text></g>
+        <g class="seam-pause seam-p2" tabindex="0" role="button" aria-label="ambiguous? — holds for human approval"><rect x="338" y="14" width="84" height="44" rx="8" fill="#101012" stroke="#34343a"/><text x="380" y="42" text-anchor="middle" font-size="16" fill="#9a9aa2">⏸</text><text x="380" y="62" text-anchor="middle" font-size="10.5" fill="#5f5f66">ambiguous?</text></g>
+        <g class="seam-pause seam-p3" tabindex="0" role="button" aria-label="secret? — holds for human approval"><rect x="578" y="14" width="84" height="44" rx="8" fill="#101012" stroke="#34343a"/><text x="620" y="42" text-anchor="middle" font-size="16" fill="#9a9aa2">⏸</text><text x="620" y="62" text-anchor="middle" font-size="10.5" fill="#5f5f66">secret?</text></g>
+      </svg>
+      <figcaption class="visually-hidden">A rail with three pause gates: destructive steps, ambiguous choices, and secrets — each holds for human approval.</figcaption>
+    </figure>
+    <ul class="seam-list">
+      <li class="reveal"><span class="dw-n">⏸</span><div><strong>Holds before irreversible steps.</strong> Anything destructive rehearses against a disposable copy first, and applying it for real waits on an explicit go from you.</div></li>
+      <li class="reveal"><span class="dw-n">⏸</span><div><strong>Escalation instead of guessing.</strong> When an agent hits ambiguity it cannot resolve from the record, the task parks with a note naming exactly what is unclear.</div></li>
+      <li class="reveal"><span class="dw-n">⏸</span><div><strong>No secrets pass through.</strong> Credential-shaped values are blocked or redacted before they can enter any task text, receipt, or archive.</div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= architecture: layered system diagram — layered archetype ================= -->
+<section class="section archetype-layered" id="architecture">
+  <div class="wrap">
+    <div class="reveal"><p class="kicker">Under the hood</p>
+    <h2 class="sec-title">One file you own, four layers above it.</h2>
+    <p class="body">All of this runs on your machine with no server. The whole system is one SQLite database plus Python scripts that read and write it under strict rules.</p></div>
+    <figure class="pane reveal-late arch-pane" tabindex="0" role="img"
+      aria-label="Layered architecture diagram with animated data paths: agents enter through the command line, pass the rules layer, and every change lands in the local SQLite record, which answers questions back up. Migration tools move records in and out safely on the side. Scroll to see full diagram on narrow screens.">
+      <svg viewBox="0 0 760 420" class="arch2-svg" aria-hidden="true" focusable="false">
+        <defs><marker id="arArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0L10 5L0 10z" fill="#9a9aa2"/></marker>
+          <linearGradient id="arGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8e8ea"/><stop offset="1" stop-color="#5f5f66"/></linearGradient></defs>
+        <!-- down path -->
+        <path class="ar-down" d="M380 20 V70" fill="none" stroke="url(#arGrad)" stroke-width="1.5" marker-end="url(#arArrow)"/>
+        <circle class="ar-pulse ar-pulse-dn" r="3.5" cx="380" cy="24" fill="#e8e8ea"/>
+        <!-- layer 1 -->
+        <g class="ar-layer ar-l1" tabindex="0" role="button" aria-label="Agents — focus to inspect"><rect x="60" y="76" width="640" height="56" rx="8" fill="#101012" stroke="#34343a"/>
+          <text x="80" y="100" font-size="13.5" fill="#e8e8ea">Agents, any brand</text>
+          <text x="80" y="118" font-size="11" fill="#5f5f66">Hermes, Claude Code, Codex — anything that can run a command</text>
+          <text x="672" y="100" text-anchor="end" font-size="10.5" font-family="ui-monospace, Menlo, monospace" fill="#5f5f66">autopilot.py · ops.py</text></g>
+        <path class="ar-down ar-2" d="M380 132 V172" fill="none" stroke="#45454b" stroke-width="1.5" marker-end="url(#arArrow)"/>
+        <!-- layer 2 -->
+        <g class="ar-layer ar-l2" tabindex="0" role="button" aria-label="The rulebook — focus to inspect"><rect x="60" y="178" width="640" height="56" rx="8" fill="#101012" stroke="#34343a"/>
+          <text x="80" y="202" font-size="13.5" fill="#e8e8ea">The rulebook</text>
+          <text x="80" y="220" font-size="11" fill="#5f5f66">one owner per task · proof before done · secrets blocked · nothing silent</text>
+          <text x="672" y="202" text-anchor="end" font-size="10.5" font-family="ui-monospace, Menlo, monospace" fill="#5f5f66">enforced at every write</text></g>
+        <path class="ar-down ar-3" d="M380 234 V274" fill="none" stroke="#45454b" stroke-width="1.5" marker-end="url(#arArrow)"/>
+        <!-- layer 3: authority -->
+        <g class="ar-layer ar-l3" tabindex="0" role="button" aria-label="Your local record — focus to inspect"><rect x="40" y="280" width="680" height="64" rx="10" fill="#16161a" stroke="#9a9aa2" stroke-width="1.5"/>
+          <text x="60" y="306" font-size="14" fill="#e8e8ea">Your local record (SQLite)</text>
+          <text x="60" y="326" font-size="11" fill="#9a9aa2">tasks · claims · decisions with reasons · receipts · hash-chained history</text>
+          <text x="700" y="306" text-anchor="end" font-size="10.5" font-family="ui-monospace, Menlo, monospace" fill="#9a9aa2">$MINDOS_HOME</text></g>
+        <!-- answer path back up -->
+        <path class="ar-up" d="M740 292 H754 V96 H706" fill="none" stroke="#45454b" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arArrow)"/>
+        <circle class="ar-pulse ar-pulse-up" r="3.5" cx="754" cy="290" fill="#e8e8ea"/>
+        <text x="712" y="196" font-size="10.5" fill="#5f5f66" transform="rotate(90 712 196)">answers &amp; evidence flow back</text>
+        <!-- side rail: migration -->
+        <g class="ar-layer ar-l4" tabindex="0" role="button" aria-label="Move records safely — focus to inspect"><rect x="40" y="368" width="680" height="44" rx="8" fill="#0a0a0b" stroke="#34343a" stroke-dasharray="5 4"/>
+          <text x="60" y="395" font-size="12.5" fill="#9a9aa2">Move records in or out safely</text>
+          <text x="672" y="395" text-anchor="end" font-size="10.5" font-family="ui-monospace, Menlo, monospace" fill="#5f5f66">rehearse first · journal · one-command undo</text></g>
+      </svg>
+      <figcaption class="visually-hidden">Requests flow down from any agent through the rulebook into the SQLite record; verified answers flow back up; migration moves records safely at the edges.</figcaption>
+    </figure>
+    <p class="hint">Tab through the layers — each one lifts on hover/focus. The two dots trace a request going down and evidence coming back up.</p>
+  </div>
+</section>
+
+<!-- ================= security boundary — compare + pane archetype ================= -->
+<section class="section archetype-compare" id="security">
+  <div class="wrap narrow-day">
+    <div class="reveal"><p class="kicker">What MindOS will not do</p>
+    <h2 class="sec-title">A memory and a rulebook. Nothing more.</h2></div>
+    <figure class="pane security-pane reveal-late" tabindex="0" role="img" aria-label="Security boundary: MindOS never deploys, never calls out, never keeps a cloud copy. Focus to hear guarantees.">
+      <svg viewBox="0 0 760 140" class="sec-svg" aria-hidden="true" focusable="false">
+        <g class="sec-shield" transform="translate(36 20)">
+          <path d="M36 6 L62 18 L62 52 C62 66 49 78 36 84 C23 78 10 66 10 52 L10 18 Z" fill="none" stroke="#9a9aa2" stroke-width="1.6"/>
+          <path d="M26 44 L34 52 L48 34" fill="none" stroke="#e8e8ea" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        <g class="sec-items">
+          <g class="sec-item"><circle cx="140" cy="36" r="3" fill="#5f5f66"/><text x="152" y="40" font-size="13" fill="#e8e8ea">Never deploys code or sends messages on its own</text></g>
+          <g class="sec-item"><circle cx="140" cy="68" r="3" fill="#5f5f66"/><text x="152" y="72" font-size="13" fill="#e8e8ea">Never touches your passwords — secrets are blocked or redacted</text></g>
+          <g class="sec-item"><circle cx="140" cy="100" r="3" fill="#5f5f66"/><text x="152" y="104" font-size="13" fill="#e8e8ea">Never keeps a cloud copy — one local file you can copy or delete</text></g>
+        </g>
+      </svg>
+      <figcaption class="visually-hidden">Three guarantees: never deploys, never touches secrets, never keeps a cloud copy.</figcaption>
+    </figure>
+    <p class="hint">The pane is focusable — Tab to the shield to hear the boundary read aloud.</p>
+    <p class="body reveal" style="margin-top:18px">Everything lives in one local database file you can open, copy, or delete. Receipts, archives, and databases never leave your machine and never enter any repository. If you delete the home folder, it is gone — there is no cloud copy to chase.</p>
+  </div>
+</section>
+
+<!-- ================= try it / launch — terminal archetype ================= -->
+<section class="section archetype-terminal" id="get-started">
+  <div class="wrap">
+    <div class="reveal"><p class="kicker">Try it today</p>
+    <h2 class="sec-title">Three commands and it exists.</h2>
+    <p class="body">No account, no service, nothing to deploy. If your machine has Python 3.9 or newer, you already have everything else.</p></div>
+    <pre class="block reveal-late" data-copyable><button class="copy-btn copy-btn-block" type="button" aria-label="Copy setup commands">Copy</button><span class="c-cmd">git clone</span> &lt;repo-url&gt; mindos
+<span class="c-cmd">cd</span> mindos
+<span class="c-cmd">export</span> <span class="c-flag">MINDOS_HOME</span>="$HOME/mindos-home"   <span class="c-dim"># any writable folder works</span>
+<span class="c-cmd">python3</span> autopilot.py init
+<span class="c-cmd">python3</span> ops.py doctor                        <span class="c-ok"># confirms the new home is healthy</span></pre>
+    <div class="grid-2 gap-top">
+      <div class="reveal"><h3 style="font-size:16px;margin-bottom:8px">Works today</h3><p class="body">Task claims with expiry, work notes, proof attached to finished work, decision history with reasons, crash recovery, rehearsed migration, tamper-checked history, and full-text search over all of it.</p></div>
+      <div class="reveal"><h3 style="font-size:16px;margin-bottom:8px">Still being built</h3><p class="body">See the honest <a href="docs/roadmap.html">roadmap</a>. Notable gaps: richer scheduling, multi-machine coordination, and deeper bindings to specific agent platforms.</p></div>
+    </div>
+    <div class="btn-row row-start gap-top reveal">
+      <a class="btn btn-primary" href="docs/getting-started.html">Read the setup guide</a>
+      <a class="btn btn-ghost" href="mailto:leo@ideatorx.com?subject=MindOS">Email the team</a>
+    </div>
+    <div class="docs-mini reveal" aria-label="Browse the docs">
+      <div class="dm-head">
+        <span class="dm-kicker">Browse the docs</span>
+        <a class="dm-all" href="docs/index.html">All 13 sections →</a>
+      </div>
+      <div class="dm-tiles">
+        <a class="dm-tile" href="docs/concepts.html"><span class="dm-n">02</span><span class="dm-t">Concepts</span><span class="dm-d">leases, receipts, decisions with reasons</span></a>
+        <a class="dm-tile" href="docs/architecture.html"><span class="dm-n">03</span><span class="dm-t">Architecture</span><span class="dm-d">CLI → rulebook → SQLite → migration</span></a>
+        <a class="dm-tile" href="docs/cli-reference.html"><span class="dm-n">11</span><span class="dm-t">CLI reference</span><span class="dm-d">autopilot.py and ops.py, every flag</span></a>
+      </div>
+    </div>
+    <p class="meta reveal">Source-available under FSL-1.1-MIT: free to use and inspect now, MIT-licensed after each version&rsquo;s two-year change date. This page collects no data and submits no forms. <a href="docs/security.html">How we handle secrets and receipts</a>.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <span class="footer-brand"><svg class="mark mark-static" width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="21" width="22" height="3" rx="1.5" fill="#5f5f66"/><rect x="9" y="10" width="14" height="3" rx="1.5" fill="#5f5f66"/><rect x="17" y="4" width="6" height="6" rx="1" fill="#5f5f66"/></svg>MindOS — Autopilot v2 · an IdeatorX project</span>
+    <span><a href="docs/index.html">Docs</a> · <a href="docs/roadmap.html">Roadmap</a> · <a href="docs/security.html">Security</a> · FSL-1.1-MIT · local-first</span>
+  </div>
+</footer>
+
+<!-- search modal -->
+<div class="search-overlay" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-panel">
+    <input type="search" placeholder="Search the docs…" aria-label="Search the docs">
+    <div class="search-results"></div>
+    <div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span><span><kbd>esc</kbd> close</span></div>
+  </div>
+</div>
+
+<div id="copy-live" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></div>
+<script src="assets/site.js"></script>
+</body>
+</html>
