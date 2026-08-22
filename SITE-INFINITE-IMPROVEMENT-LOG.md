@@ -619,3 +619,40 @@ Push: feat/mindos-docs-site — verified via curl after push
 - Next sweep: per-section SVG motion contrast at 390, docs vs landing code-token discipline (#7fb3e0 only on code), hero credibility rail micro-alignment, table vs-git vs security visual contrast re-audit.
 - Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
 - No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
+
+---
+
+## Cycle 19 — Spacing scale expanded + table header distinct + footer editorial wash + motion dedup (supervised cycle 7, 2026-08-21)
+
+### Pre-checks (curl + source only — server still 127.0.0.1:8899, no restart)
+- curl http://127.0.0.1:8899/ → 200 (36 hits, 50236 bytes), /assets/* 200, /assets/search-index.json 200 (15), /docs/* 200, og-card.png 200, node --check ok
+- Source: site/index.html 553 lines, site/assets/style.css 1033→1041 lines after edits, site/assets/site.js 322, 12 sections, hints 12, dup </main> 1, hex 19 tokens strict mono (#7fb3e0 7 code-only, #1a1a1d lift, #08080a security wash), focus-visible 59→48 after dedup, reduced-motion 4, landing jargon 0, console clean
+- Triple-check every section: 12 distinct archetypes verified (hero/rail/walk/window/machine/terminal/branch/compare/seam/layered/security/launch), SVG stroke html 1.5/2/3 only, css focus ring 1.8 intentional thicker, spacing scale 36 usages but 88 bottom/header 60/footer 40-56/wrap 24 still hard-coded, fail-pane duplicate delay block 200/480/760 vs canonical 120/340/560 overrides (duplicate @keyframes fs-dash), vs-git header #101012 faint vs row-mindos 2px #9a9aa2 weak distinctness, footer flat mono border vs hero wash distinctness weak, reduced-motion missing hero-cred/walk/launch/footer explicit.
+
+### Edits applied (substantial block-level redesign)
+
+- **site/assets/style.css spacing scale expansion (code-quality)**: expanded :root scale from 10 vars (4/8/12/14/16/18/22/28/36/48) to 14 vars adding --s-24/40/56/60/80/88 with cycle 19 comment; consumed hard-coded values: .hero-grid padding 24→var(--s-24), .site-header .inner 24→var(--s-24) + gap 28→var(--s-28) + height 60→var(--s-60), .wrap 24→var(--s-24), .section bottom 88→var(--s-88), .docs-layout padding 24/96→var(--s-24)/var(--s-88), footer 40/56→var(--s-40)/var(--s-56) + inner 24→var(--s-24) + gap 20→var(--s-22), responsive @680 section 60→var(--s-60) — usages 36→40, single source monotonic 4→88.
+- **site/assets/style.css motion dedup (code-quality)**: removed duplicate fail-pane delay block (200/480/760/1040/1320) leaving canonical distinct cadence 120/340/560/780/1000@420ms at lower cascade (cycle 19), deduped duplicate @keyframes fs-dash (was 2, now 1) — per-section distinct clocks now single-source: fail cascading descent 120 gaps@420ms, sm snap 90/180/270+620/850@320ms, security Shield-first 80/240/400/560@360ms, arch weighty 120/320/520/720@460ms cubic, seam 200/380/560@360ms, hero 100/260/420/580@480ms.
+- **site/assets/style.css vs-git table header distinct**: .archetype-compare thead th bg var(--surface-1)→#0f0f12 distinction, border #34343a→#45454b, letter .06→.07, color var(--text-dim) explicit, padding 12×14; tbody td padding 12×14 systematized; row-mindos bg rgba .015→.035, last row #16161a wash, left border 2px #9a9aa2→3px #e8e8ea accent, strong title -.01 tight — header now reads as mono label bar, MindOS row anchored at both widths, retains strict mono #7fb3e0 code-only.
+- **site/assets/style.css footer editorial wash**: footer border-top-color #2a2a30 retained + radial 900×200 @50% 0% rgba .025 wash (matches hero mono wash .035 grammar), ::before hairline gradient 14inset (matches pane ::before), var padding 36/48→var(--s-36)/var(--s-48) + responsive 28/36→var(--s-28)/var(--s-36) + gap 12→var(--s-12), mono measure tighten (brand 13px #e8e8ea? dim retained, meta 11.5 faint) — distinct close matching header elevation without saturated color, mono only.
+- **site/assets/style.css reduced-motion completeness**: extended @media prefers-reduced-motion last block to explicitly include .hero-cred/.walk-cards .dw-card/.launch-pane/footer.site-footer (was only security/seam/legend/docs-mini/copy/hero-stats) — now walk lift, launch hover, footer wash all settle static, wildcard * {transition:none animation:none} already covers 18 SVG grammars + pane::before hairline.
+- **site/assets/search-index.json** (15 entries): regenerated via `python3 tools/gen-search-index.py` — landing 3800 retained (style-only changes do not affect copy), docs refreshed; `python3 tools/check-site.py` → OK: 15 pages, 248 links, 15 entries.
+
+### Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof)
+
+- curl 200 on /, /assets/style.css (1041 lines, contains --s-24/40/56/60/80/88 + #0f0f12 header + footer radial + deduped fail delays), /assets/site.js (node --check ok), /assets/search-index.json (15, regenerated, landing 3800), /docs/*, /assets/og-card.png (36 hits retained, 50236 bytes)
+- node --check site/assets/site.js → ok
+- python3 tools/gen-search-index.py → Wrote 15 entries (landing 3800); python3 tools/check-site.py → OK: 15 pages, 248 internal links, 15 index entries — all routes resolve
+- sections 12, dup </main> 1, hints 12 (each section 1), panes tabindex 28, hero hint 1, data-labels 12, caption 1, scope 3, docs-mini 1, hero-stats 1, security-pane 1 (focusable, security archetype), seam-pane 1, term-legend 1, launch-pane 1, plain-lead 6 pages, landing copy-btn 4, docs copy-btn 22, live regions 9, focus-visible 48, reduced-motion 4 blocks (expanded), hex 19 tokens (#7fb3e0 7 code-only, #08080a wash retained), vars 40 usages
+- landing jargon 0, console.log false, overflow-x clip true, 900/820/680/390 present (section var(--s-88) bottom, header var(--s-60), footer var(--s-36)/var(--s-48), fail 120/340 canonical)
+- artifacts: audit/cycle-19-source-check.md, audit/cycle-19-post-edit.md, audit/cycle-19-curl.html, audit/cycle-19-index.html/style.css/site.js/search-index.json (inside repo), server log still audit/server-cycle02.log (kept alive, verified via curl only)
+
+Commit: site: infinite loop cycle 19 — spacing scale 14 vars (24/40/56/60/80/88) consumed, vs-git header #0f0f12 distinct + MindOS 3px accent, footer radial wash + hairline, motion dedup + reduced-motion expanded
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 20 plan (loop continues — do not stop after cycle 19)
+- Next sweep: docs plain-lead vs landing lede measure harmony re-check, per-section hint spacing consistency at 390, code-token discipline re-scan, SVG hover vs focus contrast at 820 per pane.
+- Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
+- No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.

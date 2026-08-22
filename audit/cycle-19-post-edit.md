@@ -1,0 +1,12 @@
+# Cycle 19 post-edit verification
+- curl 200 on /, /assets/style.css, /assets/site.js, /assets/search-index.json, /docs/*, /assets/og-card.png
+- node --check site/assets/site.js ok
+- tools/gen-search-index.py Wrote 15 entries landing 3800 chars
+- tools/check-site.py OK 15 pages 248 links 15 entries
+- sections 12 dup </main> 1 hint 12 spacing vars 40 hex 19 focus-visible 48 reduced-motion 4
+- visual: spacing scale expanded to 14 vars (adds --s-24/40/56/60/80/88), covers header 60, section 88 bottom, footer 40/56, hero-grid 24, docs-layout 88 wash, wrap 24 — code-quality single source
+- visual: vs-git header #0f0f12 + #45454b border + .07 letter-spacing + MindOS row 3px #e8e8ea + #16161a wash + strong title
+- visual: footer radial wash 900x200 @25% + hairline gradient + var padding + mono measure tighten
+- code-quality: removed duplicate fail delay block (200/480) leaving canonical 120/340/560/780/1000, deduped @keyframes fs-dash
+- a11y: reduced-motion expanded to hero-cred/walk-cards/launch/footer
+- server http://127.0.0.1:8899 kept alive (curl only, no lsof/ps), audit/ only inside repo
