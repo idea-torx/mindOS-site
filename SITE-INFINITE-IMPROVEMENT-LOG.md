@@ -329,3 +329,39 @@ Push: feat/mindos-docs-site — verified via curl after push
 - Next sweep: docs plain-lead measure vs landing lede at 390 alignment re-check, vs-git row-mindos focus-visible at 680 cards, terminal a11y live region re-audit, per-section hint measure consistency, no /tmp/ps/lsof, server 127.0.0.1:8899 kept alive via curl.
 - Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
 - No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
+
+---
+
+## Cycle 10 — Hint measure + row-mindos focus + live region + pane elevation + header/hero/docs-mini polish (2026-08-21)
+
+### Pre-checks (curl + source only — server still 127.0.0.1:8899, no restart)
+- curl http://127.0.0.1:8899/ → 200 (35 hits, 47819 bytes), /assets/* 200, /assets/search-index.json 200 (15), /docs/* 200, og-card.png 200, node --check ok
+- Source: site/index.html 535 lines, site/assets/style.css 881, site/assets/site.js 314, 12 sections, dup </main> 1, hex 17 tokens strict mono #7fb3e0 7 code-only, focus-visible 40, reduced-motion 4, landing jargon 0, console clean
+- Issues found (queued): .hint 46em vs p.body 44em vs lede 42em mismatch + 680 fluid missing hint + layered 52em outlier; lede 18px at 390 not harmonized with plain-lead 14.5; row-mindos tr not focusable at 680 cards (no tabindex, no :focus-visible ring); docs 8 pages with copy-btn but 0 live regions while landing has 1; pane system flat (no top hairline, no shadow depth), header flat, hero-stats faint border, docs-mini left border uniform.
+
+### Edits applied (substantial block-level redesign)
+
+- **site/index.html** (1 line + 1 a11y): `tr.row-mindos` now `tabindex="0" aria-label="MindOS — the shared record …"` so keyboard users at 680 cards can focus the card and see ring; `#copy-live` now `role="status" aria-live="polite" aria-atomic="true"` (was polite only) for broader AT.
+- **site/docs/*.html** (8 pages): every docs page with `.copy-btn` now has `<div id="copy-live" role="status" aria-live="polite" aria-atomic="true" class="visually-hidden">` before `</body>` (was 0, now 8) — parity with landing live region; search-index regenerated (landing 3796 retained), `check-site.py` OK 15/248.
+- **site/assets/style.css** hint measure system (queued): `.hint { max-width: 44em; line-height:1.55 }` was 46em, `.archetype-layered .hint` 52em→44em (now aligns with p.body 44em vs lede/plain-lead 42em), `@media 680` now `.lede, p.body, .plain-lead, .hint {max-width:none}` (was missing hint), `@media 390` added `.lede 17px/1.58` + `.hint 11.5/1.5` to harmonize with plain-lead 14.5.
+- **site/assets/style.css** row-mindos focus (queued): `.row-mindos:focus-visible { outline 2px solid #e8e8ea offset 2 }` + td bg lift, `tr:focus-within` and `tr.row-mindos:focus-within` border #9a9aa2 + shadow so 680 card stack shows focus when tabbing.
+- **site/assets/style.css** substantial aesthetic: header `backdrop-filter saturate(1.1)` + `box-shadow 0 1px 0 rgba… + 0 8px 24px rgba(0,0,0,.28)` for distinct sticky elevation (mono only); hero-stats `padding 16×18`, `border-left 2px #34343a` + hover #45454b, `hs-val 600 -.015`, label -.01, inset shadow, 680 padding tweak; `.pane` now `box-shadow inset + 4px 16px` + `::before` top hairline gradient (14px inset) for subtle depth across all 7 panes; docs-mini `.dm-tile` now `border-left 2px #232327` + hover `left #45454b` + lift -2px + shadow 4px 12px, focus left #9a9aa2.
+
+### Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof)
+
+- curl 200 on /, /assets/style.css (contains pane::before, header shadow, hero-stats accent), /assets/site.js (node --check ok), /assets/search-index.json (15, regenerated, landing 3796 retained), /docs/*, /assets/og-card.png (35→36 hits, 47819 bytes)
+- node --check site/assets/site.js → ok
+- python3 tools/gen-search-index.py → Wrote 15 entries (landing 3796); python3 tools/check-site.py → OK: 15 pages, 248 internal links, 15 index entries — all routes resolve
+- sections 12, dup </main> 1, hint 8 (44em unified, 680 fluid, 390 11.5), panes tabindex 7, seam-pause focusable 3, data-labels 12, caption 1, scope 3, hero-stats 1 (accent left), security-pane focusable 1, seam-pane 1, term-legend 1, plain-lead 6 pages, landing copy-btn 3, docs copy-btn 22, live regions 9 (landing 1 + docs 8), focus-visible 44, reduced-motion 4 blocks, hex 17 tokens (#7fb3e0 7 code-only)
+- landing jargon 0, console.log false, overflow-x clip true, 900/820/680/390 present (lede 17px at 390), row-mindos focus-visible + focus-within at 680 cards
+- artifacts: audit/cycle-10-source-check.md, audit/cycle-10-post-edit.md, audit/cycle-10-curl.html, audit/cycle-10-index.html/style.css/site.js/search-index.json (inside repo), server log still audit/server-cycle02.log (kept alive, verified via curl only)
+
+Commit: site: infinite loop cycle 10 — hint measure unified (44em), 390 lede/plain-lead harmony, row-mindos focus-visible at 680 cards, docs live regions, header/hero/pane/docs-mini elevation polish
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 11 plan (loop continues — do not stop after cycle 10)
+- Next sweep: docs vs landing code-token discipline re-audit (#7fb3e0 guard), SVG hover vs focus parity micro-audit on arch/hero layers, kicker vs sec-title measure at 680 re-check, footer mono rhythm + docs side-nav 390 overflow.
+- Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
+- No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
