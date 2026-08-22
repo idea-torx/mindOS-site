@@ -184,3 +184,40 @@ Push: feat/mindos-docs-site — verified via curl after push
 - Continue infinite loop: next block-level archetype refinement (e.g., richer docs entry affordance or per-section motion timing re-audit), humanize any remaining dense prose, monochrome discipline re-scan.
 - Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
 - No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
+
+---
+
+## Cycle 6 — Search drift + docs entry + nav a11y (2026-08-21)
+
+### Pre-checks (curl + source only — server still 127.0.0.1:8899, no restart)
+- curl http://127.0.0.1:8899/ → 200 (35 hits, 46591 bytes), /assets/* 200, /assets/search-index.json 200 (15, stale landing 4000 chars), /docs/* 200, og-card.png 200, node --check ok
+- Source: site/index.html 524 lines, site/assets/style.css 775, site/assets/site.js 314, 12 sections, dup </main> 1, hex strict mono, jargon 0 in html, console clean
+- Structural weakness found (source evidence only, no /tmp/lsof/ps): search-index.json landing entry drift — html humanized since cycle 1 ("AI agents lose track … memory they share … runs on your machine … 1 file … 5 states … rehearse → undo") while index still held old pre-cycle-1 copy ("The durable local operating system … control plane … execution truth … temporal facts … fencing epoch") — 4 jargon hits in index landing, 0 of 5 new phrases. tools/gen-search-index.py missing though site/README.md references `python3 tools/gen-search-index.py`. Secondary: header `<nav class="site-nav">` had no `id="site-nav"` so `menu-toggle aria-controls="site-nav"` was a broken reference on landing + all 14 docs pages; landing → docs discovery was header-only, no landing entry strip for skimmers.
+
+### Edits applied (substantial block-level redesign)
+
+- **tools/gen-search-index.py** (new, 92 lines): rebuilt missing generator — walks site/**/*.html excluding assets, strips `<script>/<style>/<header>/<footer>/<search-overlay>`, html.unescape, WS normalize, landing 3800 / docs 2200 truncate, sorted landing→docs/index→alpha, writes site/assets/search-index.json. Repo-local only, no external deps, honours humanized copy. Restores README contract `python3 tools/gen-search-index.py`.
+- **site/assets/search-index.json** (15 entries): regenerated from live html. Landing now 3796 chars, starts "MindOS: a memory and proof-of-work layer … AI agents lose track … memory they share … 1 file … 5 states … rehearse → undo", 35 hits retained, jargon 0 (was 4). Docs entries refreshed via same extractor.
+- **site/index.html** (524→535 lines): fixed `<nav class="site-nav" id="site-nav" aria-label="Site">` so aria-controls resolves; inserted `docs-mini` discovery strip after get-started btn-row (head with kicker + "All 13 sections →", 3 monochrome tiles 02 Concepts / 03 Architecture / 11 CLI reference, distinct from docs-grid but same mono language, 3→1 at 680, hover border #34343a + lift).
+- **site/docs/*.html** (14 pages): added `id="site-nav"` to every `<nav class="site-nav">` and ensured `aria-controls="site-nav"` on every `menu-toggle` (landing + docs/index were inconsistent/broken, 13 other docs missing id). Now all headers consistent and AT-valid.
+- **site/assets/style.css** (775→790 lines): added `.docs-mini` / `.dm-*` block (surface-1/border, 3-col mono tiles surface-2/border, hover #34343a + lift, 680→1 col, mono typography stays monochrome), extended prefers-reduced-motion to include docs-mini, retains strict mono tokens (#7fb3e0 code-only).
+- **site/assets/site.js**: unchanged (314) — scroll-spy/copy-live/parallax/reveals retained, node --check ok; menu toggle now references valid id without JS change.
+
+### Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof)
+
+- curl 200 on /, /assets/style.css (docs-mini, 790 lines), /assets/site.js (node --check ok), /assets/search-index.json (15, humanized 3796, jargon 0), /docs/*, /assets/og-card.png (35 hits retained, 47643 bytes +1052 docs-mini), docs/index now site-nav id + aria-controls present
+- node --check site/assets/site.js → ok
+- python3 tools/gen-search-index.py → Wrote 15 entries, landing humanized; python3 tools/check-site.py → OK: 15 pages, 248 internal links, 15 index entries — all routes resolve
+- sections 12, dup </main> 1, panes tabindex 6 + docs-mini reveal 45, data-labels 12, hint 8, docs-mini tiles 3, site-nav id on 15 html pages, aria-controls 15, focus-visible 25, reduced-motion 4 blocks, hex strict mono (17 tokens, #7fb3e0 code-only)
+- jargon 0, console.log false, overflow-x clip true, 820 + 390 breakpoints present, docs-mini responsive 3→1 at 680
+- artifacts: audit/cycle-06-source-check.md, audit/cycle-06-post-edit.md, audit/cycle-06-curl.html, audit/cycle-06-index.html/style.css/site.js/search-index.json (inside repo), server log still audit/server-cycle02.log (kept alive, verified via curl only)
+
+Commit: site: infinite loop cycle 6 — search-index drift rebuilt (humanized landing), docs-mini entry bridge, nav id/aria-controls a11y fix, generator restored
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 7 plan (loop continues — do not stop after cycle 6)
+- Next sweep: docs readability vs landing plain-style alignment check (concepts/architecture still jargon-dense — intentional for runtime grounding but cross-check search snippets), SVG motion timing re-audit per section, table/terminal pane overflow at 390 re-flow.
+- Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
+- No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
