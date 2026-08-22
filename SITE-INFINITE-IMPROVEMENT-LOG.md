@@ -70,3 +70,35 @@ Commit: site: infinite loop cycle 1 — per-section archetypes, hero hierarchy, 
 Push: feat/mindos-docs-site (public default) — verified via curl after push
 
 ---
+
+## Cycle 2 — Scannability + security pane + measure (2026-08-21)
+
+### Pre-checks (curl + source only — server at 127.0.0.1:8899 restarted, pid logged to audit/server-cycle02.log)
+- curl http://127.0.0.1:8899/ → 200 (32 MindOS hits), /assets/style.css 200, /assets/site.js 200 (node --check ok), /assets/search-index.json 200 (15 entries), /docs/* 200
+- Source: site/index.html 487 lines, site/assets/style.css 577, site/assets/site.js 299, 12 sections, archetypes 12, hints 7, copy-btn 3, data-nav 5, dup </main> 1, hex strict mono, jargon 0
+- Server had died since cycle 1 (curl 000); restarted via `python3 -m http.server 8899 --bind 127.0.0.1 --directory site > audit/server-cycle02.log 2>&1 &` — repo-local log, no /tmp/ps/lsof, verified 200
+- Issues found: hero scannability (no at-a-glance stats — proof bar alone thin for lay skimmers); #security plain text vs richer archetype peers (needs own pane like other sections); vs-git MindOS row visually floats without anchoring; copy buttons silent to AT (no aria-live); typography measure loose at 46em max (lede) vs tighter editorial rhythm; motion stagger on failure rail slightly slow
+
+### Edits applied (substantial block-level redesign)
+
+- **site/index.html**: inserted at-a-glance `hero-stats` bar (3 mono cells: "1 file · you own and can read" / "5 states · proof before done" / "rehearse → undo · one command") between proof bar and rel-card; rebuilt `#security` from plain paragraphs into `security-pane` SVG + prose (shield monochrome path `stroke #9a9aa2`, 3 guarantee lines, hint "Tab to the shield", body retains local-file copy language); marked MindOS row `class="row-mindos"`; added `#copy-live` aria-live polite region before `</body>` and "How we handle secrets" link under get-started.
+- **site/assets/style.css**: added `.hero-stats` grid (3-col mono cards, 1-col at 680, border-left dividers, `--surface-1`/`--border` only); added `.security-pane` archetype (`#0f0f12` bg, `#2a2a30` border, shield settle + staggered item reveals, reduced-motion fallback); added `.row-mindos` left accent `2px solid #9a9aa2`; typography refine (`sec-title` max 18em/1.22, lede 42em/1.6, body 44em/1.68, meta 50em); motion tuning (rail delays 160/380/600/820/1040 vs 200/480/760/1040/1320, security reduced-motion override).
+- **site/assets/site.js**: included `.security-pane` in diagram IntersectionObserver set so shield animates on scroll; copy `setCopied` now writes to `#copy-live` for AT announcement (auto-clears 1600ms).
+
+Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof):
+- curl 200 on /, /assets/style.css, /assets/site.js, /assets/search-index.json (32 hits retained), /docs/index.html 200
+- node --check site/assets/site.js → ok
+- sections 12, archetype classes 12, hint paragraphs 8 (+1 security), hero-stats 1, security-pane 1, row-mindos 1, copy-live 1, data-nav 5, dup </main> 1
+- hex inventory: #0a0a0b/#101012/#16161a/#232327/#e8e8ea/#9a9aa2/#5f5f66/#45454b/#7fb3e0(code only)/#34343a/#0f0f12/#2a2a30/#08130d/#3a3a40/#0d0d0f/#101014/#0e0e11 — strict monochrome, no saturated outside code
+- jargon scan: execution truth / temporal facts / provenance / control plane / fencing epoch → all false
+- artifacts: audit/cycle-02-source-check.md, audit/cycle-02-post-edit.md, audit/cycle-02-curl.html, audit/cycle-02-pre.html, audit/cycle-02-index.html/css/js snapshots, audit/server-cycle02.log (all inside repo)
+
+Commit: site: infinite loop cycle 2 — hero at-a-glance stats, security shield pane, MindOS row accent, measure + motion polish, copy-live announcement
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 3 plan (loop continues)
+- Full audit sweep: links (internal anchors + docs), console, reveals, reduced-motion, mobile 390 / tablet 820 pane overflow; screenshot captures via Playwright into audit/ (repo-local)
+- SVG timing fine-tune + per-section contrast audit + focus-visible outline contrast check
+- Do not stop after one plan — each cycle commits and pushes verified increment

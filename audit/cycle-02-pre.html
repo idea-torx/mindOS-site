@@ -68,11 +68,6 @@
         <span class="proof-sep" aria-hidden="true">·</span>
         <span class="proof-item">no server to run</span>
       </div>
-      <div class="hero-stats reveal" aria-label="At a glance">
-        <div class="hs-item"><span class="hs-val">1 file</span><span class="hs-label">you own and can read</span></div>
-        <div class="hs-item"><span class="hs-val">5 states</span><span class="hs-label">proof before done</span></div>
-        <div class="hs-item"><span class="hs-val">rehearse → undo</span><span class="hs-label">one command</span></div>
-      </div>
       <div class="rel-card" aria-label="Relationship">
         <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#16161a"/><path d="M9 22V10l7 7 7-7v12" fill="none" stroke="#e8e8ea" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span>an IdeatorX project</span>
@@ -367,7 +362,7 @@
           <tr><td>A shared Markdown file</td><td>The latest notes someone remembered to write</td><td>Who is working right now, or whether a note is still true</td></tr>
           <tr><td>Git history</td><td>Exactly how files changed, commit by commit</td><td>Which decisions those changes carry out, or who owns the live task</td></tr>
           <tr><td>A chatbot conversation</td><td>What one agent discussed in one window</td><td>Anything once that window closes; nothing another agent can read</td></tr>
-          <tr class="row-mindos"><td><strong>MindOS</strong></td><td>Who owns each task until when, every decision with its reason and replacement, and proof attached to each finished job</td><td style="color:var(--text-faint)">It does not replace Git or your notes; it sits above them as the record of what they mean</td></tr>
+          <tr><td><strong>MindOS</strong></td><td>Who owns each task until when, every decision with its reason and replacement, and proof attached to each finished job</td><td style="color:var(--text-faint)">It does not replace Git or your notes; it sits above them as the record of what they mean</td></tr>
         </tbody>
       </table>
     </div>
@@ -436,27 +431,13 @@
   </div>
 </section>
 
-<!-- ================= security boundary — compare + pane archetype ================= -->
+<!-- ================= security boundary ================= -->
 <section class="section archetype-compare" id="security">
   <div class="wrap narrow-day">
     <div class="reveal"><p class="kicker">What MindOS will not do</p>
     <h2 class="sec-title">A memory and a rulebook. Nothing more.</h2></div>
-    <figure class="pane security-pane reveal-late" role="img" aria-label="Security boundary: MindOS never deploys, never calls out, never keeps a cloud copy.">
-      <svg viewBox="0 0 760 140" class="sec-svg" aria-hidden="true" focusable="false">
-        <g class="sec-shield" transform="translate(36 20)">
-          <path d="M36 6 L62 18 L62 52 C62 66 49 78 36 84 C23 78 10 66 10 52 L10 18 Z" fill="none" stroke="#9a9aa2" stroke-width="1.6"/>
-          <path d="M26 44 L34 52 L48 34" fill="none" stroke="#e8e8ea" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-        </g>
-        <g class="sec-items">
-          <g class="sec-item"><circle cx="140" cy="36" r="3" fill="#5f5f66"/><text x="152" y="40" font-size="13" fill="#e8e8ea">Never deploys code or sends messages on its own</text></g>
-          <g class="sec-item"><circle cx="140" cy="68" r="3" fill="#5f5f66"/><text x="152" y="72" font-size="13" fill="#e8e8ea">Never touches your passwords — secrets are blocked or redacted</text></g>
-          <g class="sec-item"><circle cx="140" cy="100" r="3" fill="#5f5f66"/><text x="152" y="104" font-size="13" fill="#e8e8ea">Never keeps a cloud copy — one local file you can copy or delete</text></g>
-        </g>
-      </svg>
-      <figcaption class="visually-hidden">Three guarantees: never deploys, never touches secrets, never keeps a cloud copy.</figcaption>
-    </figure>
-    <p class="hint">The pane is focusable — Tab to the shield to hear the boundary read aloud.</p>
-    <p class="body reveal" style="margin-top:18px">Everything lives in one local database file you can open, copy, or delete. Receipts, archives, and databases never leave your machine and never enter any repository. If you delete the home folder, it is gone — there is no cloud copy to chase.</p>
+    <p class="body reveal">MindOS never deploys code, sends messages, calls external services on its own, or touches your passwords. Everything lives in one local database file you can open, copy, or delete.</p>
+    <p class="meta reveal">Receipts, archives, and databases never leave your machine and never enter any repository. If you delete the home folder, it is gone — there is no cloud copy to chase.</p>
   </div>
 </section>
 
@@ -479,7 +460,7 @@
       <a class="btn btn-primary" href="docs/getting-started.html">Read the setup guide</a>
       <a class="btn btn-ghost" href="mailto:leo@ideatorx.com?subject=MindOS">Email the team</a>
     </div>
-    <p class="meta reveal">Source-available under FSL-1.1-MIT: free to use and inspect now, MIT-licensed after each version&rsquo;s two-year change date. This page collects no data and submits no forms. <a href="docs/security.html">How we handle secrets and receipts</a>.</p>
+    <p class="meta reveal">Source-available under FSL-1.1-MIT: free to use and inspect now, MIT-licensed after each version&rsquo;s two-year change date. This page collects no data and submits no forms.</p>
   </div>
 </section>
 
@@ -501,7 +482,6 @@
   </div>
 </div>
 
-<div id="copy-live" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
 <script src="assets/site.js"></script>
 </body>
 </html>
