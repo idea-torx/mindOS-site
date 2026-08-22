@@ -98,7 +98,33 @@ Push: feat/mindos-docs-site — verified via curl after push
 
 ---
 
-## Cycle 3 plan (loop continues)
-- Full audit sweep: links (internal anchors + docs), console, reveals, reduced-motion, mobile 390 / tablet 820 pane overflow; screenshot captures via Playwright into audit/ (repo-local)
-- SVG timing fine-tune + per-section contrast audit + focus-visible outline contrast check
+## Cycle 3 — Audit sweep + seam rail + workflow legend + pane a11y (2026-08-21)
+
+### Pre-checks (curl + source only — server still 127.0.0.1:8899 from cycle 2, no restart)
+- curl http://127.0.0.1:8899/ → 200 (33 hits), /assets/* 200, /assets/search-index.json 200 (15), /docs/* 200, og-card.png 200, node --check ok
+- Source: site/index.html 507 lines, site/assets/style.css 625, site/assets/site.js 301, 12 sections, hints 8, dup </main> 1, hex strict mono, jargon 0
+- Issues found: pane overflow cramped at 680 (no min-width, padding 28px); #memory change point not keyboard-focusable vs hint; #workflow terminal lacks state→command mapping for skimmers; #human-seam reused walk spine — not distinct; security pane not actually focusable despite hint; mobile nav lacks Escape/click-outside; seam even-tint missing.
+
+### Edits applied (substantial block-level redesign)
+- **site/index.html**: made `.mm-change` focusable (tabindex+role+aria-label, hint now “Hover or Tab”); inserted `term-legend` pill row (5 mono pills: open→create … done→complete) above terminal to link state machine to CLI; replaced #human-seam walk archetype with `archetype-seam` containing new `seam-pane` pause rail SVG (destructive?/ambiguous?/secret? — 3 gates, rail draw, staggered settle) + distinct figcaption; made security figure focusable (tabindex 0) so “Tab to the shield” works.
+- **site/assets/style.css**: added `.term-legend` (mono pills, responsive), `.archetype-seam` (#0d0d0f bg, #0f0f12 pane, rail draw + 3 pauses stagger, hover lift), `.security-pane:focus-visible` ring, `.mm-change:focus-visible` (r 10), responsive pane fix at 680 (padding 18px 14px, svg min-width 560px, exempt hero/security), even-tint for seam, reduced-motion overrides for seam/legend.
+- **site/assets/site.js**: added Escape + click-outside to close mobile nav (returns focus), added `.seam-pane` to diagram IntersectionObserver, retained scroll-spy/copy-live/parallax/reveals.
+
+### Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof)
+- curl 200 on /, /assets/*, /assets/search-index.json (15), /docs/*, /assets/og-card.png (33 hits retained)
+- node --check site/assets/site.js → ok
+- sections 12, archetype classes 12 with seam distinct from walk, hint 8, hero-stats 1, security-pane 1 (focusable), seam-pane 1, seam-rail 1, term-legend 1, mm-change focusable 1, data-nav 5, dup </main> 1
+- hex: #0a0a0b/#101012/#16161a/#232327/#e8e8ea/#9a9aa2/#5f5f66/#45454b/#7fb3e0(code only)/#34343a/#0f0f12/#2a2a30/#08130d/#3a3a40/#0d0d0f/#101014/#0e0e11 — strict mono
+- jargon 0, console.log false, reduced-motion 4 blocks, focus-visible 13+
+- artifacts: audit/cycle-03-* (curl, index/css/js, source/post) inside repo, server log still audit/server-cycle02.log (no /tmp)
+
+Commit: site: infinite loop cycle 3 — seam pause rail (distinct archetype), workflow state→command legend, memory change focusable, security pane focusable + Escape nav, pane responsive at 680
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 4 plan (loop continues — do not stop after cycle 3)
+- Typography/measure refinement + SVG stagger tuning per section + per-section contrast re-audit (faint text + muted borders)
+- Vs-git table scannability (MindOS row accent already — consider checkmarks + mobile stacking without breaking table semantics)
+- Screenshot pass via repo-local audit/ captures (never /tmp)
 - Do not stop after one plan — each cycle commits and pushes verified increment
