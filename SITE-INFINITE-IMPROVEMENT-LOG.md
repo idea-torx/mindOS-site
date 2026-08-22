@@ -652,7 +652,37 @@ Push: feat/mindos-docs-site — verified via curl after push
 
 ---
 
-## Cycle 20 plan (loop continues — do not stop after cycle 19)
-- Next sweep: docs plain-lead vs landing lede measure harmony re-check, per-section hint spacing consistency at 390, code-token discipline re-scan, SVG hover vs focus contrast at 820 per pane.
+## Cycle 20 — Motion dedup + search focus trap + header fallback + reduced-motion harmony (supervised cycle 8, 2026-08-21)
+
+### Pre-checks (curl + source only — server still 127.0.0.1:8899, no restart)
+- curl http://127.0.0.1:8899/ → 200 (36 hits, 50236 bytes), /assets/* 200, /assets/search-index.json 200 (15), /docs/* 200, og-card.png 200, node --check ok
+- Source: site/index.html 553 lines, site/assets/style.css 1041 lines, site/assets/site.js 322, 12 sections, hints 12, dup </main> 1, hex 19 tokens strict mono (#7fb3e0 5 code-only), focus-visible 48, reduced-motion 4, landing jargon 0, console clean
+- Triple-check every section: 12 distinct archetypes verified (hero/rail/walk/window/machine/terminal/branch/compare/seam/layered/security/launch), SVG strokes 1.5/2/3 only, but CSS had duplicate motion delays for sm/arch/security/seam (early block 150/300/450 vs canonical 90/180/270 etc left from cycles 8/15/19), header backdrop-filter no @supports fallback (breaks in non-webkit), search overlay had no focus trap (Tab escapes modal, no opener restore), reduced-motion hero/arch pulses harmonize mid incomplete (hero pulse 0 vs arch 0), hero-cred hs-val 12.5/11 at 390 not stepped vs lede 17px.
+
+### Edits applied (substantial block-level redesign)
+
+- **site/assets/style.css motion dedup (code-quality)**: deleted duplicate early delay blocks — sm 150/300/450/900/1150 (lines 651-655), arch 100/300/500/700 (678-681), security 120/260/420/580 (365-367), seam 260/420/580 (394-396) — leaving single-source distinct cadences in lower block: fail 120/340/560/780/1000@420ms ease-out cascading descent; sm 90/180/270+620/850@320ms snap; arch 120/320/520/720@460ms cubic-bezier(.22,.61,.36,1) weighty with 460ms duration; security 80/240/400/560@360ms Shield-first; seam 200/380/560@360ms pause gates; hero 100/260/420/580@480ms snappy layered. Updated lower block comment to cycle 20 single-source with all 6 grammars isolated, removed 15 hard-coded duplicate lines.
+- **site/assets/style.css header fallback**: .site-header now base 96% opacity without filter; @supports (backdrop-filter: blur(8px)) wraps 88% + blur/saturate — prevents flat transparent fallback loss, keeps mono elevation distinct, no saturated color.
+- **site/assets/style.css reduced-motion harmony**: extended last reduced-motion block — hero .ah-pulse static mid translateY 174px opacity .85, arch .ar-pulse .85 + .ar-pulse-dn 125px — pulses now settle as visible mid-spine statics instead of invisible 0, harmonized with wildcard * {animation:none transition:none} covering 18 grammars + pane::before hairline.
+- **site/assets/style.css 390 micro-polish**: hero-cred hs-val 12.5 hs-label 11 at 390 (harmonizes with lede 17px/hint 11.5), .dw-card 14px padding at 390 (tightens walk vs rail measure).
+- **site/assets/site.js search focus trap (a11y)**: added opener capture on open, restore focus on close (opener.focus with try), overlay Tab trap (input ↔ a.hit cycle, Shift+Tab wraps), Escape now preventDefault + returns, close restores opener — keyboard users never lose position, AT live region already present.
+- **site/assets/search-index.json** (15 entries): regenerated via `python3 tools/gen-search-index.py` — landing 3800 retained (style/JS only), docs refreshed; `python3 tools/check-site.py` → OK: 15 pages, 248 links, 15 entries.
+
+### Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof)
+
+- curl 200 on /, /assets/style.css (1036 lines, contains @supports + deduped delays + 390 hs-val), /assets/site.js (335 lines, contains focus trap + opener, node --check ok), /assets/search-index.json (15, regenerated, landing 3800), /docs/*, /assets/og-card.png (36 hits retained)
+- node --check site/assets/site.js → ok
+- python3 tools/gen-search-index.py → Wrote 15 entries (landing 3800); python3 tools/check-site.py → OK: 15 pages, 248 internal links, 15 index entries — all routes resolve
+- sections 12, dup </main> 1, hints 12 (each section 1), panes tabindex 28, hero hint 1, data-labels 12, caption 1, scope 3, docs-mini 1, hero-stats 1, security-pane 1 (focusable, security archetype), seam-pane 1, term-legend 1, launch-pane 1, plain-lead 6 pages, landing copy-btn 4, docs copy-btn 22, live regions 9, focus-visible 58, reduced-motion 4 blocks (harmonized pulses), hex 19 tokens (#7fb3e0 5 code-only, #08080a wash retained), vars 55 usages
+- landing jargon 0, console.log false, overflow-x clip true, 900/820/680/390 present (dedup delays verified single-source, header @supports, trap Tab cycle, 390 hero-cred measure)
+- artifacts: audit/cycle-20-source-check.md, audit/cycle-20-post-edit.md, audit/cycle-20-curl.html, audit/cycle-20-index.html/style.css/site.js/search-index.json (inside repo), server log still audit/server-cycle02.log (kept alive, verified via curl only)
+
+Commit: site: infinite loop cycle 20 — motion dedup single-source, search focus trap + opener restore, header @supports fallback, reduced-motion pulse harmony, 390 hero-cred measure
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 21 plan (loop continues — do not stop after cycle 20)
+- Next sweep: docs plain-lead vs landing lede measure harmony re-check, per-section SVG stroke contrast at 820/390, table mobile card focus ring completeness, launch ticket hover vs focus parity at 390.
 - Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
 - No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
