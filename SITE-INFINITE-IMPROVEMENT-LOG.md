@@ -221,3 +221,43 @@ Push: feat/mindos-docs-site — verified via curl after push
 - Next sweep: docs readability vs landing plain-style alignment check (concepts/architecture still jargon-dense — intentional for runtime grounding but cross-check search snippets), SVG motion timing re-audit per section, table/terminal pane overflow at 390 re-flow.
 - Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
 - No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
+
+---
+
+## Cycle 7 — Docs plain bridge + landing alignment + 390 overflow (2026-08-21)
+
+### Pre-checks (curl + source only — server still 127.0.0.1:8899, no restart)
+- curl http://127.0.0.1:8899/ → 200 (35 hits, 47643 bytes), /assets/* 200, /assets/search-index.json 200 (15), /docs/* 200, og-card.png 200, node --check ok
+- Source: site/index.html 535 lines, site/assets/style.css 790, site/assets/site.js 314, 12 sections, dup </main> 1, hex strict mono, landing jargon 0, console clean
+- Docs source: 14 pages, 248 internal links, index entries 15 (landing humanized since cycle 6, but concepts/architecture/memory still dense per cycle 7 plan). Most jargon-dense pages — concepts (fencing epoch×4, control plane×2, provenance), architecture (execution truth, fencing epoch), memory (temporal facts×2, provenance) — intentional for runtime grounding but no plain bridge before dense terms; search snippets therefore mirror wall of terms. docs/index single dense paragraph lists every term without grouping; getting-started opens with “local control plane” without plain gloss.
+- Overflow/a11y: pane/term overflow already hardened at 390 (560→520) with overflow-x:clip (cycle 5), but docs pre.block not explicitly hardening (relies on inherited pane rule — needs explicit docs pre rule). Plain-lead vertical rhythm not yet systematized.
+
+### Edits applied (substantial block-level redesign)
+
+- **site/docs/concepts.html** (88→94 lines): humanized meta descriptions; added `plain-lead` (“In plain words: one local file answers who owns what…”) and rewrote Tasks/Leases/Receipts/Facts/Handoffs/Seams with inline plain meanings (lease as “you own until X”, fencing epoch as tick-up number that stops old worker) plus 4 gloss callouts (library checkout, fencing stops yesterday’s worker, cache A→B reason, leases protect to-do vs desk). Keeps precise terms (lease_epoch, provenance) with definitions.
+- **site/docs/architecture.html** (94→97 lines): humanized meta; added plain-lead (“every request flows through a rulebook… refused before SQLite changes”) + clarified execution truth parenthetical + rewrote block labels (Rulebook / Local record) and expanded autopilot.py/ops.py sentence to name leases/receipts/facts with plain glosses.
+- **site/docs/memory.html** (85→88 lines): humanized meta; added plain-lead (“MindOS remembers the way you’d want — current, old, and why”) + expanded Hindsight binding with authority gloss + rewrote Temporal facts to define validity window/provenance/supersession + gloss example (cache A→B because B shipped faster).
+- **site/docs/index.html** (106→107 lines): split dense inventory paragraph into plain-lead (“local memory your agents share… no server, every change keeps reason”) + technical inventory paragraph with parenthetical definitions for execution truth/Hindsight/temporal facts.
+- **site/docs/getting-started.html** (92→93 lines): added plain-lead (“no server, no account, pick a folder, three commands”) + kept control plane with plain parenthetical (“just means one place that decides and remembers”).
+- **site/docs/tasks-and-receipts.html** (88→89 lines): added plain-lead (“one owner, heartbeat, proof”).
+- **site/assets/style.css** (790→819 lines): added `.plain-lead` (surface-1/border, left #34343a accent, 15.5px/1.62, 14×16 padding, 18mt/28mb, mono-safe) + `.gloss` (faint, left #2a2a30 accent, 13.5px/1.6, -6mt/20mb) + docs typography refine (doc-page line-height 1.7, h2 scroll-margin 88, pre 18mt) + docs `pre.block` overflow hardening (overflow-x auto + thin scrollbar + webkit thumb, 680→11.5px, 390→11px) + 390 plain-lead/gloss scaling. Retains strict mono tokens (#7fb3e0 code-only), reduced-motion covers new blocks, focus-visible 25 unchanged, breakpoints 900/820/680/390 intact.
+- **site/assets/search-index.json** (15 entries): regenerated via `python3 tools/gen-search-index.py` — landing 3796 humanized retained; docs entries refreshed (architecture 2197, concepts 2198 incl. plain-lead, memory 1953, docs/index 2192, getting-started 1902) so search snippets now surface plain meaning first. `python3 tools/check-site.py` → OK: 15 pages, 248 links, 15 index entries.
+
+### Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof)
+
+- curl 200 on /, /assets/style.css (819 lines, contains plain-lead/gloss), /assets/site.js (node --check ok), /assets/search-index.json (15, regenerated 29109 bytes), /docs/*, /assets/og-card.png (35 hits retained, 47643 bytes — landing unchanged)
+- node --check site/assets/site.js → ok
+- python3 tools/gen-search-index.py → Wrote 15 entries (landing 3796, docs humanized); python3 tools/check-site.py → OK: 15 pages, 248 internal links, 15 index entries — all routes resolve
+- sections 12, dup </main> 1, panes tabindex 6, data-labels 12, caption 1, scope 3, hint 8, docs-mini 1, hero-stats 1, security-pane 1 (focusable), seam-pane 1, term-legend 1, plain-lead 6 pages, gloss present on 3 pages (concepts/arch/memory), focus-visible 25, reduced-motion 4 blocks, hex strict mono (17 tokens, #7fb3e0 code-only)
+- landing jargon 0, docs jargon now glossed (execution truth 5 pages with parenthetical, temporal facts 3 with gloss — intentional precision retained but explained), console.log false, overflow-x clip true, 820 + 390 breakpoints present, docs pre.block 560→520 scroll inside wrapper no body scroll
+- artifacts: audit/cycle-07-source-check.md, audit/cycle-07-post-edit.md, audit/cycle-07-curl.html, audit/cycle-07-index.html/style.css/site.js/search-index.json + docs snapshots (inside repo), server log still audit/server-cycle02.log (kept alive, verified via curl only)
+
+Commit: site: infinite loop cycle 7 — docs plain bridge (concepts/arch/memory/index/getting-started/tasks), plain-lead/gloss + 390 pre overflow, search-index regenerated
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 8 plan (loop continues — do not stop after cycle 7)
+- Next sweep: per-section SVG motion timing micro-audit (rail vs window vs machine vs branch), table mobile card contrast at 390, landing hero measure vs docs plain-lead measure alignment, focus-visible ring audit on docs side nav.
+- Each cycle: curl + source checks inside repo only, audit/ artifacts inside repo, http://127.0.0.1:8899 kept alive (verify via curl only), commit + push verified increment.
+- No /tmp, lsof, ps, external worktrees, live MindOS, or other repos.
