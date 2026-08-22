@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Documentation — MindOS</title>
+<meta name="description" content="MindOS documentation: getting started, concepts, architecture, installation, migration, memory, tasks and receipts, agents and handoffs, recovery, security, CLI reference, FAQ, roadmap.">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%23101012%22/%3E%3Cg transform=%22translate%284 4%29 scale%280.75%29%22%3E%3Crect x=%225%22 y=%2221%22 width=%2222%22 height=%223%22 rx=%221.5%22 fill=%22%239a9aa2%22/%3E%3Crect x=%229%22 y=%2210%22 width=%2214%22 height=%223%22 rx=%221.5%22 fill=%22%23e8e8ea%22/%3E%3Crect x=%2217%22 y=%224%22 width=%226%22 height=%226%22 rx=%221%22 fill=%22%23e8e8ea%22/%3E%3C/g%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MindOS">
+<meta property="og:title" content="MindOS documentation">
+<meta property="og:description" content="Getting started, concepts, architecture, installation, migration, memory, tasks and receipts, agents and handoffs, recovery, security, CLI reference, FAQ, roadmap.">
+</head>
+<body data-site-root="../">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">
+      <svg class="mark mark-static" width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="21" width="22" height="3" rx="1.5" fill="#9a9aa2"/><rect x="9" y="10" width="14" height="3" rx="1.5" fill="#e8e8ea"/><rect x="17" y="4" width="6" height="6" rx="1" fill="#e8e8ea"/></svg>
+      MindOS
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="../index.html#product">Product</a>
+      <a href="../index.html#architecture">Architecture</a>
+      <a href="../index.html#get-started">Get started</a>
+      <a href="index.html" aria-current="page">Docs</a>
+      <button class="search-btn" type="button" data-search-open aria-label="Search documentation">Search <span class="label">docs</span> <kbd>⌘K</kbd></button>
+    </nav>
+    <button class="menu-toggle" type="button" aria-expanded="false">☰</button>
+  </div>
+</header>
+
+<main id="main" class="docs-layout">
+  <aside class="docs-side">
+    <nav aria-label="Docs sections">
+      <span class="side-h">Documentation</span>
+      <a href="getting-started.html">Getting started</a>
+      <a href="concepts.html">Concepts</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="installation.html">Installation</a>
+      <a href="migration.html">Migration</a>
+      <a href="memory.html">Memory</a>
+      <a href="tasks-and-receipts.html">Tasks and receipts</a>
+      <a href="agents-and-handoffs.html">Agents and handoffs</a>
+      <a href="recovery-and-rollback.html">Recovery and rollback</a>
+      <a href="security.html">Security</a>
+      <a href="cli-reference.html">CLI reference</a>
+      <a href="faq.html">FAQ</a>
+      <a href="roadmap.html">Roadmap</a>
+    </nav>
+  </aside>
+
+  <article class="doc-page">
+    <p class="kicker">MindOS — Autopilot v2</p>
+    <h1>Documentation</h1>
+    <p class="meta-line">Everything here is grounded in the runtime repository’s README, ARCHITECTURE, INSTALL, SECURITY, ROADMAP, CHANGELOG, and STABILITY docs. Each page links back to its source.</p>
+
+    <p>MindOS is the durable local operating system for Hermes and cooperating AI agents. It combines SQLite-backed execution truth, a Hindsight shared semantic memory binding, temporal facts, task ownership with live leases, sealed receipts, provenance, session archives, profiles, skills, cron definitions, migration, recovery, and rollback — behind one CLI surface with no server to deploy.</p>
+
+    <div class="docs-grid">
+      <a class="doc-tile" href="getting-started.html"><span class="n">01</span><span class="t">Getting started</span><span class="d">Clone, init, doctor. Your first task in five commands.</span></a>
+      <a class="doc-tile" href="concepts.html"><span class="n">02</span><span class="t">Concepts</span><span class="d">Tasks, leases, fencing epochs, receipts, facts, handoffs.</span></a>
+      <a class="doc-tile" href="architecture.html"><span class="n">03</span><span class="t">Architecture</span><span class="d">CLI → guarantees → SQLite home → migration layer.</span></a>
+      <a class="doc-tile" href="installation.html"><span class="n">04</span><span class="t">Installation</span><span class="d">Prerequisites, install, upgrading, health checks.</span></a>
+      <a class="doc-tile" href="migration.html"><span class="n">05</span><span class="t">Migration</span><span class="d">Brain inventory, dry-run-first import, rollback.</span></a>
+      <a class="doc-tile" href="memory.html"><span class="n">06</span><span class="t">Memory</span><span class="d">Hindsight binding, temporal facts, notes, recall packs.</span></a>
+      <a class="doc-tile" href="tasks-and-receipts.html"><span class="n">07</span><span class="t">Tasks and receipts</span><span class="d">Lifecycle, leases, evidence-linked completions.</span></a>
+      <a class="doc-tile" href="agents-and-handoffs.html"><span class="n">08</span><span class="t">Agents and handoffs</span><span class="d">Cross-agent protocol, acks, recall digests.</span></a>
+      <a class="doc-tile" href="recovery-and-rollback.html"><span class="n">09</span><span class="t">Recovery and rollback</span><span class="d">Stale-lease sweeps, resume, rollback journal.</span></a>
+      <a class="doc-tile" href="security.html"><span class="n">10</span><span class="t">Security</span><span class="d">Boundary contract, secret guard, data rules.</span></a>
+      <a class="doc-tile" href="cli-reference.html"><span class="n">11</span><span class="t">CLI reference</span><span class="d">autopilot.py and ops.py command surface.</span></a>
+      <a class="doc-tile" href="faq.html"><span class="n">12</span><span class="t">FAQ</span><span class="d">Common questions, honest limitations.</span></a>
+      <a class="doc-tile" href="roadmap.html"><span class="n">13</span><span class="t">Roadmap</span><span class="d">Shipped, next, and non-goals as of August 2026.</span></a>
+    </div>
+
+    <div class="on-this-page">
+      <div class="otp-h">Source documents</div>
+      <a href="https://github.com/idea-torx/mindOS/blob/main/README.md">README.md (runtime repo)</a>
+      <a href="https://github.com/idea-torx/mindOS/blob/main/ARCHITECTURE.md">ARCHITECTURE.md</a>
+      <a href="https://github.com/idea-torx/mindOS/blob/main/INSTALL.md">INSTALL.md</a>
+      <a href="https://github.com/idea-torx/mindOS/blob/main/SECURITY.md">SECURITY.md</a>
+      <a href="https://github.com/idea-torx/mindOS/blob/main/ROADMAP.md">ROADMAP.md</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <span class="footer-brand"><svg class="mark mark-static" width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="21" width="22" height="3" rx="1.5" fill="#5f5f66"/><rect x="9" y="10" width="14" height="3" rx="1.5" fill="#5f5f66"/><rect x="17" y="4" width="6" height="6" rx="1" fill="#5f5f66"/></svg>MindOS — Autopilot v2 · an IdeatorX project</span>
+    <span>FSL-1.1-MIT · MIT after two years · local-first</span>
+  </div>
+</footer>
+
+<div class="search-overlay" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-panel">
+    <input type="search" placeholder="Search the docs…" aria-label="Search the docs">
+    <div class="search-results"></div>
+    <div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span><span><kbd>esc</kbd> close</span></div>
+  </div>
+</div>
+
+<script src="../assets/site.js"></script>
+</body>
+</html>

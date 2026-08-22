@@ -3,20 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MindOS — the durable local operating system for AI agents</title>
-<meta name="description" content="MindOS (Autopilot v2) is a durable local control plane for Hermes and cooperating AI agents: SQLite execution truth, leases, sealed receipts, temporal facts, Hindsight binding, migration, and recovery.">
+<title>MindOS: a memory and proof-of-work layer for AI agents</title>
+<meta name="description" content="MindOS gives your AI agents a shared memory that survives crashes, keeps the current decision next to the old one, and requires evidence before anything counts as finished. It runs entirely on your machine.">
 <link rel="stylesheet" href="assets/style.css">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%23101012%22/%3E%3Cg transform=%22translate%284 4%29 scale%280.75%29%22%3E%3Crect x=%225%22 y=%2221%22 width=%2222%22 height=%223%22 rx=%221.5%22 fill=%22%239a9aa2%22/%3E%3Crect x=%229%22 y=%2210%22 width=%2214%22 height=%223%22 rx=%221.5%22 fill=%22%237dd3a8%22/%3E%3Crect x=%2217%22 y=%224%22 width=%226%22 height=%226%22 rx=%221%22 fill=%22%237dd3a8%22/%3E%3C/g%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%23101012%22/%3E%3Cg transform=%22translate%284 4%29 scale%280.75%29%22%3E%3Crect x=%225%22 y=%2221%22 width=%2222%22 height=%223%22 rx=%221.5%22 fill=%22%239a9aa2%22/%3E%3Crect x=%229%22 y=%2210%22 width=%2214%22 height=%223%22 rx=%221.5%22 fill=%22%23e8e8ea%22/%3E%3Crect x=%2217%22 y=%224%22 width=%226%22 height=%226%22 rx=%221%22 fill=%22%23e8e8ea%22/%3E%3C/g%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="MindOS">
-<meta property="og:title" content="MindOS — the durable local operating system for AI agents">
-<meta property="og:description" content="SQLite execution truth, leases, sealed receipts, temporal facts, Hindsight binding, migration, and recovery — one local control plane for Hermes and cooperating AI agents.">
+<meta property="og:title" content="MindOS: a memory and proof-of-work layer for AI agents">
+<meta property="og:description" content="MindOS remembers what changed while your agents were away, asks what proves a job is done, and lets another agent pick up mid-task without guessing. Local, private, source-available.">
 <meta property="og:image" content="assets/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="MindOS — the durable local operating system for AI agents">
-<meta name="twitter:description" content="SQLite execution truth, leases, sealed receipts, temporal facts, Hindsight binding, migration, and recovery — one local control plane for Hermes and cooperating AI agents.">
+<meta name="twitter:title" content="MindOS: a memory and proof-of-work layer for AI agents">
+<meta name="twitter:description" content="MindOS remembers what changed while your agents were away, asks what proves a job is done, and lets another agent pick up mid-task without guessing. Local, private, source-available.">
 <meta name="twitter:image" content="assets/og-card.png">
 </head>
 <body data-site-root="">
@@ -25,14 +25,15 @@
 <header class="site-header">
   <div class="inner">
     <a class="brand" href="index.html">
-      <svg class="mark mark-static" width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="21" width="22" height="3" rx="1.5" fill="#9a9aa2"/><rect x="9" y="10" width="14" height="3" rx="1.5" fill="#7dd3a8"/><rect x="17" y="4" width="6" height="6" rx="1" fill="#7dd3a8"/></svg>
+      <svg class="mark mark-static" width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="21" width="22" height="3" rx="1.5" fill="#9a9aa2"/><rect x="9" y="10" width="14" height="3" rx="1.5" fill="#e8e8ea"/><rect x="17" y="4" width="6" height="6" rx="1" fill="#e8e8ea"/></svg>
       MindOS
     </a>
     <nav class="site-nav" aria-label="Site">
-      <a href="#product">Product</a>
+      <a href="#problem">Problem</a>
+      <a href="#product">A day with MindOS</a>
+      <a href="#memory">Memory</a>
       <a href="#architecture">Architecture</a>
-      <a href="#workflow">Workflow</a>
-      <a href="#recovery">Recovery</a>
+      <a href="#get-started">Try it</a>
       <a href="docs/index.html">Docs</a>
       <button class="search-btn" type="button" data-search-open aria-label="Search documentation">Search <span class="label">docs</span> <kbd>⌘K</kbd></button>
       <a class="btn btn-ghost btn-sm" href="#get-started">Get started</a>
@@ -50,12 +51,12 @@
       <svg class="mark mark-animated" width="28" height="28" viewBox="0 0 32 32" role="img" aria-label="MindOS">
         <rect class="ms ms-1" x="5" y="21" width="22" height="3" rx="1.5" fill="#9a9aa2"/>
         <rect class="ms ms-2" x="7" y="14.5" width="18" height="3" rx="1.5" fill="#e8e8ea"/>
-        <rect class="ms ms-3" x="9" y="8" width="14" height="3" rx="1.5" fill="#7dd3a8"/>
-        <rect class="seal" x="17" y="2" width="6" height="6" rx="1" fill="#7dd3a8"/>
+        <rect class="ms ms-3" x="9" y="8" width="14" height="3" rx="1.5" fill="#e8e8ea"/>
+        <rect class="seal" x="17" y="2" width="6" height="6" rx="1" fill="#e8e8ea"/>
       </svg>
       <p class="kicker">Autopilot v2 · source-available (FSL-1.1-MIT) · runs on your machine</p>
-      <h1 class="hero">Your agents forget.<br>Your evidence shouldn't.</h1>
-      <p class="lede">MindOS keeps a single local record of what your agents claimed, what actually proved it, and what to do when a session dies halfway through a job. Ask it "what is true right now" and it answers with receipts, not recollections.</p>
+      <h1 class="hero">AI agents lose track of their work.<br>MindOS is the memory they share.</h1>
+      <p class="lede">When you run several AI agents, each one only knows what is in its own conversation. MindOS keeps one local record they all read and write: what was decided, what changed since, who is working on what, and what actually proves a job is finished. Everything stays on your machine.</p>
       <div class="btn-row row-start">
         <a class="btn btn-primary" href="docs/getting-started.html">Get started</a>
         <a class="btn btn-ghost" href="docs/architecture.html">Read the architecture</a>
@@ -64,7 +65,7 @@
         <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#16161a"/><path d="M9 22V10l7 7 7-7v12" fill="none" stroke="#e8e8ea" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span>an IdeatorX project</span>
         <span class="sep">·</span>
-        <svg class="mark mark-static" width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="21" width="22" height="3" rx="1.5" fill="#9a9aa2"/><rect x="9" y="10" width="14" height="3" rx="1.5" fill="#7dd3a8"/><rect x="17" y="4" width="6" height="6" rx="1" fill="#7dd3a8"/></svg>
+        <svg class="mark mark-static" width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="21" width="22" height="3" rx="1.5" fill="#9a9aa2"/><rect x="9" y="10" width="14" height="3" rx="1.5" fill="#e8e8ea"/><rect x="17" y="4" width="6" height="6" rx="1" fill="#e8e8ea"/></svg>
         <span class="rel-strong">MindOS</span>
       </div>
       <p class="meta">Python 3.9+ · standard library only · nothing to deploy · state lives in a SQLite home you own</p>
@@ -72,7 +73,7 @@
 
     <!-- animated layered architecture hero (monochrome, reduced-motion safe) -->
     <figure class="hero-art reveal-late" id="heroArt" role="img"
-      aria-label="Animated diagram: a request enters the CLI surface, passes guarantees, lands in the SQLite execution authority, and returns as a sealed receipt. Layers: CLI surface, Guarantees, SQLite home, Migration and inventory.">
+      aria-label="Animated diagram: what an agent asks for travels down into the shared record, and verified answers travel back up. Layers: agents, the rulebook, the local record, and safe import tools.">
       <svg class="arch-hero" viewBox="0 0 460 520" aria-hidden="true" focusable="false">
         <defs>
           <linearGradient id="spineGrad" x1="0" y1="0" x2="0" y2="1">
@@ -87,44 +88,44 @@
         <!-- layer 1: CLI surface -->
         <g class="ah-layer ah-l1" tabindex="0">
           <rect x="40" y="40" width="380" height="46" rx="8" fill="#101012" stroke="#232327"/>
-          <text x="58" y="60" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#e8e8ea">CLI surface</text>
-          <text x="58" y="76" font-family="ui-monospace, Menlo, monospace" font-size="10" fill="#5f5f66">autopilot.py · ops.py · verify.py</text>
+          <text x="58" y="60" font-size="13" fill="#e8e8ea">Agents, any brand</text>
+          <text x="58" y="76" font-size="11" fill="#5f5f66">anything that can run a command</text>
           <circle class="ah-node" cx="230" cy="63" r="4" fill="#16161a" stroke="#9a9aa2" stroke-width="1.5"/>
         </g>
 
         <!-- layer 2: guarantees -->
         <g class="ah-layer ah-l2" tabindex="0">
           <rect x="40" y="132" width="380" height="46" rx="8" fill="#101012" stroke="#232327"/>
-          <text x="58" y="152" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#e8e8ea">Guarantees</text>
-          <text x="58" y="168" font-family="ui-monospace, Menlo, monospace" font-size="10" fill="#5f5f66">leases · hash chain · receipt sealing</text>
+          <text x="58" y="152" font-size="13" fill="#e8e8ea">The rulebook</text>
+          <text x="58" y="168" font-size="11" fill="#5f5f66">one owner · proof before done · nothing silent</text>
           <circle class="ah-node" cx="230" cy="155" r="4" fill="#16161a" stroke="#9a9aa2" stroke-width="1.5"/>
           <g class="ah-check" transform="translate(392 148)">
-            <circle r="9" fill="none" stroke="#7dd3a8" stroke-width="1.5"/>
-            <path d="M-4 0l3 3 5-6" fill="none" stroke="#7dd3a8" stroke-width="1.5" stroke-linecap="round"/>
+            <circle r="9" fill="none" stroke="#e8e8ea" stroke-width="1.5"/>
+            <path d="M-4 0l3 3 5-6" fill="none" stroke="#e8e8ea" stroke-width="1.5" stroke-linecap="round"/>
           </g>
         </g>
 
         <!-- layer 3: SQLite authority (the seat) -->
         <g class="ah-layer ah-l3" tabindex="0">
-          <rect x="24" y="224" width="412" height="72" rx="10" fill="#16161a" stroke="#2c3a32" stroke-width="1.5"/>
-          <text x="44" y="252" font-family="ui-monospace, Menlo, monospace" font-size="13" fill="#7dd3a8">SQLite home ($MINDOS_HOME)</text>
-          <text x="44" y="270" font-family="ui-monospace, Menlo, monospace" font-size="10" fill="#9a9aa2">state.db — execution authority</text>
-          <text x="44" y="284" font-family="ui-monospace, Menlo, monospace" font-size="10" fill="#5f5f66">temporal.db — fact graph sidecar</text>
-          <circle class="ah-node" cx="230" cy="260" r="5" fill="#0a0a0b" stroke="#7dd3a8" stroke-width="1.5"/>
+          <rect x="24" y="224" width="412" height="72" rx="10" fill="#16161a" stroke="#34343a" stroke-width="1.5"/>
+          <text x="44" y="252" font-size="14" fill="#e8e8ea">Your local record</text>
+          <text x="44" y="270" font-size="11" fill="#9a9aa2">one database file you own and can read</text>
+          <text x="44" y="284" font-size="11" fill="#5f5f66">every decision keeps its reason and replacement</text>
+          <circle class="ah-node" cx="230" cy="260" r="5" fill="#0a0a0b" stroke="#e8e8ea" stroke-width="1.5"/>
         </g>
 
         <!-- layer 4: migration / inventory -->
         <g class="ah-layer ah-l4" tabindex="0">
           <rect x="40" y="342" width="380" height="46" rx="8" fill="#101012" stroke="#232327"/>
-          <text x="58" y="362" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#e8e8ea">Migration / inventory</text>
-          <text x="58" y="378" font-family="ui-monospace, Menlo, monospace" font-size="10" fill="#5f5f66">dry-run first · rollback journal · quarantine</text>
+          <text x="58" y="362" font-size="13" fill="#e8e8ea">Move records in or out safely</text>
+          <text x="58" y="378" font-size="11" fill="#5f5f66">rehearses on a copy first · undoes with one command</text>
           <circle class="ah-node" cx="230" cy="365" r="4" fill="#16161a" stroke="#9a9aa2" stroke-width="1.5"/>
         </g>
 
-        <!-- sealed receipt settles onto the base plate -->
+        <!-- proof receipt settles onto the base plate -->
         <g class="ah-seal">
-          <rect x="150" y="452" width="160" height="34" rx="6" fill="#101012" stroke="#7dd3a8" stroke-width="1.2"/>
-          <text x="230" y="473" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#7dd3a8">receipt sealed ✓</text>
+          <rect x="150" y="452" width="160" height="34" rx="6" fill="#101012" stroke="#e8e8ea" stroke-width="1.2"/>
+          <text x="230" y="473" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#e8e8ea">receipt sealed ✓</text>
         </g>
         <text x="230" y="512" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="10" fill="#5f5f66">every claim ends with evidence</text>
       </svg>
@@ -133,119 +134,153 @@
   </div>
 </section>
 
-<!-- ================= problem ================= -->
+<!-- ================= problem: failure sequence ================= -->
 <section class="section" id="problem">
   <div class="wrap">
     <div class="reveal"><p class="kicker">The problem</p>
-    <h2 class="sec-title">Agent fleets drift without execution truth.</h2>
-    <p class="body">When several agents work in parallel, memory and intent live in chat transcripts, scratch files, and Git history. None of those answer the operational questions: who holds this task, is the lease still live, what evidence backs “done”, what changed while a session was dead, and how do you roll back a bad import?</p></div>
-    <div class="grid-3 gap-top">
-      <div class="feature-card reveal"><span class="glyph">01</span><h3>Claims without evidence</h3><p>"Tests pass" typed into a chat window is not proof. In MindOS, finishing work requires a hash-sealed receipt stored as a 0600 evidence file with its sha256 recorded in the audit trail.</p></div>
-      <div class="feature-card reveal"><span class="glyph">02</span><h3>Stale ownership</h3><p>Dead sessions leave phantom owners behind. Live leases with monotonic fencing epochs reject stale processes, even when the owner name still matches.</p></div>
-      <div class="feature-card reveal"><span class="glyph">03</span><h3>Unrecoverable migrations</h3><p>Import scripts mutate sources and leave no way back. MindOS migration plans before it touches anything, proves sources stay byte-identical, journals every step, and reverses with one command.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= product model ================= -->
-<section class="section" id="product">
-  <div class="wrap">
-    <div class="reveal"><p class="kicker">Product model</p>
-    <h2 class="sec-title">A control tower for the fleet you already run.</h2>
-    <p class="body">Four systems sit behind one CLI surface:</p></div>
-    <div class="grid-2 gap-top">
-      <div class="feature-card reveal"><span class="glyph">autopilot.py</span><h3>Execution truth</h3><p>Tasks, claims, live leases with fencing epochs, heartbeats, retry budgets and backoff, dependency edges, impact analysis, dispatch planning, and metrics — all in SQLite.</p></div>
-      <div class="feature-card reveal"><span class="glyph">hindsight binding</span><h3>Shared semantic memory</h3><p>Hindsight stays the semantic brain through an explicit, provider-neutral binding. SQLite is the single execution authority; Hindsight is never copied into it as a second one.</p></div>
-      <div class="feature-card reveal"><span class="glyph">temporal.db</span><h3>Temporal facts</h3><p>A provenance-linked fact graph of evolving ownership, priorities, validity windows, superseded decisions, and blockers, with BM25 retrieval and temporal hybrid rerank.</p></div>
-      <div class="feature-card reveal"><span class="glyph">ops.py</span><h3>Recovery and portability</h3><p>Sealed inventories across nine source kinds, guarded stale-lease recovery, escalation, doctor health checks with FTS5 drift detection, quarantine, and cross-agent handoffs with recall digests.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= architecture ================= -->
-<section class="section" id="architecture">
-  <div class="wrap">
-    <div class="reveal"><p class="kicker">Architecture</p>
-    <h2 class="sec-title">Four layers, one authority.</h2>
-    <p class="body">Every layer exists to keep SQLite the single execution authority and to make every mutation auditable and reversible.</p></div>
-    <figure class="pane reveal-late flow-pane" role="img"
-      aria-label="Animated request lifecycle: create flows to claim, claim to heartbeat, heartbeat to receipt, receipt to complete; every stage writes an audited event to the SQLite authority below.">
-      <svg viewBox="0 0 760 360" class="arch-flow" aria-hidden="true" focusable="false">
-        <defs>
-          <marker id="arrowHead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0 0L10 5L0 10z" fill="#9a9aa2"/>
-          </marker>
-        </defs>
-        <!-- stage nodes along the top -->
-        <g class="af-stage af-s1" tabindex="0">
-          <rect x="24" y="28" width="128" height="52" rx="8" fill="#101012" stroke="#232327"/>
-          <text x="88" y="50" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="13" fill="#e8e8ea">create</text>
-          <text x="88" y="68" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="10" fill="#5f5f66">task + priority</text>
-        </g>
-        <g class="af-stage af-s2" tabindex="0">
-          <rect x="212" y="28" width="128" height="52" rx="8" fill="#101012" stroke="#232327"/>
-          <text x="276" y="50" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="13" fill="#e8e8ea">claim</text>
-          <text x="276" y="68" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="10" fill="#5f5f66">lease + epoch</text>
-        </g>
-        <g class="af-stage af-s3" tabindex="0">
-          <rect x="400" y="28" width="128" height="52" rx="8" fill="#101012" stroke="#232327"/>
-          <text x="464" y="50" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="13" fill="#e8e8ea">heartbeat</text>
-          <text x="464" y="68" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="10" fill="#5f5f66">liveness + note</text>
-        </g>
-        <g class="af-stage af-s4" tabindex="0">
-          <rect x="588" y="28" width="148" height="52" rx="8" fill="#101012" stroke="#232327"/>
-          <text x="662" y="50" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="13" fill="#e8e8ea">receipt → complete</text>
-          <text x="662" y="68" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="10" fill="#5f5f66">sealed evidence</text>
-        </g>
-        <!-- animated connectors -->
-        <g class="af-links" fill="none" stroke="#9a9aa2" stroke-width="1.5">
-          <line class="af-link" x1="152" y1="54" x2="206" y2="54" marker-end="url(#arrowHead)"/>
-          <line class="af-link" x1="340" y1="54" x2="394" y2="54" marker-end="url(#arrowHead)"/>
-          <line class="af-link" x1="528" y1="54" x2="582" y2="54" marker-end="url(#arrowHead)"/>
-        </g>
-        <circle class="af-dot" r="3" cy="54" cx="152" fill="#e8e8ea"/>
-        <!-- drop lines into the authority -->
-        <g class="af-drops" stroke="#232327" stroke-width="1.2">
-          <line x1="88"  y1="80"  x2="88"  y2="150"/>
-          <line x1="276" y1="80"  x2="276" y2="150"/>
-          <line x1="464" y1="80"  x2="464" y2="150"/>
-          <line x1="662" y1="80"  x2="662" y2="150"/>
-        </g>
-        <!-- authority slab -->
-        <g class="af-authority" tabindex="0">
-          <rect x="24" y="150" width="712" height="78" rx="10" fill="#16161a" stroke="#2c3a32" stroke-width="1.5"/>
-          <text x="44" y="182" font-family="ui-monospace, Menlo, monospace" font-size="14" fill="#7dd3a8">SQLite home ($MINDOS_HOME)</text>
-          <text x="44" y="204" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#9a9aa2">state.db · temporal.db · hash-chained audit stream</text>
-        </g>
-        <!-- guarantees strip -->
-        <g class="af-guarantees">
-          <rect x="24" y="252" width="712" height="48" rx="8" fill="#101012" stroke="#232327"/>
-          <text x="44" y="281" font-family="ui-monospace, Menlo, monospace" font-size="11.5" fill="#e8e8ea">guarantees enforced at every write:</text>
-          <text x="330" y="281" font-family="ui-monospace, Menlo, monospace" font-size="11.5" fill="#9a9aa2">live lease · fencing epoch match · secret guard · FTS sync</text>
-        </g>
-        <!-- sealed outcome -->
-        <g class="af-seal">
-          <rect x="270" y="318" width="220" height="30" rx="6" fill="#101012" stroke="#7dd3a8" stroke-width="1.2"/>
-          <text x="380" y="337" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#7dd3a8">every event auditable ✓</text>
-        </g>
+    <h2 class="sec-title">How agent work falls apart, step by step.</h2>
+    <p class="body">Nothing dramatic has to go wrong. A normal Tuesday is enough. Follow one task through an afternoon without a shared memory:</p></div>
+    <figure class="pane reveal-late fail-pane" role="img"
+      aria-label="Animated failure sequence in five steps: an agent starts a task; its context disappears when the session ends; two workers repeat the same work; a decision goes stale; completion is claimed without any proof.">
+      <svg viewBox="0 0 760 300" class="fail-svg" aria-hidden="true" focusable="false">
+        <!-- vertical rail -->
+        <line class="fs-rail" x1="60" y1="20" x2="60" y2="270" stroke="#34343a" stroke-width="2"/>
+        <!-- five steps down the rail -->
+        <g class="fs-step fs-1"><circle cx="60" cy="40" r="7" fill="#0a0a0b" stroke="#9a9aa2" stroke-width="1.5"/>
+          <text x="90" y="38" font-size="14" fill="#e8e8ea">An agent picks up the task</text>
+          <text x="90" y="56" font-size="12" fill="#5f5f66">It reads the goal into its own short-term context</text></g>
+        <g class="fs-step fs-2"><circle cx="60" cy="92" r="7" fill="#0a0a0b" stroke="#9a9aa2" stroke-width="1.5"/>
+          <text x="90" y="90" font-size="14" fill="#e8e8ea">The session ends</text>
+          <text x="90" y="108" font-size="12" fill="#5f5f66">Everything it held in mind leaves with it</text></g>
+        <g class="fs-step fs-3"><circle cx="60" cy="144" r="7" fill="#0a0a0b" stroke="#9a9aa2" stroke-width="1.5"/>
+          <text x="90" y="142" font-size="14" fill="#e8e8ea">A second agent takes over</text>
+          <text x="90" y="160" font-size="12" fill="#5f5f66">With no record of progress, it redoes the same work</text>
+          <path class="fs-loop" d="M84 150 h120 a10 10 0 0 1 10 10 v18" fill="none" stroke="#5f5f66" stroke-width="1.2" stroke-dasharray="4 4"/></g>
+        <g class="fs-step fs-4"><circle cx="60" cy="196" r="7" fill="#0a0a0b" stroke="#9a9aa2" stroke-width="1.5"/>
+          <text x="90" y="194" font-size="14" fill="#e8e8ea">A decision changes upstream</text>
+          <text x="90" y="212" font-size="12" fill="#5f5f66">The old choice still looks current to everyone else</text></g>
+        <g class="fs-step fs-5"><circle cx="60" cy="248" r="7" fill="#0a0a0b" stroke="#e8e8ea" stroke-width="1.5"/>
+          <text x="90" y="246" font-size="14" fill="#e8e8ea">&ldquo;Done&rdquo; gets claimed anyway</text>
+          <text x="90" y="264" font-size="12" fill="#5f5f66">Nobody can ask what proves it, because nothing does</text></g>
       </svg>
-      <figcaption class="visually-hidden">A task moves through create, claim, heartbeat, and a sealed receipt before completion, while each stage writes an audited event into the SQLite execution authority.</figcaption>
+      <figcaption class="visually-hidden">Five steps: task picked up, session ends, work repeated, decision goes stale, completion claimed without proof.</figcaption>
     </figure>
-    <div class="grid-2 gap-top">
-      <div class="feature-card reveal"><h3>Fails closed</h3><p>Ambiguity and corruption refuse with exact blockers. Optional sources that are absent get recorded honestly without blocking the rest of the fleet.</p></div>
-      <div class="feature-card reveal"><h3>Tamper-evident audit</h3><p>A global hash-chained event stream records everything. <code>verify-chain</code> recomputes the chain and reports tampering, including truncation, via checkpoints.</p></div>
-    </div>
+    <p class="body gap-top">None of this is a model problem. It is a memory problem. Chat transcripts, scratch files, and Git history each hold a fragment, but none of them can answer the simple questions: who is working on this right now, what changed while we were away, and what proves it is done?</p>
   </div>
 </section>
 
-<!-- ================= workflow ================= -->
+<!-- ================= a day with MindOS: editorial walkthrough ================= -->
+<section class="section" id="product">
+  <div class="wrap narrow-day">
+    <div class="reveal"><p class="kicker">A day with MindOS</p>
+    <h2 class="sec-title">One request, from words to finished work.</h2>
+    <p class="body">Here is the same afternoon with MindOS present. It is not another chat window. It is the shared record every agent checks before acting and updates after acting.</p></div>
+    <ol class="day-walk">
+      <li class="dw-item reveal"><span class="dw-n">1</span>
+        <div><h3>You ask in plain words</h3>
+        <p>&ldquo;Fix the render bug on the invoice page.&rdquo; MindOS records the request as a task anyone can see, with a priority you set or that your lead agent sets.</p></div></li>
+      <li class="dw-item reveal"><span class="dw-n">2</span>
+        <div><h3>An agent claims it, out loud</h3>
+        <p>Before starting, an agent registers that it owns this task and for how long. If it stops responding, everyone can see the claim expired instead of guessing.</p></div></li>
+      <li class="dw-item reveal"><span class="dw-n">3</span>
+        <div><h3>Work leaves a trail as it happens</h3>
+        <p>The agent posts short notes while it works. If its session dies halfway through, the next agent reads those notes and continues instead of starting over.</p></div></li>
+      <li class="dw-item reveal"><span class="dw-n">4</span>
+        <div><h3>Finished means proven</h3>
+        <p>When an agent says it is done, MindOS asks what proves it: test output, a health check, a file hash. The proof is stored as a receipt, and only then does the task close.</p></div></li>
+      <li class="dw-item reveal"><span class="dw-n">5</span>
+        <div><h3>You get an honest answer</h3>
+        <p>Ask &ldquo;what happened today?&rdquo; and MindOS answers from the record: what was decided, what changed, what was completed and what stalled. Not from anyone&rsquo;s recollection.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ================= what MindOS remembers: temporal diagram ================= -->
+<section class="section" id="memory">
+  <div class="wrap">
+    <div class="reveal"><p class="kicker">What MindOS remembers</p>
+    <h2 class="sec-title">The current decision, the old one, and why it changed.</h2>
+    <p class="body">Notes in a file only hold the latest version. Git holds history but no meaning. MindOS keeps each decision with its validity window, so an agent can ask what was true last Tuesday and get a real answer.</p></div>
+    <figure class="pane reveal-late mem-pane" role="img"
+      aria-label="Animated temporal diagram: decision A is active, then decision B supersedes it at a visible change point; both remain readable with their validity windows.">
+      <svg viewBox="0 0 760 260" class="mem-svg" aria-hidden="true" focusable="false">
+        <!-- timeline axis -->
+        <line x1="40" y1="200" x2="720" y2="200" stroke="#34343a" stroke-width="2"/>
+        <!-- decision A bar: valid early -->
+        <g class="mm-a"><rect x="60" y="90" width="280" height="34" rx="6" fill="#101012" stroke="#45454b"/>
+          <text x="76" y="112" font-size="13" fill="#e8e8ea">&ldquo;Use cache A for renders&rdquo;</text>
+          <line x1="60" y1="196" x2="340" y2="196" stroke="#9a9aa2" stroke-width="3"/></g>
+        <!-- supersede point -->
+        <g class="mm-change"><circle cx="340" cy="200" r="8" fill="#0a0a0b" stroke="#e8e8ea" stroke-width="2"/>
+          <path class="mm-pulse" d="M340 168 v20" fill="none" stroke="#e8e8ea" stroke-width="1.5"/>
+          <text x="352" y="176" font-size="11" fill="#5f5f66">changed: cache B shipped faster</text></g>
+        <!-- decision B bar -->
+        <g class="mm-b"><rect x="380" y="130" width="300" height="34" rx="6" fill="#16161a" stroke="#9a9aa2" stroke-width="1.5"/>
+          <text x="396" y="152" font-size="13" fill="#e8e8ea">&ldquo;Use cache B for renders&rdquo;</text>
+          <line x1="380" y1="196" x2="680" y2="196" stroke="#e8e8ea" stroke-width="3"/></g>
+        <text x="40" y="238" font-size="12" fill="#5f5f66">past</text>
+        <text x="686" y="238" font-size="12" fill="#5f5f66">now</text>
+      </svg>
+      <figcaption class="visually-hidden">Decision A held until cache B replaced it; the reason for the change sits next to both decisions.</figcaption>
+    </figure>
+    <p class="meta">The old decision is never deleted. It is marked superseded, with the reason recorded beside it. That is what lets any agent answer &ldquo;why are we doing it this way?&rdquo; without asking you again.</p>
+  </div>
+</section>
+
+<!-- ================= how work stays safe: state machine ================= -->
+<section class="section" id="safety">
+  <div class="wrap">
+    <div class="reveal"><p class="kicker">How work stays safe</p>
+    <h2 class="sec-title">Every task moves through five states, and only real ones.</h2>
+    <p class="body">Hover or focus each state to see what it protects. The point of the machinery is simple: two agents can never silently work on the same thing, and nothing counts as finished without evidence.</p></div>
+    <figure class="pane reveal-late sm-pane" role="img"
+      aria-label="Animated state machine: open, claimed, running, proven, done, with a recovery branch back from a dead claim. Each state has a hover explanation.">
+      <svg viewBox="0 0 760 300" class="sm-svg" aria-hidden="true" focusable="false">
+        <defs><marker id="smArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0L10 5L0 10z" fill="#9a9aa2"/></marker></defs>
+        <g class="sm-links" fill="none" stroke="#45454b" stroke-width="1.5">
+          <line x1="128" y1="70" x2="182" y2="70" marker-end="url(#smArrow)"/>
+          <line x1="308" y1="70" x2="362" y2="70" marker-end="url(#smArrow)"/>
+          <line x1="488" y1="70" x2="542" y2="70" marker-end="url(#smArrow)"/>
+          <path d="M630 96 v60 h-360 v-56" marker-end="url(#smArrow)"/>
+        </g>
+        <!-- states -->
+        <g class="sm-state" tabindex="0"><rect x="40" y="44" width="88" height="52" rx="8" fill="#101012" stroke="#34343a"/>
+          <text x="84" y="75" text-anchor="middle" font-size="13.5" fill="#e8e8ea">open</text></g>
+        <g class="sm-state" tabindex="0"><rect x="188" y="44" width="120" height="52" rx="8" fill="#101012" stroke="#34343a"/>
+          <text x="248" y="68" text-anchor="middle" font-size="13.5" fill="#e8e8ea">claimed</text>
+          <text x="248" y="86" text-anchor="middle" font-size="10.5" fill="#5f5f66">one owner, timed</text></g>
+        <g class="sm-state" tabindex="0"><rect x="368" y="44" width="120" height="52" rx="8" fill="#101012" stroke="#34343a"/>
+          <text x="428" y="68" text-anchor="middle" font-size="13.5" fill="#e8e8ea">running</text>
+          <text x="428" y="86" text-anchor="middle" font-size="10.5" fill="#5f5f66">notes while working</text></g>
+        <g class="sm-state" tabindex="0"><rect x="548" y="44" width="164" height="52" rx="8" fill="#16161a" stroke="#9a9aa2"/>
+          <text x="630" y="68" text-anchor="middle" font-size="13.5" fill="#e8e8ea">proven</text>
+          <text x="630" y="86" text-anchor="middle" font-size="10.5" fill="#9a9aa2">receipt attached</text></g>
+        <g class="sm-state" tabindex="0"><rect x="548" y="180" width="164" height="52" rx="8" fill="#101012" stroke="#34343a"/>
+          <text x="630" y="204" text-anchor="middle" font-size="13.5" fill="#e8e8ea">done</text>
+          <text x="630" y="222" text-anchor="middle" font-size="10.5" fill="#5f5f66">closed with proof</text></g>
+        <g class="sm-state sm-recover" tabindex="0"><rect x="188" y="180" width="120" height="52" rx="8" fill="#0a0a0b" stroke="#5f5f66" stroke-dasharray="5 4"/>
+          <text x="248" y="204" text-anchor="middle" font-size="13.5" fill="#9a9aa2">claim died</text>
+          <text x="248" y="222" text-anchor="middle" font-size="10.5" fill="#5f5f66">another agent continues</text></g>
+      </svg>
+      <figcaption class="visually-hidden">A task flows from open to claimed to running to proven to done; an expired claim routes into recovery where another agent picks up from the last note.</figcaption>
+    </figure>
+    <ul class="sm-notes gap-top">
+      <li class="reveal"><strong>One owner at a time.</strong> A claim carries an expiry. If the owner stops responding, the claim lapses instead of blocking everyone.</li>
+      <li class="reveal"><strong>Old owners lose.</strong> When a task is re-claimed after a lapse, the new owner gets a higher generation number. Commands from the expired owner are refused automatically.</li>
+      <li class="reveal"><strong>Evidence before closure.</strong> The done state is unreachable until a receipt exists. &ldquo;Tests pass&rdquo; typed in chat does not count.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= workflow: real commands, plain framing ================= -->
 <section class="section" id="workflow">
   <div class="wrap">
-    <div class="reveal"><p class="kicker">Workflow</p>
-    <h2 class="sec-title">Claim, fence, prove, complete.</h2>
-    <p class="body">A real task moving through the control plane. Every command shown here is a shipped MindOS command.</p></div>
+    <div class="reveal"><p class="kicker">The same moment, for real</p>
+    <h2 class="sec-title">What the five states look like as actual commands.</h2>
+    <p class="body">No dashboard to babysit. The record is updated by the agents themselves, from the command line. This is a real task moving through its whole life:</p></div>
     <div class="term gap-top reveal-late">
-      <div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="margin-left:8px">mindos — task lifecycle</span></div>
+      <div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="margin-left:8px">mindos , one task, start to finish</span></div>
       <div class="term-body"><span class="c-prompt">$</span> <span class="c-cmd">python3 autopilot.py create</span> <span class="c-flag">--project</span> Trove <span class="c-flag">--title</span> "Ship render fix" <span class="c-flag">--priority</span> P1
 <span class="c-ok">task created</span> <span class="c-dim">id=tsk_4f2a priority=P1 project=Trove</span>
 
@@ -261,106 +296,167 @@
 <span class="c-prompt">$</span> <span class="c-cmd">python3 autopilot.py complete</span> tsk_4f2a <span class="c-flag">--owner</span> hermes <span class="c-flag">--epoch</span> 1 <span class="c-flag">--note</span> "tests pass"
 <span class="c-ok">task completed</span> <span class="c-dim">evidence=sealed receipt required ✓</span></div>
     </div>
-    <p class="meta">Completions without a live, epoch-matched lease are rejected. Failures feed retry budgets and dispatch backoff instead of disappearing.</p>
+    <p class="meta gap-top">In plain words: create says what needs doing, claim says who owns it and until when, heartbeat proves the owner is alive, receipt stores the proof, complete closes it. A completion attempt without a live claim and stored proof is refused.</p>
   </div>
 </section>
 
-<!-- ================= recovery ================= -->
+<!-- ================= recovery: branching rail ================= -->
 <section class="section" id="recovery">
   <div class="wrap">
-    <div class="reveal"><p class="kicker">Recovery</p>
-    <h2 class="sec-title">Everything destructive plans first.</h2></div>
-    <div class="grid-2 gap-top recovery-grid">
-      <div class="reveal">
-        <p class="body"><strong>Dry-run first.</strong> Migration builds its inventory and plan against a disposable target, applies only on an explicit flag, and journals every step for rollback. Re-runs are idempotent.</p>
-        <p class="body"><strong>Sources stay immutable.</strong> Migration reads never mutate their sources. Full-fixture hash comparisons in the end-to-end suite prove it.</p>
-        <p class="body"><strong>Orphans are quarantined, not dropped.</strong> Foreign receipts are quarantined with full provenance rather than breaking foreign-key integrity or losing evidence.</p>
-        <p class="body"><strong>Killed sessions resume.</strong> <code>resume</code> gives idempotent killed-session recovery; <code>recover</code> sweeps stale leases with guarded, reported skips so mid-sweep claims are never wiped.</p>
-        <pre class="block"><span class="c-cmd">python3 ops.py migrate-rollback</span> …   <span class="c-dim"># one-command recovery</span>
-<span class="c-cmd">python3 ops.py doctor</span>               <span class="c-dim"># health, incl. FTS drift</span>
-<span class="c-cmd">python3 autopilot.py verify-chain</span>   <span class="c-dim"># audit integrity</span></pre>
-      </div>
-      <div class="term reveal-late">
-        <div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="margin-left:8px">mindos — recovery rail</span></div>
-        <div class="term-body"><span class="c-prompt">$</span> <span class="c-cmd">python3 ops.py brain-inventory</span> <span class="c-flag">--out</span> inventory.json
-<span class="c-ok">manifest sealed</span> <span class="c-dim">9 source kinds · read-only · redacted</span>
-
-<span class="c-prompt">$</span> <span class="c-cmd">python3 ops.py brain-inventory-check</span> inventory.json
-<span class="c-ok">seal verified</span> <span class="c-dim">hash match ✓</span>
-
-<span class="c-prompt">$</span> <span class="c-cmd">python3 ops.py migrate-import</span> … <span class="c-flag">--dry-run</span>
-<span class="c-dim">plan: 214 tasks · 1,880 receipts · 0 conflicts</span>
-<span class="c-warn">3 orphan receipts → quarantine (provenance kept)</span>
-
-<span class="c-prompt">$</span> <span class="c-cmd">python3 ops.py migrate-import</span> …
-<span class="c-ok">import applied</span> <span class="c-dim">journal=rollback.json ready</span>
-
-<span class="c-prompt">$</span> <span class="c-cmd">python3 ops.py migrate-rollback</span> …
-<span class="c-ok">target restored to pre-import state</span> <span class="c-dim">✓</span></div>
-      </div>
+    <div class="reveal"><p class="kicker">When things break</p>
+    <h2 class="sec-title">A worker disappears. Work continues anyway.</h2>
+    <p class="body">Sessions get killed. Laptops sleep. Networks drop. MindOS assumes this is normal and plans for it rather than treating it as an exception.</p></div>
+    <figure class="pane reveal-late rec-pane" role="img"
+      aria-label="Animated recovery rail: worker A's line stops mid-task at its last note; worker B branches off that point and continues to done.">
+      <svg viewBox="0 0 760 240" class="rec-svg" aria-hidden="true" focusable="false">
+        <!-- main line -->
+        <path class="rc-a" d="M40 60 H300" fill="none" stroke="#9a9aa2" stroke-width="2"/>
+        <text x="40" y="42" font-size="12" fill="#5f5f66">worker A claims the task and starts</text>
+        <!-- stop point -->
+        <g class="rc-stop"><circle cx="300" cy="60" r="9" fill="#0a0a0b" stroke="#e8e8ea" stroke-width="2"/>
+          <line x1="294" y1="54" x2="306" y2="66" stroke="#e8e8ea" stroke-width="1.6"/>
+          <line x1="306" y1="54" x2="294" y2="66" stroke="#e8e8ea" stroke-width="1.6"/>
+          <text x="318" y="52" font-size="11.5" fill="#9a9aa2">session killed , last note kept</text></g>
+        <!-- branch -->
+        <g class="rc-branch">
+          <path d="M300 60 C340 60 340 140 380 140 H700" fill="none" stroke="#e8e8ea" stroke-width="2"/>
+          <circle class="rc-handoff" cx="340" cy="112" r="4" fill="#e8e8ea"/>
+          <text x="392" y="128" font-size="12" fill="#e8e8ea">worker B reads A&rsquo;s notes and continues</text>
+          <rect x="620" y="118" width="80" height="44" rx="8" fill="#16161a" stroke="#9a9aa2"/>
+          <text x="660" y="145" text-anchor="middle" font-size="13.5" fill="#e8e8ea">done ✓</text></g>
+        <!-- abandoned guess branch (dimmed) -->
+        <g class="rc-guess" opacity="0.45">
+          <path d="M300 60 C330 60 330 210 360 210 H540" fill="none" stroke="#34343a" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <text x="352" y="198" font-size="11.5" fill="#5f5f66">without MindOS: restart from zero and hope</text></g>
+      </svg>
+      <figcaption class="visually-hidden">Worker A stops mid-task; worker B continues from A's last verified note instead of restarting.</figcaption>
+    </figure>
+    <div class="grid-2 gap-top">
+      <div class="reveal"><p class="body"><strong>Destructive work rehearses first.</strong> Moving records between homes runs against a disposable copy before touching anything real, journals every step, and reverses with one command if the result looks wrong.</p></div>
+      <div class="reveal"><p class="body"><strong>The record resists tampering.</strong> Every event is chained by hash. If someone edits or deletes history, a verification pass names exactly where the chain breaks.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ================= vs git ================= -->
+<!-- ================= why it feels different: comparison ================= -->
 <section class="section" id="vs-git">
   <div class="wrap">
-    <div class="reveal"><p class="kicker">Honest comparison</p>
-    <h2 class="sec-title">MindOS vs files + Git.</h2>
-    <p class="body">Git remains the right tool for code. MindOS does not replace it; it is the operational layer Git was never designed to be, and it complements your repos instead of competing with them.</p></div>
+    <div class="reveal"><p class="kicker">Why not just…</p>
+    <h2 class="sec-title">The tools you already use, honestly compared.</h2>
+    <p class="body">Each of these is good at its job. None of them was built to be the shared operational memory of a fleet of agents. Git stays in charge of your code either way.</p></div>
     <div class="card table-wrap gap-top reveal-late">
       <table>
-        <thead><tr><th>Question</th><th>Files + Git</th><th>MindOS</th></tr></thead>
+        <thead><tr><th>If you keep work in…</th><th>What it knows</th><th>What it cannot tell you</th></tr></thead>
         <tbody>
-          <tr><td>Who is working on this right now?</td><td>Nothing authoritative</td><td>Live leases with fencing epochs, fleet-wide <code>leases</code> view</td></tr>
-          <tr><td>What proves "done"?</td><td>Commit messages, at best</td><td>Hash-sealed receipts (0600 files + sha256) required by policy</td></tr>
-          <tr><td>What happened while a session was dead?</td><td>Reconstruct by reading logs</td><td>Idempotent <code>resume</code>, recall digests, audited event stream</td></tr>
-          <tr><td>Can a bad import be undone?</td><td>Depends on the script</td><td>Dry-run first, journaled, one-command rollback to pre-import state</td></tr>
-          <tr><td>Was the record tampered with?</td><td>Not detectable</td><td><code>verify-chain</code> recomputes the audit hash chain</td></tr>
+          <tr><td>A shared Markdown file</td><td>The latest notes someone remembered to write</td><td>Who is working right now, or whether a note is still true</td></tr>
+          <tr><td>Git history</td><td>Exactly how files changed, commit by commit</td><td>Which decisions those changes carry out, or who owns the live task</td></tr>
+          <tr><td>A chatbot conversation</td><td>What one agent discussed in one window</td><td>Anything once that window closes; nothing another agent can read</td></tr>
+          <tr><td>MindOS</td><td>Who owns each task until when, every decision with its reason and replacement, and proof attached to each finished job</td><td colspan="1" style="color:var(--text-faint)">It does not replace Git or your notes; it sits above them as the record of what they mean</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 </section>
 
-<!-- ================= security ================= -->
-<section class="section" id="security">
-  <div class="wrap">
-    <div class="reveal"><p class="kicker">Security boundary</p>
-    <h2 class="sec-title">A registry and evidence layer. Nothing more.</h2>
-    <p class="body">MindOS never deploys, merges, or pushes code. It never sends external messages, calls external APIs, submits applications, runs arbitrary agent commands, or touches Keychain or credential stores. All state stays in a local SQLite home you control. Every user-supplied text field passes a built-in secret guard that blocks, redacts, or (only under an explicit, itself-audited override) allows credential-shaped values, so fleet sweeps can still locate them.</p>
-    <p class="meta">Live databases, receipts, session archives, Hindsight exports, and agent memory contents are never committed to the repository.</p></div>
+<!-- ================= human seam ================= -->
+<section class="section" id="human-seam">
+  <div class="wrap narrow-day">
+    <div class="reveal"><p class="kicker">The human seam</p>
+    <h2 class="sec-title">Where MindOS stops and you decide.</h2></div>
+    <p class="body reveal">MindOS records and enforces; it does not decide what your agents should want. Certain actions are designed to pause and hold for a person:</p>
+    <ul class="seam-list">
+      <li class="reveal"><span class="dw-n">⏸</span><div><strong>Holds before irreversible steps.</strong> Anything destructive rehearses against a disposable copy first, and applying it for real waits on an explicit go from you.</li>
+      <li class="reveal"><span class="dw-n">⏸</span><div><strong>Escalation instead of guessing.</strong> When an agent hits ambiguity it cannot resolve from the record, the task parks with a note naming exactly what is unclear.</li>
+      <li class="reveal"><span class="dw-n">⏸</span><div><strong>No secrets pass through.</strong> Credential-shaped values are blocked or redacted before they can enter any task text, receipt, or archive.</li>
+    </ul>
   </div>
 </section>
 
-<!-- ================= license + cta ================= -->
+<!-- ================= architecture: layered system diagram ================= -->
+<section class="section" id="architecture">
+  <div class="wrap">
+    <div class="reveal"><p class="kicker">Under the hood</p>
+    <h2 class="sec-title">One file you own, four layers above it.</h2>
+    <p class="body">All of this runs on your machine with no server. The whole system is one SQLite database plus Python scripts that read and write it under strict rules.</p></div>
+    <figure class="pane reveal-late arch-pane" role="img"
+      aria-label="Layered architecture diagram with animated data paths: agents enter through the command line, pass the rules layer, and every change lands in the local SQLite record, which answers questions back up. Migration tools move records in and out safely on the side.">
+      <svg viewBox="0 0 760 420" class="arch2-svg" aria-hidden="true" focusable="false">
+        <defs><marker id="arArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0L10 5L0 10z" fill="#9a9aa2"/></marker>
+          <linearGradient id="arGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8e8ea"/><stop offset="1" stop-color="#5f5f66"/></linearGradient></defs>
+        <!-- down path -->
+        <path class="ar-down" d="M380 20 V70" fill="none" stroke="url(#arGrad)" stroke-width="1.5" marker-end="url(#arArrow)"/>
+        <circle class="ar-pulse ar-pulse-dn" r="3.5" cx="380" cy="24" fill="#e8e8ea"/>
+        <!-- layer 1 -->
+        <g class="ar-layer ar-l1" tabindex="0"><rect x="60" y="76" width="640" height="56" rx="8" fill="#101012" stroke="#34343a"/>
+          <text x="80" y="100" font-size="13.5" fill="#e8e8ea">Agents, any brand</text>
+          <text x="80" y="118" font-size="11" fill="#5f5f66">Hermes, Claude Code, Codex , anything that can run a command</text>
+          <text x="672" y="100" text-anchor="end" font-size="10.5" font-family="ui-monospace, Menlo, monospace" fill="#5f5f66">autopilot.py · ops.py</text></g>
+        <path class="ar-down ar-2" d="M380 132 V172" fill="none" stroke="#45454b" stroke-width="1.5" marker-end="url(#arArrow)"/>
+        <!-- layer 2 -->
+        <g class="ar-layer ar-l2" tabindex="0"><rect x="60" y="178" width="640" height="56" rx="8" fill="#101012" stroke="#34343a"/>
+          <text x="80" y="202" font-size="13.5" fill="#e8e8ea">The rulebook</text>
+          <text x="80" y="220" font-size="11" fill="#5f5f66">one owner per task · proof before done · secrets blocked · nothing silent</text>
+          <text x="672" y="202" text-anchor="end" font-size="10.5" font-family="ui-monospace, Menlo, monospace" fill="#5f5f66">enforced at every write</text></g>
+        <path class="ar-down ar-3" d="M380 234 V274" fill="none" stroke="#45454b" stroke-width="1.5" marker-end="url(#arArrow)"/>
+        <!-- layer 3: authority -->
+        <g class="ar-layer ar-l3" tabindex="0"><rect x="40" y="280" width="680" height="64" rx="10" fill="#16161a" stroke="#9a9aa2" stroke-width="1.5"/>
+          <text x="60" y="306" font-size="14" fill="#e8e8ea">Your local record (SQLite)</text>
+          <text x="60" y="326" font-size="11" fill="#9a9aa2">tasks · claims · decisions with reasons · receipts · hash-chained history</text>
+          <text x="700" y="306" text-anchor="end" font-size="10.5" font-family="ui-monospace, Menlo, monospace" fill="#9a9aa2">$MINDOS_HOME</text></g>
+        <!-- answer path back up -->
+        <path class="ar-up" d="M740 292 H754 V96 H706" fill="none" stroke="#45454b" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arArrow)"/>
+        <circle class="ar-pulse ar-pulse-up" r="3.5" cx="754" cy="290" fill="#e8e8ea"/>
+        <text x="712" y="196" font-size="10.5" fill="#5f5f66" transform="rotate(90 712 196)">answers &amp; evidence flow back</text>
+        <!-- side rail: migration -->
+        <g class="ar-layer ar-l4" tabindex="0"><rect x="40" y="368" width="680" height="44" rx="8" fill="#0a0a0b" stroke="#34343a" stroke-dasharray="5 4"/>
+          <text x="60" y="395" font-size="12.5" fill="#9a9aa2">Move records in or out safely</text>
+          <text x="672" y="395" text-anchor="end" font-size="10.5" font-family="ui-monospace, Menlo, monospace" fill="#5f5f66">rehearse first · journal · one-command undo</text></g>
+      </svg>
+      <figcaption class="visually-hidden">Requests flow down from any agent through the rulebook into the SQLite record; verified answers flow back up; migration moves records safely at the edges.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ================= security boundary ================= -->
+<section class="section" id="security">
+  <div class="wrap narrow-day">
+    <div class="reveal"><p class="kicker">What MindOS will not do</p>
+    <h2 class="sec-title">A memory and a rulebook. Nothing more.</h2></div>
+    <p class="body reveal">MindOS never deploys code, sends messages, calls external services on its own, or touches your passwords. Everything lives in one local database file you can open, copy, or delete.</p>
+    <p class="meta reveal">Receipts, archives, and databases never leave your machine and never enter any repository.</p>
+  </div>
+</section>
+
+<!-- ================= try it / launch ================= -->
 <section class="section" id="get-started">
   <div class="wrap">
-    <div class="reveal"><p class="kicker">Get started</p>
-    <h2 class="sec-title">Clone, init, doctor. That's the install.</h2>
-    <p class="body">No server to run, no packages to install. Python 3.9+ standard library on macOS or Linux and you're up.</p></div>
+    <div class="reveal"><p class="kicker">Try it today</p>
+    <h2 class="sec-title">Three commands and it exists.</h2>
+    <p class="body">No account, no service, nothing to deploy. If your machine has Python 3.9 or newer, you already have everything else.</p></div>
     <pre class="block reveal-late"><span class="c-cmd">git clone</span> &lt;repo-url&gt; mindos
 <span class="c-cmd">cd</span> mindos
-<span class="c-cmd">export</span> <span class="c-flag">MINDOS_HOME</span>="$HOME/.hermes/mindos"   <span class="c-dim"># any writable path works</span>
+<span class="c-cmd">export</span> <span class="c-flag">MINDOS_HOME</span>="$HOME/mindos-home"   <span class="c-dim"># any writable folder works</span>
 <span class="c-cmd">python3</span> autopilot.py init
-<span class="c-cmd">python3</span> ops.py doctor                        <span class="c-ok"># health-check the new home</span></pre>
-    <div class="cta-box cta-left reveal">
-      <h2 class="sec-title">Join the early-access list.</h2>
-      <p class="body">MindOS is in private early access. This page collects no data and submits no forms — email the team and we'll follow up.</p>
-      <div class="btn-row row-start">
-        <a class="btn btn-primary" href="mailto:leo@ideatorx.com?subject=MindOS%20early%20access">Request early access</a>
-        <a class="btn btn-ghost" href="docs/index.html">Browse the docs</a>
-      </div>
-      <p class="meta">Source-available under FSL-1.1-MIT — MIT-licensed after the applicable two-year change date. Not OSI open source during the FSL restriction period.</p>
+<span class="c-cmd">python3</span> ops.py doctor                        <span class="c-ok"># confirms the new home is healthy</span></pre>
+    <div class="grid-2 gap-top">
+      <div class="reveal"><h3 style="font-size:16px;margin-bottom:8px">Works today</h3><p class="body">Task claims with expiry, work notes, proof attached to finished work, decision history with reasons, crash recovery, rehearsed migration, tamper-checked history, and full-text search over all of it.</p></div>
+      <div class="reveal"><h3 style="font-size:16px;margin-bottom:8px">Still being built</h3><p class="body">See the honest <a href="docs/roadmap.html">roadmap</a>. Notable gaps: richer scheduling, multi-machine coordination, and deeper bindings to specific agent platforms.</p></div>
     </div>
+    <div class="btn-row row-start gap-top reveal">
+      <a class="btn btn-primary" href="docs/getting-started.html">Read the setup guide</a>
+      <a class="btn btn-ghost" href="mailto:leo@ideatorx.com?subject=MindOS">Email the team</a>
+    </div>
+    <p class="meta reveal">Source-available under FSL-1.1-MIT: free to use and inspect now, MIT-licensed after each version&rsquo;s two-year change date. This page collects no data and submits no forms.</p>
   </div>
 </section>
 
 </main>
+</main>
 
 <footer class="site-footer">
   <div class="inner">
-    <span class="footer-brand"><svg class="mark mark-static" width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="21" width="22" height="3" rx="1.5" fill="#5f5f66"/><rect x="9" y="10" width="14" height="3" rx="1.5" fill="#5f5f66"/><rect x="17" y="4" width="6" height="6" rx="1" fill="#5f5f66"/></svg>MindOS — Autopilot v2 · an IdeatorX project</span>
+    <span class="footer-brand"><svg class="mark mark-static" width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="21" width="22" height="3" rx="1.5" fill="#5f5f66"/><rect x="9" y="10" width="14" height="3" rx="1.5" fill="#5f5f66"/><rect x="17" y="4" width="6" height="6" rx="1" fill="#5f5f66"/></svg>MindOS , Autopilot v2 · an IdeatorX project</span>
     <span><a href="docs/index.html">Docs</a> · <a href="docs/roadmap.html">Roadmap</a> · <a href="docs/security.html">Security</a> · FSL-1.1-MIT · local-first</span>
   </div>
 </footer>

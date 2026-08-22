@@ -34,7 +34,7 @@
   }
 
   // hero art + flow pane get .in to trigger their internal draw-in sequences
-  var diagrams = document.querySelectorAll('.hero-art, .flow-pane');
+  var diagrams = document.querySelectorAll('.hero-art, .flow-pane, .fail-pane, .mem-pane, .sm-pane, .rec-pane, .arch-pane');
   if (reduced || typeof IntersectionObserver === 'undefined') {
     diagrams.forEach(function (d) { d.classList.add('in'); });
   } else if (diagrams.length) {
