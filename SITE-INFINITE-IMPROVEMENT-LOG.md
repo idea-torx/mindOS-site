@@ -123,8 +123,33 @@ Push: feat/mindos-docs-site — verified via curl after push
 
 ---
 
-## Cycle 4 plan (loop continues — do not stop after cycle 3)
-- Typography/measure refinement + SVG stagger tuning per section + per-section contrast re-audit (faint text + muted borders)
-- Vs-git table scannability (MindOS row accent already — consider checkmarks + mobile stacking without breaking table semantics)
-- Screenshot pass via repo-local audit/ captures (never /tmp)
+## Cycle 4 — Table mobile cards + typography balance + motion + footer (2026-08-21)
+
+### Pre-checks (curl + source only — server still 127.0.0.1:8899, no restart)
+- curl http://127.0.0.1:8899/ → 200 (33 hits), /assets/* 200, /assets/search-index.json 200 (15), /docs/* 200, og-card.png 200, node --check ok
+- Source: site/index.html 524 lines, site/assets/style.css 678, site/assets/site.js 315, 12 sections, hints 8, term-legend 1, seam-pane 1, hex strict mono, jargon 0
+- Issues found: vs-git table 3-col cramped at 390 (113ch vs 390px) forces cramped scroll despite .table-wrap; header no scope/caption/data-label — AT card fallback impossible; sec-title can orphan at narrow without text-wrap balance; motion stagger on sm-pane still 150/300/450 vs fail rail early 120/340/560 — uneven; footer border #232327 identical to section dividers — no distinct close.
+
+### Edits applied (substantial block-level redesign)
+- **site/index.html**: #vs-git table — added `aria-label`, visually-hidden `<caption>` (4 rows — only MindOS answers ownership + proof), `scope="col"` on all th, `data-label` on all 12 td for mobile card fallback; MindOS row retains accent.
+- **site/assets/style.css**: typography `h2.sec-title { text-wrap: balance }`, kicker .085em, at 680 remove max clamps for titles/bodies; table mobile at 680 converts to block cards (thead hidden, tr as bordered card var(--surface-1), td ::before attr(data-label) uppercase 11px faint, row-mindos #34343a); motion retuned fail 120/340/560/780/1000 + sm 120/260/400 + handoff 1.2s; footer border #2a2a30 distinct, right meta mono 11.5px.
+- **site/assets/site.js**: unchanged (315) — Escape+click-outside nav + seam-pane observer retained, node --check ok.
+
+### Verification (post-edit, curl+source inside repo, no /tmp/ps/lsof)
+- curl 200 on /, /assets/* (contains text-wrap + data-label), /assets/search-index.json (15), /docs/*, /assets/og-card.png (33 hits)
+- node --check site/assets/site.js → ok
+- sections 12, dup </main> 1, term-legend 1, seam-pane 1, security focusable true, mm-change focusable 1, hints 8, data-labels 12, caption 1, scope 3
+- hex: #0a0a0b/#101012/#16161a/#232327/#e8e8ea/#9a9aa2/#5f5f66/#45454b/#7fb3e0(code only)/#34343a/#0f0f12/#2a2a30/#08130d/#3a3a40/#0d0d0f/#101014/#0e0e11 — strict mono, #34343a +1
+- jargon 0, no console.log, reduced-motion 5 blocks, focus-visible 13+
+- artifacts: audit/cycle-04-* (curl, index/css/js, source/post) inside repo, server log still audit/server-cycle02.log
+
+Commit: site: infinite loop cycle 4 — vs-git table mobile cards + caption/scope/data-label, title balance, motion even stagger, footer distinct
+Push: feat/mindos-docs-site — verified via curl after push
+
+---
+
+## Cycle 5 plan (loop continues — do not stop after cycle 4)
+- Full audit sweep: links + console + reveals + reduced-motion + mobile 390/820 pane/table overflow; repo-local Playwright captures into audit/
+- SVG contrast re-audit per section (faint #5f5f66 vs bg, muted #34343a vs accent) + focus-visible ring audit
+- Typography vertical rhythm + pane spacing consistency pass
 - Do not stop after one plan — each cycle commits and pushes verified increment
