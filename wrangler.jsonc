@@ -1,0 +1,8 @@
+{
+  "name": "mindos-site",
+  "compatibility_date": "2026-08-26",
+  "assets": {
+    "directory": "./site",
+    "html_handling": "auto-trailing-slash"
+  }
+}
