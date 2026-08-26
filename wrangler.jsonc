@@ -1,0 +1,10 @@
+{
+  "name": "mindos-site",
+  // pinned: the login can see more than one Cloudflare account, and the site belongs to this one
+  "account_id": "762c442739063d6e1792708c84e3806e",
+  "compatibility_date": "2026-08-26",
+  "assets": {
+    "directory": "./site",
+    "html_handling": "auto-trailing-slash"
+  }
+}
