@@ -38,7 +38,7 @@ body{
 a{color:inherit;text-decoration:none}
 img,svg{display:block;max-width:100%}
 code,pre{font-family:var(--mono)}
-h1,h2,h3,.wordmark{font-family:var(--display);font-weight:500}
+h1,h2,h3{font-family:var(--display);font-weight:500}
 h1,h2,h3,h4{font-weight:500;line-height:1.12;letter-spacing:-.012em}
 .mono{font-family:var(--mono)}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;width:100%}
@@ -322,9 +322,7 @@ svg text{font-family:var(--mono)}
 .marquee span b{font-weight:500;color:var(--tx2)}
 
 /* ---------- footer ---------- */
-footer{position:relative;padding:80px 0 40px;overflow:hidden;background:#0b0b0d;border-top:1px solid var(--line)}
-.wordmark{font-family:var(--sans);font-weight:500;font-size:clamp(4rem,17vw,13rem);letter-spacing:-.04em;line-height:.85;color:transparent;-webkit-text-stroke:1px var(--line2);text-align:center;user-select:none;margin-bottom:60px;transition:-webkit-text-stroke .6s}
-.wordmark:hover{-webkit-text-stroke:1px rgba(170,130,196,.4)}
+footer{position:relative;padding:56px 0 0;overflow:hidden;background:#0b0b0d;border-top:1px solid var(--line)}
 .footgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:50px;border-bottom:1px solid var(--line)}
 .footgrid .fbrand p{color:var(--tx2);font-size:.92rem;max-width:280px;margin-top:16px;line-height:1.7}
 .footgrid h5{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--tx3);margin-bottom:18px;font-weight:500}
@@ -450,8 +448,14 @@ footer{position:relative;padding:80px 0 40px;overflow:hidden;background:#0b0b0d;
 .mascot{background:var(--mascot) center/contain no-repeat;aspect-ratio:1358/955}
 .brand .mark{width:34px;height:auto;flex:none}
 footer .brand .mark{width:38px}
-.footmascot{width:min(400px,58vw);margin:0 auto 48px;position:relative;z-index:1;
+/* the mascot closes the page: bigger, and lapping over the bottom edge footer overflow already clips */
+.footmascot{width:min(560px,76vw);margin:14px auto -12%;position:relative;z-index:1;
   transform:rotate(-4deg);filter:drop-shadow(0 24px 40px rgba(0,0,0,.5))}
+.credit{display:flex;align-items:center;gap:12px;margin-top:20px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--tx3)}
+.credit a{color:var(--tx2);transition:color .3s}
+.credit a:hover{color:var(--acc)}
+.credit .ghlink{padding:0}
 /* cameos: decorative, off in the margins, never in the reading column */
 .mfloat{position:absolute;pointer-events:none;user-select:none;z-index:0;opacity:.42}
 .m1{width:132px;top:56px;right:-30px;transform:rotate(13deg)}
@@ -680,9 +684,6 @@ body>header,body>main,body>section,body>footer,body>.band,body>.marquee{position
 @keyframes myelinfire{0%{opacity:.5}30%{opacity:1;box-shadow:0 0 14px rgba(170,130,196,.5)}100%{opacity:.5}}
 
 /* footer: resting neuron watermark */
-.footneuron{position:absolute;right:-50px;bottom:26px;width:min(560px,62vw);height:auto;color:var(--acc);opacity:.07;pointer-events:none;z-index:0}
-.footneuron .soma{transform-box:fill-box;transform-origin:center;animation:restpulse 6s var(--ease) infinite}
-@keyframes restpulse{0%,100%{opacity:.5}50%{opacity:1}}
 
 [data-para]{will-change:transform}
 
@@ -1361,26 +1362,15 @@ body>header,body>main,body>section,body>footer,body>.band,body>.marquee{position
 
 <!-- ============ FOOTER ============ -->
 <footer>
-  <svg class="footneuron" viewBox="0 0 600 320" aria-hidden="true" data-para="0.14">
-    <g fill="none" stroke="currentColor" stroke-width="1.2">
-      <path d="M300 160 C260 120 220 110 170 90 M300 160 C250 150 200 160 150 150 M300 160 C270 200 230 220 180 240 M300 160 C330 120 370 100 420 84 M300 160 C340 150 390 156 440 140 M300 160 C330 200 380 224 430 244 M300 160 C300 110 300 80 300 48"/>
-      <path d="M170 90 C150 74 130 70 108 58 M150 150 C128 150 108 158 88 156 M180 240 C158 250 140 258 118 268 M420 84 C444 72 462 66 484 58 M440 140 C462 136 482 138 500 130 M430 244 C452 254 470 262 492 272 M300 48 C296 30 298 18 300 6" opacity=".7"/>
-    </g>
-    <g fill="currentColor" stroke="none">
-      <circle cx="300" cy="160" r="14"/>
-      <circle cx="170" cy="90" r="5"/><circle cx="150" cy="150" r="4.4"/><circle cx="180" cy="240" r="5"/><circle cx="420" cy="84" r="4.6"/><circle cx="440" cy="140" r="5"/><circle cx="430" cy="244" r="4.4"/><circle cx="300" cy="48" r="4.6"/>
-      <circle cx="108" cy="58" r="2.6" opacity=".7"/><circle cx="88" cy="156" r="2.6" opacity=".7"/><circle cx="118" cy="268" r="2.6" opacity=".7"/><circle cx="484" cy="58" r="2.6" opacity=".7"/><circle cx="500" cy="130" r="2.6" opacity=".7"/><circle cx="492" cy="272" r="2.6" opacity=".7"/><circle cx="300" cy="6" r="2.6" opacity=".7"/>
-    </g>
-    <circle class="soma" cx="300" cy="160" r="14" fill="none" stroke="currentColor" stroke-width="1.4"/>
-    <circle cx="300" cy="160" r="26" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
-  </svg>
   <div class="wrap">
-    <div class="footmascot mascot" aria-hidden="true" data-para="0.06"></div>
-    <div class="wordmark" aria-hidden="true" data-para="0.1">mindOS</div>
     <div class="footgrid">
       <div class="fbrand">
         <a class="brand" href="#hero"><span class="mark mascot" aria-hidden="true"></span><span class="wm" style="font-family:var(--mono);font-size:14px"><b style="font-weight:500">mind</b>OS</span></a>
         <p>The durable local operating system for Hermes and cooperating agents. One SQLite authority, leases that fence, receipts that seal, a chain that proves it.</p>
+        <div class="credit">
+          <span>Designed by <a href="https://ideatorx.com" target="_blank" rel="noopener">IdeatorX</a></span>
+          <a class="ghlink" href="https://github.com/idea-torx/mindOS" target="_blank" rel="noopener" aria-label="mindOS on GitHub" title="mindOS on GitHub"><svg aria-hidden="true"><use href="#ghmark"/></svg></a>
+        </div>
       </div>
       <div>
         <h5>Product</h5>
@@ -1414,10 +1404,10 @@ body>header,body>main,body>section,body>footer,body>.band,body>.marquee{position
       </div>
     </div>
     <div class="footbot">
-      <span class="rcpt"><span class="dot"></span> receipt line · state.db integrity ok · audit chain verified · 0 stale leases</span>
+      <span class="rcpt"><span class="dot"></span> mindOS v0.5.0 · one html file · no trackers</span>
       <span>fsl-1.1-mit · python 3.9+ · stdlib only</span>
     </div>
-    <div class="colophon"><b>mindOS v0.5.0</b> · one html file · max weight 500 · no trackers · dark by default</div>
+    <div class="footmascot mascot" aria-hidden="true" data-para="0.06"></div>
   </div>
 </footer>
 
