@@ -84,6 +84,9 @@ h1,h2,h3,h4{font-weight:500;line-height:1.12;letter-spacing:-.012em}
   transition:transform .3s var(--ease),box-shadow .3s,filter .3s;white-space:nowrap;
 }
 .pillcta:hover{transform:translateY(-1px);box-shadow:0 8px 24px -8px rgba(170,130,196,.5);filter:brightness(1.08)}
+.ghlink{display:flex;align-items:center;flex:none;color:var(--tx2);padding:0 12px 0 4px;transition:color .3s}
+.ghlink:hover{color:var(--tx)}
+.ghlink svg{width:18px;height:18px;fill:currentColor;display:block}
 .navdot{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;color:var(--tx2);flex:none;padding:0 14px 0 6px}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc);animation:blink 2.4s infinite}
 .cursor{display:inline-block;width:6px;height:11px;background:var(--acc);vertical-align:-2px;animation:blink 1s steps(1) infinite}
@@ -112,6 +115,8 @@ h1,h2,h3,h4{font-weight:500;line-height:1.12;letter-spacing:-.012em}
   padding:14px 24px;border-radius:6px;cursor:pointer;position:relative;overflow:hidden;
   border:1px solid var(--line2);background:var(--bg2);color:var(--tx);transition:color .3s,border-color .3s,transform .3s;
 }
+.ghbtn{padding:14px 16px}
+.ghbtn svg{width:17px;height:17px;fill:currentColor;display:block}
 .btn .arr{transition:transform .3s var(--ease)}
 .btn::before{content:"";position:absolute;inset:0;background:var(--accdim);transform:translateY(101%);transition:transform .38s var(--ease);z-index:0}
 .btn>*{position:relative;z-index:1}
@@ -376,7 +381,7 @@ footer{position:relative;padding:80px 0 40px;overflow:hidden;background:#0b0b0d;
   #navlinks,.navdot{display:none}
   #navtoggle{display:flex}
   /* nothing centers the row once the links are gone: push the controls to the right rail */
-  .pillcta{margin-left:auto}
+  .ghlink{margin-left:auto}
   #nav.open .pillmenu{
     display:flex;flex-direction:column;gap:2px;position:absolute;top:calc(100% + 10px);left:0;right:0;
     background:rgba(9,6,15,.97);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
@@ -689,6 +694,8 @@ body>header,body>main,body>section,body>footer,body>.band,body>.marquee{position
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="ghmark" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></symbol></svg>
+
 <div id="progress"></div>
 
 <nav id="nav">
@@ -701,6 +708,7 @@ body>header,body>main,body>section,body>footer,body>.band,body>.marquee{position
     <a class="nlink" href="#releases"><span class="n">15</span>releases</a>
   </div>
   <span class="navdot"><span class="dot"></span>local<span class="cursor"></span></span>
+  <a class="ghlink" href="https://github.com/idea-torx/mindOS" target="_blank" rel="noopener" aria-label="mindOS on GitHub" title="mindOS on GitHub"><svg aria-hidden="true"><use href="#ghmark"/></svg></a>
   <a class="pillcta" href="#install">install</a>
   <button id="navtoggle" aria-label="menu"><span></span><span></span><span></span></button>
   <div class="pillmenu">
@@ -741,6 +749,7 @@ body>header,body>main,body>section,body>footer,body>.band,body>.marquee{position
     <h1 class="lm" id="heroTitle">The operating system for <span class="g">agent truth</span>. Local, durable, provable.</h1>
     <p class="lede rv" style="--d:.15s">mindOS is a durable local coordination plane for <b>Hermes</b> and cooperating AI agents. It keeps one SQLite authority, leases that fence, sealed receipts, and a hash-chained audit, so when an agent claims something is done, you can prove it. <b>Stdlib only. No server. No third-party packages.</b></p>
     <div class="herocta rv" style="--d:.3s">
+      <a class="btn ghbtn" href="https://github.com/idea-torx/mindOS" target="_blank" rel="noopener" aria-label="mindOS on GitHub" title="mindOS on GitHub"><svg aria-hidden="true"><use href="#ghmark"/></svg></a>
       <a class="btn primary" href="#install">Read the install <span class="arr">→</span></a>
       <a class="btn" href="#audit">See the audit chain <span class="arr">→</span></a>
     </div>
