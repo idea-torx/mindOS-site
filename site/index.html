@@ -405,6 +405,33 @@ footer{position:relative;padding:56px 0 0;overflow:hidden;background:#0b0b0d;bor
   .footgrid{grid-template-columns:1fr}
   .wrap{padding:0 20px}
 }
+
+/* ================= mobile cleanup ================= */
+/* the card grids carry inline grid-template-columns, which outranks a plain media query */
+@media(max-width:900px){
+  .cards[style*="grid-template-columns"]{grid-template-columns:repeat(2,1fr)!important}
+}
+@media(max-width:620px){
+  .cards[style*="grid-template-columns"]{grid-template-columns:1fr!important}
+}
+@media(max-width:760px){
+  /* the coverage matrix needs ~640px to be readable; below that it is dropped, not squeezed */
+  .fig:has(#matrixGrid){display:none}
+}
+@media(max-width:560px){
+  /* receipt rows are mono key/value pairs that never wrapped, so the values ran off the card */
+  .receipt .rhead,.receipt .rbody{padding:14px}
+  .receipt .rhead{flex-wrap:wrap;gap:8px}
+  .receipt .row{flex-direction:column;gap:2px;font-size:11.5px}
+  .receipt .row .v{text-align:left;overflow-wrap:anywhere}
+  p code,li code{overflow-wrap:anywhere}
+  /* an 18px icon is not a tap target */
+  .ghlink{min-width:34px;min-height:34px;justify-content:center;padding:0}
+  /* footer nav links were 18px tall — below any sane tap target */
+  .footgrid li{margin-bottom:2px}
+  .footgrid li a{display:inline-block;padding:8px 0}
+  .credit{gap:6px}
+}
 /* ================= section themes ================= */
 .sec.lite,.sec.pink{background:var(--bg);color:var(--tx)}
 .sec.lite{
@@ -1426,7 +1453,7 @@ body>header,body>main,body>section,body>footer,body>.band,body>.marquee{position
 .mcell.on{background:rgba(170,130,196,.10);border-color:rgba(170,130,196,.22)}
 .mcell.on:hover{background:rgba(170,130,196,.22);border-color:var(--acc);transform:scale(1.08)}
 .mcell.off:hover{border-color:var(--line2)}
-@media(max-width:900px){#matrixGrid{grid-template-columns:140px repeat(8,1fr)}.mhead{font-size:8px}.mrowl{font-size:9.5px;padding:6px 4px}}
+@media(max-width:900px){#matrixGrid{grid-template-columns:170px repeat(8,1fr)}.mrowl{padding:6px 6px}}
 
 </style>
 <script>
