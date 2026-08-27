@@ -418,6 +418,32 @@ footer{position:relative;padding:56px 0 0;overflow:hidden;background:#0b0b0d;bor
   /* the coverage matrix needs ~640px to be readable; below that it is dropped, not squeezed */
   .fig:has(#matrixGrid){display:none}
 }
+/* the two wide SVG graphs (08 lifecycle, 10 chain) hand off to vertical stacks on phones */
+.mobfig{display:none}
+@media(max-width:760px){
+  #lifecycle,#chain{display:none}
+  #lcCap,#chainCap{display:none}
+  .mobfig{display:block}
+}
+.mflow{list-style:none;margin:0;padding:0}
+.mflow .mf{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--bg2);font-family:var(--mono)}
+.mflow .mf b{display:block;font-size:13px;color:var(--tx);font-weight:500}
+.mflow .mf span{font-size:10px;color:var(--tx3)}
+.mflow .mf.on{border-color:var(--acc)}
+.mflow .mf.on span{color:var(--acc)}
+.mflow .mfa{margin-left:18px;padding:7px 0 7px 14px;border-left:1px solid var(--line2);
+  font-family:var(--mono);font-size:10px;color:var(--tx3);letter-spacing:.04em}
+.mflow .mfa::before{content:"↓  "}
+.mbranch{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:11px}
+.mbranch li{font-size:.86rem;color:var(--tx2);line-height:1.6}
+.mbranch b{font-family:var(--mono);font-size:11.5px;color:var(--tx)}
+.mchain{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.mchain li{border:1px solid var(--line);border-radius:6px;padding:9px 11px;background:#17171b;font-family:var(--mono)}
+.mchain .ce{display:block;font-size:10px;color:var(--tx3)}
+.mchain .ch{display:block;font-size:10.5px;color:#9ba1aa;margin-top:3px;overflow-wrap:anywhere}
+.mpin{margin-top:12px;border:1px solid rgba(170,130,196,.35);border-radius:6px;padding:10px;
+  text-align:center;font-family:var(--mono);font-size:10.5px;color:var(--acc)}
+.mpin span{display:block;color:var(--tx3);font-size:9.5px;margin-top:3px}
 @media(max-width:560px){
   /* receipt rows are mono key/value pairs that never wrapped, so the values ran off the card */
   .receipt .rhead,.receipt .rbody{padding:14px}
@@ -1073,6 +1099,21 @@ body>header,body>main,body>section,body>footer,body>.band,body>.marquee{position
         <g class="snode" data-id="failed"><rect x="630" y="263" width="160" height="54" rx="8" fill="#111114" stroke="rgba(232,234,237,.16)"/><text x="710" y="286" text-anchor="middle" fill="#e6e8eb" font-size="13" font-family="var(--mono)">failed</text><text x="710" y="304" text-anchor="middle" fill="#5f6670" font-size="9.5" font-family="var(--mono)">terminal or retryable</text></g>
         <g class="snode" data-id="cancelled"><rect x="350" y="413" width="160" height="54" rx="8" fill="#111114" stroke="rgba(232,234,237,.16)"/><text x="430" y="436" text-anchor="middle" fill="#e6e8eb" font-size="13" font-family="var(--mono)">cancelled</text><text x="430" y="454" text-anchor="middle" fill="#5f6670" font-size="9.5" font-family="var(--mono)">operator call</text></g>
       </svg>
+      <div class="mobfig">
+        <ol class="mflow">
+          <li class="mf"><b>queued</b><span>budget · deps · tags</span></li>
+          <li class="mfa">claim · next --claim</li>
+          <li class="mf on"><b>running</b><span>lease · epoch · heartbeat renews</span></li>
+          <li class="mfa">complete · receipt cited · live lease</li>
+          <li class="mf"><b>completed</b><span>receipt sealed</span></li>
+        </ol>
+        <ul class="mbranch">
+          <li><b>blocked</b> — <code>block --reason</code> parks a queued task with the reason on record; <code>unblock</code> returns it.</li>
+          <li><b>waiting_for_user</b> — <code>update --status</code> releases the lease cleanly while a human reads; <code>resume</code> returns to running.</li>
+          <li><b>failed</b> — <code>fail</code> types the cause; <code>--no-retry</code> or an exhausted budget makes it terminal. Otherwise it releases with retry −1 and backoff.</li>
+          <li><b>cancelled</b> — an operator call, from blocked or from waiting_for_user.</li>
+        </ul>
+      </div>
       <div class="cap" id="lcCap">hover a state — every transition is atomic, lease-gated, and hash-chained into the audit log</div>
     </div>
     <div class="feat rv" style="--d:.15s">
@@ -1158,6 +1199,16 @@ body>header,body>main,body>section,body>footer,body>.band,body>.marquee{position
         <text x="490" y="185" text-anchor="middle" fill="#aa82c4" font-size="10.5" font-family="var(--mono)">autopilot-checkpoint-v1</text>
         <text x="490" y="201" text-anchor="middle" fill="#5f6670" font-size="9.5" font-family="var(--mono)">pinned head · e-2291</text>
       </svg>
+      <div class="mobfig">
+        <ol class="mchain">
+          <li><span class="ce">e-2289 · claimed</span><span class="ch">prev —  →  8f2a…c1</span></li>
+          <li><span class="ce">e-2290 · lease_renewed</span><span class="ch">prev 8f2a…c1  →  7d40…9b</span></li>
+          <li><span class="ce">e-2291 · completed</span><span class="ch">prev 7d40…9b  →  1a02…e4</span></li>
+          <li><span class="ce">e-2292 · context_recalled</span><span class="ch">prev 1a02…e4  →  3c1e…77</span></li>
+          <li><span class="ce">e-2293 · claimed</span><span class="ch">prev 3c1e…77  →  9e55…0d</span></li>
+        </ol>
+        <div class="mpin">autopilot-checkpoint-v1<span>pinned head · e-2291</span></div>
+      </div>
       <div class="cap" id="chainCap">hover an event — each hash seals the one before it; checkpoints pin the head so removals are detectable</div>
     </div>
     <div class="cards rv auditcards" style="--d:.15s">
