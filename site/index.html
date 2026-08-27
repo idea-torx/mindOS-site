@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>mindOS — the durable local operating system for Hermes & cooperating agents</title>
-<meta name="description" content="mindOS v0.5.0 — a durable local coordination plane for Hermes and cooperating AI agents. Leases that fence, receipts that seal, a hash-chained audit that proves it. Local by design, stdlib only, no server.">
+<title>mindOS — a second memory for your AI agents</title>
+<meta name="description" content="Your agents forget everything between sessions and stall the moment you look away. mindOS is a memory that survives the session, an autopilot that keeps the work moving while you’re gone, and a receipt at the end of every job so you can check it. Runs on your machine, no server, no account.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <meta name="theme-color" content="#0a0a0c">
-<meta property="og:title" content="mindOS — the durable local operating system for Hermes & cooperating agents">
-<meta property="og:description" content="Leases that fence, receipts that seal, a hash-chained audit that proves it. Local by design, stdlib only, no server.">
+<meta property="og:title" content="mindOS — a second memory for your AI agents">
+<meta property="og:description" content="A memory your agents keep between sessions. An autopilot that keeps working while you’re away. A receipt at the end of every job. All on your machine — no server, no account.">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,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">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://mindos-site.ideatorx.workers.dev/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="mindOS — the operating system for agent truth. Local, durable, provable.">
+<meta property="og:image:alt" content="mindOS — a memory your agents keep, and an autopilot that keeps going.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://mindos-site.ideatorx.workers.dev/og.png">
 <style>
@@ -808,16 +808,16 @@ body>header,body>main,body>section,body>footer,body>.band,body>.marquee{position
   </div>
   <div id="pixgrid" aria-hidden="true"></div>
   <div class="wrap heroinner">
-    <span class="eyebrow rv"><span class="pulse"></span><span class="etxt">durable local coordination plane</span></span>
-    <h1 class="lm" id="heroTitle">The operating system for <span class="g">agent truth</span>. Local, durable, provable.</h1>
-    <p class="lede rv" style="--d:.15s">mindOS is a durable local coordination plane for <b>Hermes</b> and cooperating AI agents. It keeps one SQLite authority, leases that fence, sealed receipts, and a hash-chained audit, so when an agent claims something is done, you can prove it. <b>Stdlib only. No server. No third-party packages.</b></p>
+    <span class="eyebrow rv"><span class="pulse"></span><span class="etxt">a second memory for your agents</span></span>
+    <h1 class="lm" id="heroTitle">Your agents forget everything. <span class="g">mindOS doesn’t.</span></h1>
+    <p class="lede rv" style="--d:.15s">Every session starts from zero. Every question stops the work. Every “done” is just a claim. mindOS is <b>a memory that survives the session</b>, <b>an autopilot that keeps going while you’re away</b>, and <b>a receipt at the end of every job</b>. All on your machine. <b>No server. No account.</b></p>
     <div class="herocta rv" style="--d:.3s">
       <a class="btn ghbtn" href="https://github.com/idea-torx/mindOS" target="_blank" rel="noopener" aria-label="mindOS on GitHub" title="mindOS on GitHub"><svg aria-hidden="true"><use href="#ghmark"/></svg></a>
       <a class="btn primary" href="#install">Read the install <span class="arr">→</span></a>
       <a class="btn" href="#audit">See the audit chain <span class="arr">→</span></a>
     </div>
     <div class="herofoot rv" style="--d:.45s">
-      <span>python 3.9+</span><span>single sqlite authority</span><span>fail closed</span><span>fsl-1.1-mit</span>
+      <span>python 3.9+</span><span>one file you own</span><span>stops rather than guesses</span><span>fsl-1.1-mit</span>
     </div>
   </div>
   <div class="heromascot mascot" aria-hidden="true"></div>
@@ -833,8 +833,8 @@ body>header,body>main,body>section,body>footer,body>.band,body>.marquee{position
     <div class="sechead rv">
       <span class="halftag">the human half</span>
       <div class="kick"><span class="idx">01</span><span class="rule"></span>why</div>
-      <h2 class="lm">Agents are fast. Claims are cheap. Truth is not.</h2>
-      <p>Any agent can say <b>“done.”</b> The hard question is whether it is true — and whether you could show that to someone else, tomorrow, without re-trusting the agent. Three ways fleets quietly fail, and the fix each one needs.</p>
+      <h2 class="lm">Agents are fast. Then they forget, stall, and can’t prove it.</h2>
+      <p>The hour an agent saves you comes straight back out of your day — re-explaining, restarting, double-checking. Three places it leaks.</p>
     </div>
     <div class="synlink rv" style="--d:.35s" aria-hidden="true">
       <span class="sl" style="--i:0"></span><span class="sd" style="--i:0"></span><span class="sl" style="--i:1"></span><span class="sd" style="--i:1"></span><span class="sl" style="--i:2"></span><span class="sd" style="--i:2"></span><span class="sl" style="--i:3"></span>
@@ -842,23 +842,23 @@ body>header,body>main,body>section,body>footer,body>.band,body>.marquee{position
     <div class="cards" style="grid-template-columns:repeat(3,1fr)">
       <div class="card rv" style="--d:.05s"><span class="tick">01</span>
         <svg class="ico" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 24 L14 12 L20 19 L28 8"/><path d="M22 8 H28 V14"/></svg>
-        <h3><span class="num">A</span>Claims, not facts</h3>
-        <p>“It’s done,” “in progress,” “we decided X” — sentences with nothing to check them against. The fix: a state is a <b>durable fact with citations</b>, written by the plane, not narrated by the agent.</p>
+        <h3><span class="num">A</span>It forgets everything you told it</h3>
+        <p>Every new session starts cold. You re-describe the project, the conventions, the thing you already decided twice. <b>The agent isn’t learning — you’re repeating.</b> Whatever it worked out last Tuesday died with the window.</p>
       </div>
       <div class="card rv" style="--d:.15s"><span class="tick">02</span>
         <svg class="ico" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="4"/><circle cx="24" cy="10" r="4"/><circle cx="10" cy="24" r="4"/><circle cx="24" cy="24" r="4"/><path d="M10 14 V20 M24 14 V20 M14 10 H20 M14 24 H20"/></svg>
-        <h3><span class="num">B</span>Truth in five places</h3>
-        <p>Sessions, notes, decisions, handoffs, memories — each in its own file, owned by no one, drifting apart. The fix: <b>one SQLite authority per home</b> — state.db, temporal.db, receipts, memories all in the same place that owns them.</p>
+        <h3><span class="num">B</span>It stops the moment you look away</h3>
+        <p>It hits a question only you can answer — and then just sits there. Or it dies, and nothing notices. <b>You come back after two hours to work that stopped after ten minutes</b>, with no note explaining why.</p>
       </div>
       <div class="card rv" style="--d:.25s"><span class="tick">03</span>
         <svg class="ico" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 5 A12 12 0 1 0 29 17"/><path d="M29 17 V9 M29 17 H21"/><circle cx="17" cy="17" r="2.4" fill="currentColor" stroke="none"/></svg>
-        <h3><span class="num">C</span>Recovery by folklore</h3>
-        <p>When a process dies mid-task, teams re-derive who owned what from memory. The fix: recover from the log — <b>stale leases are swept, fencing epochs reject the stale holder</b>, and the audit chain says who did what.</p>
+        <h3><span class="num">C</span>You can’t check what it did</h3>
+        <p>“It’s done.” Nothing sits behind that sentence you can open. So you take its word and hope, or you spend an hour confirming — <b>the same hour it was supposed to save you</b>.</p>
       </div>
     </div>
     <div class="callout rv" style="--d:.35s">
-      <div class="cl">the question it answers</div>
-      <p>Every surface of mindOS — tasks, leases, memory, audit — exists to keep one answer current: <b>“what is true right now, and what evidence proves it?”</b> That question comes from ARCHITECTURE.md, and it is the whole product.</p>
+      <div class="cl">the turn</div>
+      <p>All three are the same problem: <b>everything your agents know lives inside a session that ends.</b> mindOS moves it outside — into one place on your machine that <b>remembers between sessions, keeps the work moving while you’re gone, and writes down what happened as it happens.</b> Not the agent’s account of the day. The day itself.</p>
     </div>
   </div>
 </section>
@@ -872,23 +872,23 @@ body>header,body>main,body>section,body>footer,body>.band,body>.marquee{position
   <div class="wrap">
     <div class="sechead rv">
       <div class="kick"><span class="idx">02</span><span class="rule"></span>what it is</div>
-      <h2 class="lm">A control tower, not a pile of tools</h2>
-      <p>mindOS sits between Hermes, its cooperating agents, and the work itself. It is a <b>durable local coordination plane</b>: the single place where ownership, memory, facts, and evidence are defined — and where they can be checked.</p>
+      <h2 class="lm">The part of your agents that doesn’t reset</h2>
+      <p>Your agents come and go; this stays. It holds what they learned, what you decided, who is working on what, and how each job ended — so the next session starts where the last one stopped instead of at zero. Eight things it remembers for you, and what each one saves you:</p>
     </div>
     <div class="dims rv" style="--d:.1s">
-      <div class="dim"><span class="dnum">DIM 01</span><div class="dname">execution truth</div><div class="ddesc">who owns what, under which lease, at which epoch</div></div>
-      <div class="dim"><span class="dnum">DIM 02</span><div class="dname">semantic memory</div><div class="ddesc">memories + memories_fts, same authority as the tasks</div></div>
-      <div class="dim"><span class="dnum">DIM 03</span><div class="dname">temporal facts</div><div class="ddesc">assertions with validity windows — current vs historical</div></div>
-      <div class="dim"><span class="dnum">DIM 04</span><div class="dname">session / context</div><div class="ddesc">read-only transcript adapters into a rebuildable cache</div></div>
-      <div class="dim"><span class="dnum">DIM 05</span><div class="dname">agents / handoffs</div><div class="ddesc">durable ownership transfer between cooperating agents</div></div>
-      <div class="dim"><span class="dnum">DIM 06</span><div class="dname">evidence / receipts</div><div class="ddesc">sealed 0600 files with recorded hashes and citations</div></div>
-      <div class="dim"><span class="dnum">DIM 07</span><div class="dname">recovery / rollback</div><div class="ddesc">lease sweeps, backups, one-transaction migrations</div></div>
-      <div class="dim"><span class="dnum">DIM 08</span><div class="dname">policy / provenance</div><div class="ddesc">grants, quarantine, and a hash chain that proves it all</div></div>
+      <div class="dim"><span class="dnum">DIM 01</span><div class="dname">who’s doing what</div><div class="ddesc">two agents never quietly work on the same thing</div></div>
+      <div class="dim"><span class="dnum">DIM 02</span><div class="dname">what it already learned</div><div class="ddesc">your setup, explained once — not at the top of every session</div></div>
+      <div class="dim"><span class="dnum">DIM 03</span><div class="dname">what’s true today</div><div class="ddesc">last month’s decision doesn’t get quoted back at you as current</div></div>
+      <div class="dim"><span class="dnum">DIM 04</span><div class="dname">what it read first</div><div class="ddesc">when it gets something wrong, you can see what it was working from</div></div>
+      <div class="dim"><span class="dnum">DIM 05</span><div class="dname">handing work over</div><div class="ddesc">a job passed between agents doesn’t get dropped in the gap</div></div>
+      <div class="dim"><span class="dnum">DIM 06</span><div class="dname">proof it happened</div><div class="ddesc">one small file to open instead of re-reading the whole conversation</div></div>
+      <div class="dim"><span class="dnum">DIM 07</span><div class="dname">picking itself back up</div><div class="ddesc">an agent that dies overnight doesn’t cost you the morning</div></div>
+      <div class="dim"><span class="dnum">DIM 08</span><div class="dname">what it’s allowed to do</div><div class="ddesc">an agent can’t quietly widen its own permissions</div></div>
     </div>
     <div class="equations">
-      <div class="eq rv" style="--d:.05s"><span class="t">agent</span><span class="op">+</span><span class="t">task</span><span class="op">+</span><span class="t">lease</span><span class="op">=</span><span class="res">safe ownership</span></div>
-      <div class="eq rv" style="--d:.15s"><span class="t">policy</span><span class="op">+</span><span class="t">receipt</span><span class="op">+</span><span class="t">audit chain</span><span class="op">=</span><span class="res">enforceable definition of done</span></div>
-      <div class="eq rv" style="--d:.25s"><span class="t">memory</span><span class="op">+</span><span class="t">facts</span><span class="op">+</span><span class="t">context</span><span class="op">=</span><span class="res">current-vs-historical truth</span></div>
+      <div class="eq rv" style="--d:.05s"><span class="t">one job</span><span class="op">+</span><span class="t">one owner</span><span class="op">+</span><span class="t">a timer</span><span class="op">=</span><span class="res">no duplicated work</span></div>
+      <div class="eq rv" style="--d:.15s"><span class="t">rules</span><span class="op">+</span><span class="t">a receipt</span><span class="op">+</span><span class="t">a log nobody can edit</span><span class="op">=</span><span class="res">a “done” you can check</span></div>
+      <div class="eq rv" style="--d:.25s"><span class="t">memory</span><span class="op">+</span><span class="t">decisions</span><span class="op">+</span><span class="t">what it read</span><span class="op">=</span><span class="res">it starts already knowing</span></div>
     </div>
   </div>
 </section>
@@ -903,7 +903,7 @@ body>header,body>main,body>section,body>footer,body>.band,body>.marquee{position
     <div class="sechead rv">
       <div class="kick"><span class="idx">03</span><span class="rule"></span>completion</div>
       <h2 class="lm">“Done” is a document</h2>
-      <p>A task does not complete with a sentence. It completes with a <b>sealed receipt</b> — a file on disk, written 0600, citing the evidence that produced the result, and appended to the audit chain. No live lease at close time? The completion is rejected, not repaired.</p>
+      <p>A job does not finish because an agent says so. It finishes when the system writes a <b>receipt</b> — a small file on your disk listing what was done, what it rests on, and when. Answering “so what actually happened?” becomes <b>opening one file</b> instead of re-reading a 40,000-word conversation. And if the agent has quietly lost its hold on the job, the close is refused — mindOS would rather stop than write down something it can’t stand behind.</p>
     </div>
     <div class="cards" style="grid-template-columns:1.15fr 1fr">
       <div class="receipt rv" style="--d:.1s">
@@ -919,9 +919,9 @@ body>header,body>main,body>section,body>footer,body>.band,body>.marquee{position
         </div>
       </div>
       <div style="display:grid;align-content:start;gap:14px">
-        <div class="card rv" style="--d:.15s"><span class="tick">01</span><h3>Sealed before close</h3><p>The receipt is written and hashed <b>before</b> the task completes. A completion without a live lease is rejected at the gate — fail closed, by design.</p></div>
-        <div class="card rv" style="--d:.22s"><span class="tick">02</span><h3>Citations, not prose</h3><p>Receipts cite <b>evidence ids</b>, not narrative. The audit chain can replay each citation; <code>complete --recall-digest</code> ties the close back to the exact context pack the agent worked from.</p></div>
-        <div class="card rv" style="--d:.29s"><span class="tick">03</span><h3>0600 on disk</h3><p>Receipts are readable by the operator’s user and by no one else. The secret guard screens notes and handoffs on the way in — <b>secrets never enter the plane, and payloads never echo them back.</b></p></div>
+        <div class="card rv" style="--d:.15s"><span class="tick">01</span><h3>Written before it counts</h3><p>The receipt is created and fingerprinted <b>before</b> the job is marked done. An agent that has quietly lost its claim cannot close the job — the system stops instead of papering over it.</p></div>
+        <div class="card rv" style="--d:.22s"><span class="tick">02</span><h3>Evidence, not a summary</h3><p>A receipt points at the <b>specific things it relied on</b>, so you can follow each one back yourself. It also records exactly what the agent had been given to read — so “it didn’t know” is something you can check.</p></div>
+        <div class="card rv" style="--d:.29s"><span class="tick">03</span><h3>Private to you</h3><p>Receipts are readable by your user account and nobody else’s. Anything that looks like a password or a key is stripped on the way in — <b>secrets never get into the system, so they can never leak back out of it.</b></p></div>
       </div>
     </div>
   </div>
@@ -936,12 +936,12 @@ body>header,body>main,body>section,body>footer,body>.band,body>.marquee{position
     <div class="sechead rv">
       <div class="kick"><span class="idx">04</span><span class="rule"></span>the boundary</div>
       <h2 class="lm">The seam it will not cross</h2>
-      <p>Autonomy in mindOS is <b>granted, bounded, and audited</b> — declarations bind an exact model and provider with an expiry window, and every refusal outside the grant is written to the chain. And there are actions the system never takes on its own:</p>
+      <p>Agents only get the freedom you hand them — in writing, tied to a specific model, with an expiry date. Every time one tries to step outside that, <b>the attempt is written down</b>. And there are four things it will never do on its own, no matter what you grant:</p>
     </div>
     <div class="cards" style="grid-template-columns:repeat(4,1fr)">
-      <div class="card rv" style="--d:.05s"><span class="tick">✕</span><h3>merge</h3><p>Stays with a human. The plane prepares; a person decides.</p></div>
+      <div class="card rv" style="--d:.05s"><span class="tick">✕</span><h3>merge</h3><p>Stays with a human. mindOS gets the change ready; a person decides.</p></div>
       <div class="card rv" style="--d:.12s"><span class="tick">✕</span><h3>deploy</h3><p>Stays with a human. No self-release, ever.</p></div>
-      <div class="card rv" style="--d:.19s"><span class="tick">✕</span><h3>external communication</h3><p>Stays with a human. Botmail envelopes carry provenance — they do not remove the operator.</p></div>
+      <div class="card rv" style="--d:.19s"><span class="tick">✕</span><h3>external communication</h3><p>Stays with a human. It can draft, and the draft is tagged with where it came from — but a person sends it.</p></div>
       <div class="card rv" style="--d:.26s"><span class="tick">✕</span><h3>live-data remediation</h3><p>Stays with a human. Nothing is rewritten in production without a person.</p></div>
     </div>
     <div class="callout rv" style="--d:.32s">
@@ -957,17 +957,17 @@ body>header,body>main,body>section,body>footer,body>.band,body>.marquee{position
 <section id="day" class="sec" data-spy>
   <div class="wrap">
     <div class="sechead rv">
-      <div class="kick"><span class="idx">05</span><span class="rule"></span>a day in the life</div>
-      <h2 class="lm">One task, from queue to receipt</h2>
-      <p>Nothing here is a demo trick — every line is a real command against a real home. Follow one task through the plane.</p>
+      <div class="kick"><span class="idx">05</span><span class="rule"></span>while you’re away</div>
+      <h2 class="lm">What it does when you’re not watching</h2>
+      <p>You queue a job in the morning and close the laptop. Here is what happens without you — including the part where it needs you, waits properly, and picks up again. Every line is a real command against a real setup.</p>
     </div>
     <div class="timeline">
-      <div class="tl rv"><span class="node"></span><div class="t">09:00 · operator</div><h4>Queue the work</h4><p>The task is created with tags, dependencies, and a budget. It is now a durable fact, visible to every agent that reads the plane.</p><span class="cmd"><span class="pr">$</span> python3 autopilot.py create "rebuild ingest pipeline" --tag critical --project trove</span></div>
-      <div class="tl rv" style="--d:.05s"><span class="node"></span><div class="t">09:04 · hermes</div><h4>Claim with context</h4><p>The lease is taken, the fencing epoch bumps, and the context pack is sealed with a digest <b>before the first turn</b> — provenance for context, not vibes.</p><span class="cmd"><span class="pr">$</span> python3 autopilot.py next --claim --recall</span></div>
-      <div class="tl rv" style="--d:.1s"><span class="node"></span><div class="t">14:52 · hermes</div><h4>Ask, and stop cleanly</h4><p>The agent needs a decision. It moves the task to waiting_for_user and releases the lease — the question is durable, and nothing spins while a human reads it.</p><span class="cmd"><span class="pr">$</span> python3 autopilot.py update task-41 --status waiting_for_user</span></div>
-      <div class="tl rv" style="--d:.15s"><span class="node"></span><div class="t">15:01 · operator</div><h4>Answer, and resume</h4><p>The decision lands as a fact; the task resumes with the same identity, the same budget, the same audit trail.</p><span class="cmd"><span class="pr">$</span> python3 autopilot.py resume task-41</span></div>
-      <div class="tl rv" style="--d:.2s"><span class="node"></span><div class="t">17:40 · hermes</div><h4>Close with a receipt</h4><p>A live lease is required at close. The receipt is sealed 0600, the citations are recorded, and the chain extends.</p><span class="cmd"><span class="pr">$</span> python3 autopilot.py complete task-41 --recall-digest 3c1e…77aa</span></div>
-      <div class="tl rv" style="--d:.25s"><span class="node"></span><div class="t">23:59 · the plane</div><h4>The bounded tick</h4><p>The nanny sweeps stale leases, checks budgets and handoffs, and reports a compact state — four states only: all_clear · working · hit_snag · decision_needed.</p><span class="cmd"><span class="pr">$</span> python3 ops.py nanny</span></div>
+      <div class="tl rv"><span class="node"></span><div class="t">09:00 · operator</div><h4>Queue the work</h4><p>The job is written down with its priority, what it waits on, and how much it may spend. From this moment it is a fact every agent can see — not a message someone might miss.</p><span class="cmd"><span class="pr">$</span> python3 autopilot.py create "rebuild ingest pipeline" --tag critical --project trove</span></div>
+      <div class="tl rv" style="--d:.05s"><span class="node"></span><div class="t">09:04 · hermes</div><h4>Claim with context</h4><p>Hermes takes the job, and now nobody else can. Before it does any work, the system records exactly what background it was handed — so later you can see <b>what it knew</b>, not what it says it knew.</p><span class="cmd"><span class="pr">$</span> python3 autopilot.py next --claim --recall</span></div>
+      <div class="tl rv" style="--d:.1s"><span class="node"></span><div class="t">14:52 · hermes</div><h4>Ask, and stop cleanly</h4><p>The agent hits a decision only a person can make. It parks the job, hands its claim back, and stops. The question is written down and waiting — nothing burns time spinning while you read it.</p><span class="cmd"><span class="pr">$</span> python3 autopilot.py update task-41 --status waiting_for_user</span></div>
+      <div class="tl rv" style="--d:.15s"><span class="node"></span><div class="t">15:01 · operator</div><h4>Answer, and resume</h4><p>Your answer is recorded as a fact, not a chat message. The job picks up where it left off — same identity, same budget, same trail behind it.</p><span class="cmd"><span class="pr">$</span> python3 autopilot.py resume task-41</span></div>
+      <div class="tl rv" style="--d:.2s"><span class="node"></span><div class="t">17:40 · hermes</div><h4>Close with a receipt</h4><p>To finish, the agent must still hold the job. The receipt is written, locked to your account, and the record extends by one link that cannot be edited later.</p><span class="cmd"><span class="pr">$</span> python3 autopilot.py complete task-41 --recall-digest 3c1e…77aa</span></div>
+      <div class="tl rv" style="--d:.25s"><span class="node"></span><div class="t">23:59 · the plane</div><h4>The bounded tick</h4><p>Once a day the system checks itself: jobs abandoned by crashed agents are released, budgets and handoffs are reviewed, and you get one of four answers — all clear · working · hit a snag · needs a decision.</p><span class="cmd"><span class="pr">$</span> python3 ops.py nanny</span></div>
     </div>
   </div>
 </section>
@@ -980,7 +980,7 @@ body>header,body>main,body>section,body>footer,body>.band,body>.marquee{position
     <div class="sechead rv">
       <div class="kick"><span class="idx">06</span><span class="rule"></span>install</div>
       <h2 class="lm">Two commands. No server. No packages.</h2>
-      <p>Python 3.9 or newer, standard library only. Your state lives under <code style="font-family:var(--mono);font-size:.9em;color:var(--tx)">MINDOS_HOME</code> (or <code style="font-family:var(--mono);font-size:.9em;color:var(--tx)">HERMES_AUTOPILOT_HOME</code>), on your machine, under your user.</p>
+      <p>Python 3.9 or newer and nothing else — no packages to install, no service to run, no account to sign up for. Everything it stores lives in one folder on your machine, under your user, at <code style="font-family:var(--mono);font-size:.9em;color:var(--tx)">MINDOS_HOME</code> (or <code style="font-family:var(--mono);font-size:.9em;color:var(--tx)">HERMES_AUTOPILOT_HOME</code>). Nothing leaves it.</p>
     </div>
     <div class="term rv" style="--d:.1s">
       <div class="bar"><i></i><i></i><i></i><span class="ttl">autopilot · local</span></div>
@@ -1001,7 +1001,7 @@ body>header,body>main,body>section,body>footer,body>.band,body>.marquee{position
   <div class="wrap" data-para="0.05">
     <div class="bl rv">part two of two</div>
     <h3 class="rv" style="--d:.1s">Everything above, <em>as mechanism</em></h3>
-    <p class="rv" style="--d:.2s">Leases, epochs, hash chains, FTS5, sealed files. The half where the promises stop being claims and start being code.</p>
+    <p class="rv" style="--d:.2s">Leases, fencing epochs, hash chains, FTS5, sealed files. The first half made the promises; this half is the code that keeps them. It gets technical from here.</p>
     <div class="invar rv" style="--d:.3s">
       <div class="iv"><span class="n">INV 1</span><span class="t">single authority</span><span class="d">one sqlite file owns the home</span></div>
       <div class="iv"><span class="n">INV 2</span><span class="t">fail closed</span><span class="d">unclear is unsafe — the gate holds</span></div>
